@@ -10,11 +10,5 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-plugins {
-    id 'java'
-    id 'application'
-    id 'jacoco'
-}
-
 rootProject.name = 'task-1-1'
 include('app')

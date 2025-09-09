@@ -2,16 +2,21 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Тестовый класс для проверки работы алгоритма HeapSort.
+ */
 class HeapSortTest {
 
     @Test
     void testHeapifySimple() {
-        int[] arr = {3, 5, 1};     
+        int[] arr = {3, 5, 1};
         HeapSort.heapify(arr, arr.length, 0);
         assertEquals(5, arr[0]);
-        assertTrue(arr[0] > arr[1] && arr[0] > arr[2]);
+        assertEquals(true, arr[0] > arr[1] && arr[0] > arr[2]);
     }
 
     @Test
@@ -24,7 +29,7 @@ class HeapSortTest {
     }
 
     @Test
-    void HeapifyRightSubtree(){
+    void testHeapifyRightSubtree() {
         int[] arr = {5, 4, 6, 2, 3, 4, 8};
         HeapSort.heapify(arr, arr.length, 0);
         assertEquals(5, arr[6]);
