@@ -1,4 +1,4 @@
-package ru.nsu.shadrina;
+package ru.nsu.vylegzhanin;
 
 import java.util.Arrays;
 

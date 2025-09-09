@@ -1,4 +1,4 @@
-package ru.nsu.shadrina;
+package ru.nsu.vylegzhanin;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
