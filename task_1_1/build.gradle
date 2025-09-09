@@ -4,5 +4,15 @@ plugins {
 }
 
 repositories {
-    mavenCentral() // или jcenter()
+    mavenCentral() 
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
