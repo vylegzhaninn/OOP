@@ -33,12 +33,14 @@ public final class Game {
 
         if (player.getHand().isBlackjack()) {
             System.out.println("У вас блэкджек! Вы выиграли.");
-            System.out.println("Ваши карты: " + player.getHand() + " => " + player.getHand().getScore());
+            System.out.println("Ваши карты: " + player.getHand() + " => "
+                    + player.getHand().getScore());
             return;
         }
         if (dealer.getHand().isBlackjack()) {
             System.out.println("У дилера блэкджек! Вы проиграли.");
-            System.out.println("Карты дилера: " + dealer.getHand() + " => " + dealer.getHand().getScore());
+            System.out.println("Карты дилера: " + dealer.getHand() + " => "
+                    + dealer.getHand().getScore());
             return;
         }
 
@@ -72,8 +74,9 @@ public final class Game {
             final String line = SCANNER.nextLine().trim();
             if ("1".equals(line)) {
                 player.takeCard(deck);
-                System.out.println("Вы открыли карту " + player.getHand().getCards()
-                        .get(player.getHand().getCards().size() - 1));
+                Card lastCard = player.getHand().getCards()
+                        .get(player.getHand().getCards().size() - 1);
+                System.out.println("Вы открыли карту " + lastCard);
                 printHandsInitial(player, dealer);
                 if (player.getHand().isBust()) {
                     break;
@@ -94,18 +97,16 @@ public final class Game {
      * @param deck   колода карт
      */
     private static void dealerTurn(final Player player, final Dealer dealer, final Deck deck) {
-
-        System.out.println("Дилер открывает закрытую карту " + dealer.getHand().getCards().get(1));
+        Card hiddenCard = dealer.getHand().getCards().get(1);
+        System.out.println("Дилер открывает закрытую карту " + hiddenCard);
         printFinalHands(player, dealer);
 
         while (dealer.getHand().getScore() < 17) {
             dealer.takeCard(deck);
-            Card lastCard = dealer.getHand().getCards().get(dealer.getHand().getCards().size() - 1);
-
+            Card lastCard = dealer.getHand().getCards()
+                    .get(dealer.getHand().getCards().size() - 1);
             System.out.println("Дилер открывает карту " + lastCard);
-
             printFinalHands(player, dealer);
-
             if (dealer.getHand().isBust()) {
                 break;
             }
@@ -119,8 +120,10 @@ public final class Game {
      * @param dealer дилер
      */
     private static void printHandsInitial(final Player player, final Dealer dealer) {
-        System.out.println("Ваши карты: " + player.getHand() + " => " + player.getHand().getScore());
-        System.out.println("Карты дилера: [" + dealer.getHand().getCards().get(0) + ", <закрытая карта>]");
+        System.out.println("Ваши карты: " + player.getHand() + " => "
+                + player.getHand().getScore());
+        System.out.println("Карты дилера: [" + dealer.getHand().getCards().get(0)
+                + ", <закрытая карта>]");
     }
 
     /**
@@ -130,8 +133,10 @@ public final class Game {
      * @param dealer дилер
      */
     private static void printFinalHands(final Player player, final Dealer dealer) {
-        System.out.println("Ваши карты: " + player.getHand() + " => " + player.getHand().getScore());
-        System.out.println("Карты дилера: " + dealer.getHand() + " => " + dealer.getHand().getScore() + "\n");
+        System.out.println("Ваши карты: " + player.getHand() + " => "
+                + player.getHand().getScore());
+        System.out.println("Карты дилера: " + dealer.getHand() + " => "
+                + dealer.getHand().getScore() + "\n");
     }
 
     /**
