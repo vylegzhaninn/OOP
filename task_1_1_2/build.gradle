@@ -1,17 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'application'
 }
-
-application {
-    mainClass = 'ru.nsu.vylegzhanin.Game'
-}
-
-run {
-    standardInput = System.in
-}
-
 
 group = 'ru.nsu.vylegzhanin'
 version = '1.0-SNAPSHOT'
