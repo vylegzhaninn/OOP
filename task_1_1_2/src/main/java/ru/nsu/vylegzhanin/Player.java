@@ -1,7 +1,7 @@
 package ru.nsu.vylegzhanin;
 
 /**
- * Игрок: хранит имя и руку. Простая модель без логики поведения дилера.
+ * Игрок
  */
 public class Player {
 

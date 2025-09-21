@@ -8,12 +8,24 @@ application {
     mainClass = 'ru.nsu.vylegzhanin.Game'
 }
 
+run {
+    standardInput = System.in
+}
+
+
 group = 'ru.nsu.vylegzhanin'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')

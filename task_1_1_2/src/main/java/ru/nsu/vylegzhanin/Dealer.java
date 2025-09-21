@@ -12,14 +12,4 @@ public final class Dealer extends Player {
         super("Дилер");
     }
 
-    /**
-     * Ход дилера: берет карты, пока счёт < 17.
-     *
-     * @param deck колода
-     */
-    public void play(final Deck deck) {
-        while (getHand().getScore() < 17 && !getHand().isBust()) {
-            takeCard(deck);
-        }
-    }
 }

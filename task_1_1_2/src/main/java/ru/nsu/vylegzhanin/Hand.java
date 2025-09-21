@@ -36,7 +36,7 @@ public final class Hand {
             }
         }
         while (sum > 21 && aces > 0) {
-            sum -= 10; // делаем один туз равным 1 вместо 11
+            sum -= 10;
             aces--;
         }
         return sum;
