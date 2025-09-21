@@ -1,75 +1,62 @@
 package ru.nsu.vylegzhanin;
 
-enum Suit {
-    SPADES("Пики"),
-    HEARTS("Черви"),
-    DIAMONDS("Бубны"),
-    CLUBS("Трефы");
-
-    private final String name;
-
-    Suit(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-}
-
-enum Rank {
-    TWO("2", 2),
-    THREE("3", 3),
-    FOUR("4", 4),
-    FIVE("5", 5),
-    SIX("6", 6),
-    SEVEN("7", 7),
-    EIGHT("8", 8),
-    NINE("9", 9),
-    TEN("10", 10),
-    JACK("J", 10),
-    QUEEN("Q", 10),
-    KING("K", 10),
-    ACE("A", 11);
-
-    private final String symbol;
-    private final int value;
-
-    Rank(String symbol, int value) {
-        this.symbol = symbol;
-        this.value = value;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public int getValue() {
-        return value;
-    }
-}
-
+/**
+ * Класс, представляющий одну игральную карту.
+ * Содержит масть и номинал.
+ */
 public class Card {
+
+    /** Масть карты. */
     private final Suit suit;
+
+    /** Номинал карты. */
     private final Rank rank;
 
-    public Card(Suit suit, Rank rank) {
+    /**
+     * Создаёт карту с указанной мастью и номиналом.
+     *
+     * @param suit масть карты
+     * @param rank номинал карты
+     */
+    public Card(final Suit suit, final Rank rank) {
         this.suit = suit;
         this.rank = rank;
     }
 
+    /**
+     * Возвращает масть карты.
+     *
+     * @return масть карты
+     */
     public Suit getSuit() {
         return suit;
     }
 
+    /**
+     * Возвращает номинал карты.
+     *
+     * @return номинал карты
+     */
     public Rank getRank() {
         return rank;
     }
 
+    /**
+     * Возвращает числовое значение карты,
+     * которое используется для подсчёта очков.
+     *
+     * @return числовое значение карты
+     */
     public int getValue() {
         return rank.getValue();
     }
-    
+
+    /**
+     * Возвращает строковое представление карты.
+     *
+     * @return строковое представление карты в формате
+     * {@code "<масть> (<значение>)"}
+     */
     @Override
     public String toString() {
         return suit.getName() + " " + "(" + rank.getValue() + ")";

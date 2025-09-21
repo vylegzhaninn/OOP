@@ -3,10 +3,12 @@ package ru.nsu.vylegzhanin;
 import java.util.Scanner;
 
 /**
- * Основной класс игры.
+ * Основной класс игры «Блэкджек».
+ * Содержит точку входа и методы управления игровым процессом.
  */
 public final class Game {
 
+    /** Сканер для ввода с консоли. */
     private static final Scanner SCANNER = new Scanner(System.in);
 
     /**
@@ -57,6 +59,13 @@ public final class Game {
         determineWinner(player, dealer);
     }
 
+    /**
+     * Выполняет ход игрока: запрашивает ввод и даёт карту или завершает ход.
+     *
+     * @param player игрок
+     * @param dealer дилер
+     * @param deck   колода карт
+     */
     private static void playerTurn(final Player player, final Dealer dealer, final Deck deck) {
         while (true) {
             System.out.println("\nВведите \"1\" чтобы взять карту, или \"0\" чтобы остановиться.");
@@ -77,39 +86,60 @@ public final class Game {
         }
     }
 
+    /**
+     * Выполняет ход дилера: открывает закрытую карту и берёт карты, пока сумма < 17.
+     *
+     * @param player игрок
+     * @param dealer дилер
+     * @param deck   колода карт
+     */
     private static void dealerTurn(final Player player, final Dealer dealer, final Deck deck) {
-        // Сначала открываем закрытую карту
+
         System.out.println("Дилер открывает закрытую карту " + dealer.getHand().getCards().get(1));
-        printFinalHands(player, dealer); // выводим руки после открытия карты
-        // Дилер берет карты, пока сумма < 17
+        printFinalHands(player, dealer);
+
         while (dealer.getHand().getScore() < 17) {
-            // Берём карту
             dealer.takeCard(deck);
             Card lastCard = dealer.getHand().getCards().get(dealer.getHand().getCards().size() - 1);
 
-            // Выводим, что дилер открыл карту
             System.out.println("Дилер открывает карту " + lastCard);
 
-            // Выводим текущие руки игрока и дилера
             printFinalHands(player, dealer);
-            // Если перебор — сразу останавливаемся
+
             if (dealer.getHand().isBust()) {
                 break;
             }
         }
     }
 
-
+    /**
+     * Печатает руки игрока и дилера после начальной раздачи (карта дилера закрыта).
+     *
+     * @param player игрок
+     * @param dealer дилер
+     */
     private static void printHandsInitial(final Player player, final Dealer dealer) {
         System.out.println("Ваши карты: " + player.getHand() + " => " + player.getHand().getScore());
         System.out.println("Карты дилера: [" + dealer.getHand().getCards().get(0) + ", <закрытая карта>]");
     }
 
+    /**
+     * Печатает руки игрока и дилера с полным раскрытием карт дилера.
+     *
+     * @param player игрок
+     * @param dealer дилер
+     */
     private static void printFinalHands(final Player player, final Dealer dealer) {
         System.out.println("Ваши карты: " + player.getHand() + " => " + player.getHand().getScore());
         System.out.println("Карты дилера: " + dealer.getHand() + " => " + dealer.getHand().getScore() + "\n");
     }
 
+    /**
+     * Определяет победителя и выводит результат.
+     *
+     * @param player игрок
+     * @param dealer дилер
+     */
     private static void determineWinner(final Player player, final Dealer dealer) {
         final int p = player.getHand().getScore();
         final int d = dealer.getHand().getScore();
@@ -124,4 +154,3 @@ public final class Game {
         }
     }
 }
-
