@@ -1,8 +1,10 @@
 package ru.nsu.vylegzhanin;
+
 /**
  * Утилитный класс для вывода состояния игры и определения победителя.
  */
 public class GameUtils {
+
     /**
      * Печатает начальные руки игрока и дилера, скрывая одну карту дилера.
      *
@@ -10,11 +12,15 @@ public class GameUtils {
      * @param dealer дилер
      */
     public static void printHandsInitial(Player player, Dealer dealer) {
-        System.out.println("Ваши карты: " + player.getHand() + " => " +
-                player.getHand().getScore());
-        System.out.println("Карты дилера: [" +
-                dealer.getHand().getCards().get(0) + ", <закрытая карта>]\n");
+        System.out.println("Ваши карты: "
+                + player.getHand()
+                + " => "
+                + player.getHand().getScore());
+        System.out.println("Карты дилера: ["
+                + dealer.getHand().getCards().get(0)
+                + ", <закрытая карта>]\n");
     }
+
     /**
      * Печатает финальные руки игрока и дилера с раскрытыми картами и подсчитанными очками.
      *
@@ -22,11 +28,17 @@ public class GameUtils {
      * @param dealer дилер
      */
     public static void printFinalHands(Player player, Dealer dealer) {
-        System.out.println("Ваши карты: " + player.getHand() + " => " +
-                player.getHand().getScore());
-        System.out.println("Карты дилера: " + dealer.getHand() +
-                " => " + dealer.getHand().getScore() + "\n");
+        System.out.println("Ваши карты: "
+                + player.getHand()
+                + " => "
+                + player.getHand().getScore());
+        System.out.println("Карты дилера: "
+                + dealer.getHand()
+                + " => "
+                + dealer.getHand().getScore()
+                + "\n");
     }
+
     /**
      * Определяет победителя, сравнивая очки игрока и дилера, и выводит результат.
      *
@@ -34,7 +46,9 @@ public class GameUtils {
      * @param dealer дилер
      */
     public static void determineWinner(Player player, Dealer dealer) {
-        int p = player.getHand().getScore(), d = dealer.getHand().getScore();
+        int p = player.getHand().getScore();
+        int d = dealer.getHand().getScore();
+
         if (dealer.getHand().isBust()) {
             System.out.println("Дилер перебрал. Вы выиграли.");
         } else if (p > d) {

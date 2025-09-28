@@ -7,7 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 
-/*Тесты для игры */
+/**
+ * Тесты для игры {@link Game}.
+ */
 public class GameTest {
 
     @Test

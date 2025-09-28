@@ -54,11 +54,11 @@ public class Card {
     /**
      * Возвращает строковое представление карты.
      *
-     * @return строковое представление карты в формате
-     * {@code "<масть> (<значение>)"}
+     * @return строковое представление карты в формате  
+     *         {@code "<масть> (<значение>)"}
      */
     @Override
     public String toString() {
-        return suit.getName() + " " + "(" + rank.getValue() + ")";
+        return suit.getName() + " (" + rank.getValue() + ")";
     }
 }

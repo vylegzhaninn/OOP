@@ -1,7 +1,7 @@
 package ru.nsu.vylegzhanin;
 
 /**
- * Игрок
+ * Игрок.
  */
 public class Player {
 
