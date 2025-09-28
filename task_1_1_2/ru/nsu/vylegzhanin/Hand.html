@@ -112,7 +112,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Card.html" title="class in ru.nsu.vylegzhanin">Card</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCards()" class="member-name-link">getCards</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Возвращает неизменяемый список карт для отображения.</div>
+<div class="block">Возвращает список карт в руке.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScore()" class="member-name-link">getScore</a>()</code></div>
@@ -168,13 +168,21 @@ loadScripts(document, 'script');</script>
 <h3>addCard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addCard</span><wbr><span class="parameters">(<a href="Card.html" title="class in ru.nsu.vylegzhanin">Card</a>&nbsp;card)</span></div>
 <div class="block">Добавляет карту в руку.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>card</code> - карта для добавления</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getCards()">
 <h3>getCards</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Card.html" title="class in ru.nsu.vylegzhanin">Card</a>&gt;</span>&nbsp;<span class="element-name">getCards</span>()</div>
-<div class="block">Возвращает неизменяемый список карт для отображения.</div>
+<div class="block">Возвращает список карт в руке.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>список карт</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -193,6 +201,10 @@ loadScripts(document, 'script');</script>
 <h3>isBlackjack</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBlackjack</span>()</div>
 <div class="block">Проверка, является ли комбинация блекджеком (2 карты, 21 очко).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если блекджек, иначе <code>false</code></dd>
+</dl>
 </section>
 </li>
 <li>
@@ -200,6 +212,10 @@ loadScripts(document, 'script');</script>
 <h3>isBust</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBust</span>()</div>
 <div class="block">Проверка перебора.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если перебор, иначе <code>false</code></dd>
+</dl>
 </section>
 </li>
 <li>
