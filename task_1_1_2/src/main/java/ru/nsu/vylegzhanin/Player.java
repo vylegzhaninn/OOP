@@ -17,17 +17,29 @@ public class Player {
         name = playerName;
     }
 
-    /** Возвращает имя игрока. */
+    /**
+     * Возвращает имя игрока.
+     *
+     * @return имя игрока
+     */
     public String getName() {
         return name;
     }
 
-    /** Возвращает руку игрока. */
+    /**
+     * Возвращает руку игрока.
+     *
+     * @return рука игрока
+     */
     public Hand getHand() {
         return hand;
     }
 
-    /** Добавляет карту игроку из колоды. */
+    /**
+     * Добавляет карту игроку из колоды.
+     *
+     * @param deck колода, из которой берётся карта
+     */
     public void takeCard(final Deck deck) {
         hand.addCard(deck.drawCard());
     }

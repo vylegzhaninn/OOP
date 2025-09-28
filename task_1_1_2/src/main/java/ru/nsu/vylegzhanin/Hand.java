@@ -10,12 +10,20 @@ public final class Hand {
 
     private final List<Card> cards = new ArrayList<>();
 
-    /** Добавляет карту в руку. */
+    /**
+     * Добавляет карту в руку.
+     *
+     * @param card карта для добавления
+     */
     public void addCard(final Card card) {
         cards.add(card);
     }
 
-    /** Возвращает неизменяемый список карт для отображения. */
+    /**
+     * Возвращает список карт в руке.
+     *
+     * @return список карт
+     */
     public List<Card> getCards() {
         return cards;
     }
@@ -41,12 +49,20 @@ public final class Hand {
         return sum;
     }
 
-    /** Проверка, является ли комбинация блекджеком (2 карты, 21 очко). */
+    /**
+     * Проверка, является ли комбинация блекджеком (2 карты, 21 очко).
+     *
+     * @return {@code true}, если блекджек, иначе {@code false}
+     */
     public boolean isBlackjack() {
         return cards.size() == 2 && getScore() == 21;
     }
 
-    /** Проверка перебора. */
+    /**
+     * Проверка перебора.
+     *
+     * @return {@code true}, если перебор, иначе {@code false}
+     */
     public boolean isBust() {
         return getScore() > 21;
     }
