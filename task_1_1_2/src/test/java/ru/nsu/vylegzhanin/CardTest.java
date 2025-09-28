@@ -3,7 +3,9 @@ package ru.nsu.vylegzhanin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * Юнит-тесты для класса Card.
+ */
 class CardTest {
     @Test
     void testCardValue() {

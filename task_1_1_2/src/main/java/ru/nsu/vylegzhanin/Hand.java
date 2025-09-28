@@ -1,7 +1,6 @@
 package ru.nsu.vylegzhanin;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public final class Hand {
 
     /** Возвращает неизменяемый список карт для отображения. */
     public List<Card> getCards() {
-        return Collections.unmodifiableList(cards);
+        return cards;
     }
 
     /**

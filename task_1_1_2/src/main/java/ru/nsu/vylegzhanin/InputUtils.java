@@ -36,7 +36,7 @@ public class InputUtils {
             }
         }
     }
-    /** Обрабатывает ход дилера по правилам (взять карту, если меньше 17 очков). */
+    
     public static void dealerTurn(Player player, Dealer dealer, Deck deck) {
         System.out.println("Дилер открывает закрытую карту " + dealer.getHand().getCards().get(1));
         GameUtils.printFinalHands(player, dealer);
