@@ -23,4 +23,19 @@ public class Number extends Expression{
     Expression derivative(String var) {
         return new Number(0);      
     }
+    
+    @Override
+    Expression simplify() {
+        return this;
+    }
+    
+    @Override
+    boolean hasVariables() {
+        return false;
+    }
+    
+    @Override
+    boolean isEqual(Expression other) {
+        return other instanceof Number && ((Number) other).value == this.value;
+    }
 }

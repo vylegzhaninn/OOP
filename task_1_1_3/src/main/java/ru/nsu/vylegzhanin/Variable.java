@@ -24,4 +24,19 @@ public class Variable extends Expression {
     Expression derivative(String var) {
         return name.equals(var) ? new Number(1) : new Number(0);
     }
+    
+    @Override
+    Expression simplify() {
+        return this;
+    }
+    
+    @Override
+    boolean hasVariables() {
+        return true;
+    }
+    
+    @Override
+    boolean isEqual(Expression other) {
+        return other instanceof Variable && ((Variable) other).name.equals(this.name);
+    }
 }
