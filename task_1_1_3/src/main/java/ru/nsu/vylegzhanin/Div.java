@@ -50,12 +50,12 @@ public class Div extends Expression {
         Expression f = terms.get(0);
         Expression g = terms.get(1);
 
-        Expression fDerivative = f.derivative(var);
-        Expression gDerivative = g.derivative(var);
+        Expression fderiv = f.derivative(var);
+        Expression gderiv = g.derivative(var);
 
         Expression numerator = new Sub(
-            new Mul(fDerivative, g),
-            new Mul(f, gDerivative)
+            new Mul(fderiv, g),
+            new Mul(f, gderiv)
         );
 
         Expression denominator = new Mul(g, g);
