@@ -3,7 +3,16 @@ package ru.nsu.vylegzhanin;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Главный класс приложения для работы с математическими выражениями.
+ */
 public class Main {
+    
+    /**
+     * Точка входа в программу.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {

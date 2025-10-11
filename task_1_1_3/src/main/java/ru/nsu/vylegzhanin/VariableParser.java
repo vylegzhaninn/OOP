@@ -10,21 +10,22 @@ public class VariableParser {
     
     /**
      * Парсит строку переменных в формате "x=5; y=10" в Map.
-     * 
+     *
      * @param s строка переменных
      * @return Map с переменными и их значениями
      * @throws IllegalArgumentException если формат строки неверный
      */
     public static Map<String, Integer> parseVars(String s) {
         if (s == null || s.isBlank()) {
-            throw new IllegalArgumentException("Строка параметров не должна быть пустой или null");
+            throw new IllegalArgumentException(
+                "Строка параметров не должна быть пустой или null");
         }
         s = s.replace(" ", "");
         Map<String, Integer> map = new HashMap<>();
  
         String[] parts = s.split(";");
         for (String part : parts) {
-            if (part.isEmpty()){
+            if (part.isEmpty()) {
                 throw new IllegalArgumentException("Ожидалось имя=значение");
             }
 
@@ -43,7 +44,8 @@ public class VariableParser {
             try {
                 map.put(value[0], Integer.parseInt(value[1]));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Значение параметра '" + value[0] + "' должно быть числом" );
+                throw new IllegalArgumentException(
+                    "Значение параметра '" + value[0] + "' должно быть числом");
             }
         }
 

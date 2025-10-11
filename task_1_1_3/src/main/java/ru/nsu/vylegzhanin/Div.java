@@ -1,9 +1,12 @@
 package ru.nsu.vylegzhanin;
 
-import java.util.Map;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Класс для представления операции деления выражений.
+ */
 public class Div extends Expression {
     List<Expression> terms;
 
@@ -47,12 +50,12 @@ public class Div extends Expression {
         Expression f = terms.get(0);
         Expression g = terms.get(1);
 
-        Expression fPrime = f.derivative(var);
-        Expression gPrime = g.derivative(var);
+        Expression fDerivative = f.derivative(var);
+        Expression gDerivative = g.derivative(var);
 
         Expression numerator = new Sub(
-            new Mul(fPrime, g),
-            new Mul(f, gPrime)
+            new Mul(fDerivative, g),
+            new Mul(f, gDerivative)
         );
 
         Expression denominator = new Mul(g, g);

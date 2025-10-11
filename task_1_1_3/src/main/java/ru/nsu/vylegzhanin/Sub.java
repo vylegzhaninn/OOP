@@ -1,10 +1,13 @@
 package ru.nsu.vylegzhanin;
 
-import java.util.Map;
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Класс для представления операции вычитания выражений.
+ */
 public class Sub extends Expression {
     List<Expression> terms;
 
@@ -14,7 +17,7 @@ public class Sub extends Expression {
 
 
     @Override
-    String print(){
+    String print() {
         String result = "(";
         for (int i = 0; i  < terms.size(); i++) {
             result += terms.get(i).print();

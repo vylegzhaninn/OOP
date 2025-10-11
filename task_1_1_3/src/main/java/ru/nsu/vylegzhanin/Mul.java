@@ -1,11 +1,14 @@
 package ru.nsu.vylegzhanin;
 
-import java.util.Map;
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-public class Mul extends Expression{
+/**
+ * Класс для представления операции умножения выражений.
+ */
+public class Mul extends Expression {
     List<Expression> terms;
 
     Mul(Expression... terms) {
@@ -13,7 +16,7 @@ public class Mul extends Expression{
     }
 
     @Override
-    String print(){
+    String print() {
         String result = "(";
         for (int i = 0; i  < terms.size(); i++) {
             result += terms.get(i).print();
@@ -124,7 +127,7 @@ public class Mul extends Expression{
         if (terms.size() != otherMul.terms.size()) {
             return false;
         }
-        
+
         for (int i = 0; i < terms.size(); i++) {
             if (!terms.get(i).isEqual(otherMul.terms.get(i))) {
                 return false;

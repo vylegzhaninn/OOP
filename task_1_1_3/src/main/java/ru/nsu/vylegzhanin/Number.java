@@ -2,7 +2,10 @@ package ru.nsu.vylegzhanin;
 
 import java.util.Map;
 
-public class Number extends Expression{
+/**
+ * Класс для представления числовых констант в выражениях.
+ */
+public class Number extends Expression {
     int value;
 
     public Number(int value) {

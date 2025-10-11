@@ -2,7 +2,9 @@ package ru.nsu.vylegzhanin;
 
 import java.util.Map;
 
-
+/**
+ * Класс для представления переменных в выражениях.
+ */
 public class Variable extends Expression {
     String name;
 

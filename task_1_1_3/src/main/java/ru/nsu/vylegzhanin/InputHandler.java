@@ -29,8 +29,11 @@ public class InputHandler {
                 case "2":
                     System.out.print("Введите путь к файлу: ");
                     String path = scanner.nextLine();
-                    return Files.lines(Paths.get(path)).filter(s -> !s.trim().isEmpty()).findFirst()
-                            .orElseThrow(() -> new IOException("Файл пуст или не содержит выражений."));
+                    return Files.lines(Paths.get(path))
+                            .filter(s -> !s.trim().isEmpty())
+                            .findFirst()
+                            .orElseThrow(() -> new IOException(
+                                    "Файл пуст или не содержит выражений."));
                 case "3":
                     return null;
                 default:

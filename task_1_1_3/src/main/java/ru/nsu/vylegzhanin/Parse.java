@@ -1,21 +1,28 @@
 package ru.nsu.vylegzhanin;
 
+/**
+ * Класс для парсинга строковых выражений в объекты Expression.
+ */
 public class Parse {
-    static Expression parse(String terms){
+    static Expression parse(String terms) {
        
         if (terms.startsWith("(") && terms.endsWith(")")) {
             terms = terms.substring(1, terms.length() - 1);
         }
 
-        terms= terms.replace(" ", "");
+        terms = terms.replace(" ", "");
 
         int depth = 0;
         for (int i = 0; i < terms.length(); i++) {
             char c = terms.charAt(i);
-            if (c == ' ') continue;
-            if (c == '(') depth++;
-            else if (c == ')') depth--;
-            else if (depth == 0 && (c == '+' || c == '-' || c == '*' || c == '/')) {
+            if (c == ' ') {
+                continue;
+            }
+            if (c == '(') {
+                depth++;
+            } else if (c == ')') {
+                depth--;
+            } else if (depth == 0 && (c == '+' || c == '-' || c == '*' || c == '/')) {
                 String left = terms.substring(0, i);
                 String right = terms.substring(i + 1);
 
