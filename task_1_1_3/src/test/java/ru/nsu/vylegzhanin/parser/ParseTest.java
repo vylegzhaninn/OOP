@@ -1,13 +1,5 @@
 package ru.nsu.vylegzhanin.parser;
 
-import ru.nsu.vylegzhanin.expression.Add;
-import ru.nsu.vylegzhanin.expression.Div;
-import ru.nsu.vylegzhanin.expression.Expression;
-import ru.nsu.vylegzhanin.expression.Mul;
-import ru.nsu.vylegzhanin.expression.Number;
-import ru.nsu.vylegzhanin.expression.Sub;
-import ru.nsu.vylegzhanin.expression.Variable;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,6 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.nsu.vylegzhanin.expression.Add;
+import ru.nsu.vylegzhanin.expression.Div;
+import ru.nsu.vylegzhanin.expression.Expression;
+import ru.nsu.vylegzhanin.expression.Mul;
+import ru.nsu.vylegzhanin.expression.Number;
+import ru.nsu.vylegzhanin.expression.Sub;
+import ru.nsu.vylegzhanin.expression.Variable;
 
 /**
  * Тесты для класса Parse.
