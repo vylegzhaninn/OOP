@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.expression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,26 +11,26 @@ import java.util.Map;
 public class Sub extends Expression {
     List<Expression> terms;
 
-    Sub(Expression... terms) {
+    public Sub(Expression... terms) {
         this.terms = Arrays.asList(terms);
     }
 
 
     @Override
-    String print() {
-        String result = "(";
+    public String print() {
+        StringBuilder result = new StringBuilder("(");
         for (int i = 0; i  < terms.size(); i++) {
-            result += terms.get(i).print();
+            result.append(terms.get(i).print());
             if (i != terms.size() - 1) {
-                result += "-";
+                result.append("-");
             }
         }
-        result += ")";
-        return result;
+        result.append(")");
+        return result.toString();
     }
 
     @Override
-    int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         int result = 0;
         for (int i = 0; i < terms.size(); i++) {
             if (i == 0) {
@@ -43,7 +43,7 @@ public class Sub extends Expression {
     }
 
     @Override
-    Expression derivative(String var) {
+    public Expression derivative(String var) {
         List<Expression> derivedTerms = new ArrayList<>();;
         for (Expression term : terms) {
             derivedTerms.add(term.derivative(var));
@@ -52,7 +52,7 @@ public class Sub extends Expression {
     }
     
     @Override
-    Expression simplify() {
+    public Expression simplify() {
         // Сначала упрощаем все слагаемые
         List<Expression> simplifiedTerms = new ArrayList<>();
         for (Expression term : terms) {
@@ -76,9 +76,14 @@ public class Sub extends Expression {
         }
         
         if (!hasVars) {
-            int result = ((Number) simplifiedTerms.get(0)).value;
+            int result = 0;
+            if (simplifiedTerms.get(0) instanceof Number firstNumber) {
+                result = firstNumber.value;
+            }
             for (int i = 1; i < simplifiedTerms.size(); i++) {
-                result -= ((Number) simplifiedTerms.get(i)).value;
+                if (simplifiedTerms.get(i) instanceof Number number) {
+                    result -= number.value;
+                }
             }
             return new Number(result);
         }
@@ -87,7 +92,7 @@ public class Sub extends Expression {
     }
     
     @Override
-    boolean hasVariables() {
+    public boolean hasVariables() {
         for (Expression term : terms) {
             if (term.hasVariables()) {
                 return true;
@@ -97,12 +102,11 @@ public class Sub extends Expression {
     }
     
     @Override
-    boolean isEqual(Expression other) {
-        if (!(other instanceof Sub)) {
+    public boolean isEqual(Expression other) {
+        if (!(other instanceof Sub otherSub)) {
             return false;
         }
         
-        Sub otherSub = (Sub) other;
         if (terms.size() != otherSub.terms.size()) {
             return false;
         }

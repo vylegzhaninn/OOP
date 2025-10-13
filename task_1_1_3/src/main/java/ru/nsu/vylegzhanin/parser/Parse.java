@@ -1,10 +1,18 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.parser;
+
+import ru.nsu.vylegzhanin.expression.Add;
+import ru.nsu.vylegzhanin.expression.Div;
+import ru.nsu.vylegzhanin.expression.Expression;
+import ru.nsu.vylegzhanin.expression.Mul;
+import ru.nsu.vylegzhanin.expression.Number;
+import ru.nsu.vylegzhanin.expression.Sub;
+import ru.nsu.vylegzhanin.expression.Variable;
 
 /**
  * Класс для парсинга строковых выражений в объекты Expression.
  */
 public class Parse {
-    static Expression parse(String terms) {
+    public static Expression parse(String terms) {
        
         if (terms.startsWith("(") && terms.endsWith(")")) {
             terms = terms.substring(1, terms.length() - 1);

@@ -1,4 +1,6 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.ui;
+
+import ru.nsu.vylegzhanin.expression.Expression;
 
 import java.util.Scanner;
 

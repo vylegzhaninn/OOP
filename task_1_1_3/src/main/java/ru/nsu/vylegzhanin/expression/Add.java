@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.expression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,25 +11,25 @@ import java.util.Map;
 public class Add extends Expression {
     List<Expression> terms;
 
-    Add(Expression... terms) {
+    public Add(Expression... terms) {
         this.terms = Arrays.asList(terms);
     }
 
     @Override
-    String print() {
-        String result = "(";
+    public String print() {
+        StringBuilder result = new StringBuilder("(");
         for (int i = 0; i  < terms.size(); i++) {
-            result += terms.get(i).print();
+            result.append(terms.get(i).print());
             if (i != terms.size() - 1) {
-                result += "+";
+                result.append("+");
             }
         }
-        result += ")";
-        return result;
+        result.append(")");
+        return result.toString();
     }
 
     @Override
-    int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         int result = 0;
         for (Expression term : terms) {
             result += term.eval(vars);
@@ -38,7 +38,7 @@ public class Add extends Expression {
     }
 
     @Override
-    Expression derivative(String var) {
+    public Expression derivative(String var) {
         List<Expression> derivedTerms = new ArrayList<>();;
         for (Expression term : terms) {
             derivedTerms.add(term.derivative(var));
@@ -47,7 +47,7 @@ public class Add extends Expression {
     }
     
     @Override
-    Expression simplify() {
+    public Expression simplify() {
         List<Expression> simplifiedTerms = new ArrayList<>();
         for (Expression term : terms) {
             simplifiedTerms.add(term.simplify());
@@ -57,8 +57,8 @@ public class Add extends Expression {
         int constantSum = 0;
         
         for (Expression term : simplifiedTerms) {
-            if (term instanceof Number) {
-                constantSum += ((Number) term).value;
+            if (term instanceof Number number) {
+                constantSum += number.value;
             } else {
                 resultTerms.add(term);
             }
@@ -83,7 +83,9 @@ public class Add extends Expression {
         if (!hasVars) {
             int result = 0;
             for (Expression term : resultTerms) {
-                result += ((Number) term).value;
+                if (term instanceof Number number) {
+                    result += number.value;
+                }
             }
             return new Number(result);
         }
@@ -92,7 +94,7 @@ public class Add extends Expression {
     }
     
     @Override
-    boolean hasVariables() {
+    public boolean hasVariables() {
         for (Expression term : terms) {
             if (term.hasVariables()) {
                 return true;
@@ -102,12 +104,11 @@ public class Add extends Expression {
     }
     
     @Override
-    boolean isEqual(Expression other) {
-        if (!(other instanceof Add)) {
+    public boolean isEqual(Expression other) {
+        if (!(other instanceof Add otherAdd)) {
             return false;
         }
         
-        Add otherAdd = (Add) other;
         if (terms.size() != otherAdd.terms.size()) {
             return false;
         }

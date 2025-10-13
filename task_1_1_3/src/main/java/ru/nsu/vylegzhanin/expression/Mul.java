@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.expression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,25 +11,25 @@ import java.util.Map;
 public class Mul extends Expression {
     List<Expression> terms;
 
-    Mul(Expression... terms) {
+    public Mul(Expression... terms) {
         this.terms = Arrays.asList(terms);
     }
 
     @Override
-    String print() {
-        String result = "(";
+    public String print() {
+        StringBuilder result = new StringBuilder("(");
         for (int i = 0; i  < terms.size(); i++) {
-            result += terms.get(i).print();
+            result.append(terms.get(i).print());
             if (i != terms.size() - 1) {
-                result += "*";
+                result.append("*");
             }
         }
-        result += ")";
-        return result;
+        result.append(")");
+        return result.toString();
     }
 
     @Override
-    int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         int result = 1;
         for (Expression term : terms) {
             result *= term.eval(vars);  
@@ -38,7 +38,7 @@ public class Mul extends Expression {
     }
 
     @Override
-    Expression derivative(String var) {
+    public Expression derivative(String var) {
         List<Expression> sumTerms = new ArrayList<>();
 
         for (int i = 0; i < terms.size(); i++) {
@@ -57,14 +57,14 @@ public class Mul extends Expression {
     }
     
     @Override
-    Expression simplify() {
+    public Expression simplify() {
         List<Expression> simplifiedTerms = new ArrayList<>();
         for (Expression term : terms) {
             simplifiedTerms.add(term.simplify());
         }
         
         for (Expression term : simplifiedTerms) {
-            if (term instanceof Number && ((Number) term).value == 0) {
+            if (term instanceof Number number && number.value == 0) {
                 return new Number(0);
             }
         }
@@ -73,8 +73,8 @@ public class Mul extends Expression {
         int constantProduct = 1;
         
         for (Expression term : simplifiedTerms) {
-            if (term instanceof Number) {
-                constantProduct *= ((Number) term).value;
+            if (term instanceof Number number) {
+                constantProduct *= number.value;
             } else {
                 resultTerms.add(term);
             }
@@ -99,7 +99,9 @@ public class Mul extends Expression {
         if (!hasVars) {
             int result = 1;
             for (Expression term : resultTerms) {
-                result *= ((Number) term).value;
+                if (term instanceof Number number) {
+                    result *= number.value;
+                }
             }
             return new Number(result);
         }
@@ -108,7 +110,7 @@ public class Mul extends Expression {
     }
     
     @Override
-    boolean hasVariables() {
+    public boolean hasVariables() {
         for (Expression term : terms) {
             if (term.hasVariables()) {
                 return true;
@@ -118,12 +120,11 @@ public class Mul extends Expression {
     }
     
     @Override
-    boolean isEqual(Expression other) {
-        if (!(other instanceof Mul)) {
+    public boolean isEqual(Expression other) {
+        if (!(other instanceof Mul otherMul)) {
             return false;
         }
         
-        Mul otherMul = (Mul) other;
         if (terms.size() != otherMul.terms.size()) {
             return false;
         }

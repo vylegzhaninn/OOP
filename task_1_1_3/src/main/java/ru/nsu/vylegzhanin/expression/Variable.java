@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.expression;
 
 import java.util.Map;
 
@@ -13,32 +13,32 @@ public class Variable extends Expression {
     }
 
     @Override
-    String print() {
+    public String print() {
         return name;   
     }
 
     @Override
-    int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         return vars.get(name);
     }
 
     @Override
-    Expression derivative(String var) {
+    public Expression derivative(String var) {
         return name.equals(var) ? new Number(1) : new Number(0);
     }
     
     @Override
-    Expression simplify() {
+    public Expression simplify() {
         return this;
     }
     
     @Override
-    boolean hasVariables() {
+    public boolean hasVariables() {
         return true;
     }
     
     @Override
-    boolean isEqual(Expression other) {
-        return other instanceof Variable && ((Variable) other).name.equals(this.name);
+    public boolean isEqual(Expression other) {
+        return other instanceof Variable otherVar && otherVar.name.equals(this.name);
     }
 }

@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.parser;
 
 import java.util.HashMap;
 import java.util.Map;

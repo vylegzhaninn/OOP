@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.expression;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,29 +10,28 @@ import java.util.Map;
 public class Div extends Expression {
     List<Expression> terms;
 
-    Div(Expression... terms) {
+    public Div(Expression... terms) {
+        if (terms.length != 2) {
+            throw new IllegalArgumentException("Division requires exactly two terms.");
+        }
         this.terms = Arrays.asList(terms);
     }
 
     @Override
-    String print() {
-        String result = "(";
+    public String print() {
+        StringBuilder result = new StringBuilder("(");
         for (int i = 0; i < terms.size(); i++) {
-            result += terms.get(i).print();
+            result.append(terms.get(i).print());
             if (i != terms.size() - 1) {
-                result += "/";
+                result.append("/");
             }
         }
-        result += ")";
-        return result;
+        result.append(")");
+        return result.toString();
     }
 
     @Override
-    int eval(Map<String, Integer> vars) {
-        if (terms.size() != 2) {
-            throw new IllegalArgumentException("Division requires exactly two terms.");
-        }
-        
+    public int eval(Map<String, Integer> vars) {
         int denominator = terms.get(1).eval(vars);
         if (denominator == 0) {
             throw new ArithmeticException("Division by zero");
@@ -42,11 +41,7 @@ public class Div extends Expression {
     }
 
     @Override
-    Expression derivative(String var) {
-        if (terms.size() != 2) {
-            throw new IllegalArgumentException("Division requires exactly two terms.");
-        }
-
+    public Expression derivative(String var) {
         Expression f = terms.get(0);
         Expression g = terms.get(1);
 
@@ -64,32 +59,25 @@ public class Div extends Expression {
     }
     
     @Override
-    Expression simplify() {
-        if (terms.size() != 2) {
-            throw new IllegalArgumentException("Division requires exactly two terms.");
-        }
-        
+    public Expression simplify() {
         Expression numerator = terms.get(0).simplify();
         Expression denominator = terms.get(1).simplify();
         
-        if (denominator instanceof Number && ((Number) denominator).value == 0) {
+        if (denominator instanceof Number denNumber && denNumber.value == 0) {
             throw new ArithmeticException("Division by zero");
         }
         
-        if (numerator instanceof Number && ((Number) numerator).value == 0) {
+        if (numerator instanceof Number numNumber && numNumber.value == 0) {
             return new Number(0);
         }
         
-        if (denominator instanceof Number && ((Number) denominator).value == 1) {
+        if (denominator instanceof Number denNumber && denNumber.value == 1) {
             return numerator;
         }
 
-        if (numerator instanceof Number && denominator instanceof Number) {
-            int numValue = ((Number) numerator).value;
-            int denValue = ((Number) denominator).value;
-            
-            if (numValue % denValue == 0) {
-                return new Number(numValue / denValue);
+        if (numerator instanceof Number numNumber && denominator instanceof Number denNumber) {
+            if (numNumber.value % denNumber.value == 0) {
+                return new Number(numNumber.value / denNumber.value);
             }
         }
         
@@ -97,7 +85,7 @@ public class Div extends Expression {
     }
     
     @Override
-    boolean hasVariables() {
+    public boolean hasVariables() {
         for (Expression term : terms) {
             if (term.hasVariables()) {
                 return true;
@@ -107,12 +95,11 @@ public class Div extends Expression {
     }
     
     @Override
-    boolean isEqual(Expression other) {
-        if (!(other instanceof Div)) {
+    public boolean isEqual(Expression other) {
+        if (!(other instanceof Div otherDiv)) {
             return false;
         }
         
-        Div otherDiv = (Div) other;
         if (terms.size() != otherDiv.terms.size()) {
             return false;
         }

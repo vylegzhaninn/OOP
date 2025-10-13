@@ -1,4 +1,4 @@
-package ru.nsu.vylegzhanin;
+package ru.nsu.vylegzhanin.ui;
 
 import java.io.IOException;
 import java.nio.file.Files;
