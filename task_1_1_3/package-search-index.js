@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.vylegzhanin"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.vylegzhanin.expression"},{"l":"ru.nsu.vylegzhanin.parser"},{"l":"ru.nsu.vylegzhanin.ui"}];updateSearchResults();
