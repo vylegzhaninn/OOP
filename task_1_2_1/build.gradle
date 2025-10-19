@@ -8,6 +8,10 @@ application {
     mainClass = 'ru.nsu.vylegzhanin.Main'
 }
 
+run {
+    standardInput = System.in
+}
+
 group = 'ru.nsu.vylegzhanin'
 version = '1.0-SNAPSHOT'
 

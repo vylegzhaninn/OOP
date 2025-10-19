@@ -2,28 +2,40 @@ package ru.nsu.vylegzhanin.model;
 
 import java.util.Objects;
 
+/**
+ * Класс, представляющий вершину графа.
+ * Вершина идентифицируется целочисленным значением.
+ */
 public class Vertex {
-    int znach;
-    String name;
+    private final int value;
 
-    public Vertex(int znach) {
-        this.znach = znach;
+    /**
+     * Создаёт новую вершину с заданным значением.
+     *
+     * @param value значение вершины
+     */
+    public Vertex(int value) {
+        this.value = value;
     }
 
+    /**
+     * Возвращает значение вершины.
+     *
+     * @return значение вершины
+     */
     public int getZnach() {
-        return znach;
+        return value;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Vertex vertex = (Vertex) obj;
-        return znach == vertex.znach;
+        if (!(obj instanceof Vertex)) return false;
+        return value == ((Vertex) obj).value;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(znach);
+        return Objects.hash(value);
     }
 }
