@@ -13,8 +13,8 @@ import ru.nsu.vylegzhanin.model.Vertex;
  * Хранит информацию о рёбрах и их связях с вершинами.
  */
 public class IncidenceMatrix implements Graph {
-    Map<Vertex, List<Edge>> incMatrix;
-    List<Edge> edges;
+    private Map<Vertex, List<Edge>> incMatrix;
+    private List<Edge> edges;
 
     public IncidenceMatrix() {
         incMatrix = new HashMap<>();

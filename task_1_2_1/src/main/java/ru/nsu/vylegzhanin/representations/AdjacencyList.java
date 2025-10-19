@@ -12,7 +12,7 @@ import ru.nsu.vylegzhanin.model.Vertex;
  * Использует HashMap для хранения списка соседей каждой вершины.
  */
 public class AdjacencyList implements Graph {
-    Map<Vertex, List<Vertex>> adjList;
+    private Map<Vertex, List<Vertex>> adjList;
 
     public AdjacencyList() {
         adjList = new HashMap<>();
