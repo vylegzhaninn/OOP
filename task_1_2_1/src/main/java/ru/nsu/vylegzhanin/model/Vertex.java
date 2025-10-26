@@ -23,7 +23,7 @@ public class Vertex {
      *
      * @return значение вершины
      */
-    public int getZnach() {
+    public int getValue() {
         return value;
     }
 

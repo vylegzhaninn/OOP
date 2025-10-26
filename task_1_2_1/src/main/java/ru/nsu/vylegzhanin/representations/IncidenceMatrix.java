@@ -126,10 +126,10 @@ public class IncidenceMatrix implements Graph {
     public String toString() {
         StringBuilder sb = new StringBuilder("Граф (матрица инцидентности):\n");
         for (Vertex v : incMatrix.keySet()) {
-            sb.append(v.getZnach()).append(": ");
+            sb.append(v.getValue()).append(": ");
             List<Vertex> neighbors = getNeighbors(v);
             for (int i = 0; i < neighbors.size(); i++) {
-                sb.append(neighbors.get(i).getZnach());
+                sb.append(neighbors.get(i).getValue());
                 if (i < neighbors.size() - 1) sb.append(", ");
             }
             sb.append("\n");

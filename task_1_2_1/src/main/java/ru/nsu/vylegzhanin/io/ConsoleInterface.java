@@ -187,7 +187,7 @@ public class ConsoleInterface {
             System.out.println("нет");
         } else {
             for (int i = 0; i < neighbors.size(); i++) {
-                System.out.print(neighbors.get(i).getZnach());
+                System.out.print(neighbors.get(i).getValue());
                 if (i < neighbors.size() - 1) System.out.print(", ");
             }
             System.out.println();
@@ -202,7 +202,7 @@ public class ConsoleInterface {
             List<Vertex> sorted = TopologicalSort.kahnSort(graph);
             System.out.print("Топологическая сортировка: ");
             for (int i = 0; i < sorted.size(); i++) {
-                System.out.print(sorted.get(i).getZnach());
+                System.out.print(sorted.get(i).getValue());
                 if (i < sorted.size() - 1) System.out.print(" -> ");
             }
             System.out.println("\n");
@@ -222,7 +222,7 @@ public class ConsoleInterface {
 
     private void updateVertexCache() {
         for (Vertex v : graph.getAllVertices()) {
-            vertexCache.put(v.getZnach(), v);
+            vertexCache.put(v.getValue(), v);
         }
     }
 

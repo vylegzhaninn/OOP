@@ -12,21 +12,21 @@ import ru.nsu.vylegzhanin.model.Vertex;
  * Использует HashMap для хранения списка соседей каждой вершины.
  */
 public class AdjacencyList implements Graph {
-    private Map<Vertex, List<Vertex>> adjList;
+    private Map<Vertex, List<Vertex>> adjMap;
 
     public AdjacencyList() {
-        adjList = new HashMap<>();
+        adjMap = new HashMap<>();
     }
 
     @Override
     public void addVertex(Vertex vertex) {
-        adjList.putIfAbsent(vertex, new ArrayList<>());
+        adjMap.putIfAbsent(vertex, new ArrayList<>());
     }
 
     @Override
     public void removeVertex(Vertex vertex) {
-        adjList.remove(vertex);
-        for (List<Vertex> neighbors : adjList.values()) {
+        adjMap.remove(vertex);
+        for (List<Vertex> neighbors : adjMap.values()) {
             neighbors.remove(vertex);
         }
     }
@@ -35,29 +35,29 @@ public class AdjacencyList implements Graph {
     public void addEdge(Vertex from, Vertex to) {
         addVertex(from);
         addVertex(to);
-        adjList.get(from).add(to);
+        adjMap.get(from).add(to);
     }
 
     @Override
     public void removeEdge(Vertex from, Vertex to) {
-        if (adjList.containsKey(from)) {
-            adjList.get(from).remove(to);
+        if (adjMap.containsKey(from)) {
+            adjMap.get(from).remove(to);
         }
     }
 
     @Override
     public List<Vertex> getNeighbors(Vertex vertex) {
-        return adjList.getOrDefault(vertex, new ArrayList<>());
+        return adjMap.getOrDefault(vertex, new ArrayList<>());
     }
 
     @Override
     public List<Vertex> getAllVertices() {
-        return new ArrayList<>(adjList.keySet());
+        return new ArrayList<>(adjMap.keySet());
     }
 
     @Override
     public boolean hasEdge(Vertex from, Vertex to) {
-        return adjList.containsKey(from) && adjList.get(from).contains(to);
+        return adjMap.containsKey(from) && adjMap.get(from).contains(to);
     }
 
     @Override
@@ -67,11 +67,11 @@ public class AdjacencyList implements Graph {
         Graph other = (Graph) obj;
         
         List<Vertex> otherVertices = other.getAllVertices();
-        if (adjList.size() != otherVertices.size()) return false;
-        if (!adjList.keySet().containsAll(otherVertices)) return false;
+        if (adjMap.size() != otherVertices.size()) return false;
+        if (!adjMap.keySet().containsAll(otherVertices)) return false;
         
-        for (Vertex v : adjList.keySet()) {
-            for (Vertex u : adjList.keySet()) {
+        for (Vertex v : adjMap.keySet()) {
+            for (Vertex u : adjMap.keySet()) {
                 if (hasEdge(v, u) != other.hasEdge(v, u)) return false;
             }
         }
@@ -80,9 +80,9 @@ public class AdjacencyList implements Graph {
 
     @Override
     public int hashCode() {
-        int result = adjList.keySet().hashCode();
-        for (Vertex v : adjList.keySet()) {
-            for (Vertex neighbor : adjList.get(v)) {
+        int result = adjMap.keySet().hashCode();
+        for (Vertex v : adjMap.keySet()) {
+            for (Vertex neighbor : adjMap.get(v)) {
                 result = 31 * result + v.hashCode() + neighbor.hashCode();
             }
         }
@@ -92,11 +92,11 @@ public class AdjacencyList implements Graph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Граф (список смежности):\n");
-        for (Vertex v : adjList.keySet()) {
-            sb.append(v.getZnach()).append(": ");
-            List<Vertex> neighbors = adjList.get(v);
+        for (Vertex v : adjMap.keySet()) {
+            sb.append(v.getValue()).append(": ");
+            List<Vertex> neighbors = adjMap.get(v);
             for (int i = 0; i < neighbors.size(); i++) {
-                sb.append(neighbors.get(i).getZnach());
+                sb.append(neighbors.get(i).getValue());
                 if (i < neighbors.size() - 1) sb.append(", ");
             }
             sb.append("\n");

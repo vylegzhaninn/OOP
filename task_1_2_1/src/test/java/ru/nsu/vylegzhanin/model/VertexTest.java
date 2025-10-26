@@ -13,7 +13,7 @@ class VertexTest {
     @Test
     void testVertexCreation() {
         Vertex vertex = new Vertex(1);
-        assertEquals(1, vertex.getZnach());
+        assertEquals(1, vertex.getValue());
     }
 
     @Test

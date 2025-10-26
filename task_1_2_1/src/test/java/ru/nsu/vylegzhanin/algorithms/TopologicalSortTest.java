@@ -97,4 +97,35 @@ class TopologicalSortTest {
         assertEquals(1, sorted.size());
         assertEquals(v1, sorted.get(0));
     }
+
+    @Test
+    void testGraphSortMethod() {
+        // Тест метода sort() из интерфейса Graph
+        graph.addVertex(v1);
+        graph.addVertex(v2);
+        graph.addVertex(v3);
+        graph.addEdge(v1, v2);
+        graph.addEdge(v2, v3);
+        
+        List<Vertex> sorted = graph.sort();
+        
+        assertEquals(3, sorted.size());
+        assertTrue(sorted.indexOf(v1) < sorted.indexOf(v2));
+        assertTrue(sorted.indexOf(v2) < sorted.indexOf(v3));
+    }
+
+    @Test
+    void testGraphSortMethodWithCycle() {
+        // Тест метода sort() с циклом
+        graph.addVertex(v1);
+        graph.addVertex(v2);
+        graph.addVertex(v3);
+        graph.addEdge(v1, v2);
+        graph.addEdge(v2, v3);
+        graph.addEdge(v3, v1);
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            graph.sort();
+        });
+    }
 }
