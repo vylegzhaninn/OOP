@@ -107,7 +107,7 @@ class TopologicalSortTest {
         graph.addEdge(v1, v2);
         graph.addEdge(v2, v3);
         
-        List<Vertex> sorted = graph.sort();
+        List<Vertex> sorted = graph.sort(TopologicalSort.KAHN);
         
         assertEquals(3, sorted.size());
         assertTrue(sorted.indexOf(v1) < sorted.indexOf(v2));
@@ -125,7 +125,37 @@ class TopologicalSortTest {
         graph.addEdge(v3, v1);
         
         assertThrows(IllegalArgumentException.class, () -> {
-            graph.sort();
+            graph.sort(TopologicalSort.KAHN);
         });
+    }
+
+    @Test
+    void testGraphSortWithAlgorithmParameter() {
+        // Тест метода sort() с параметром алгоритма
+        graph.addVertex(v1);
+        graph.addVertex(v2);
+        graph.addVertex(v3);
+        graph.addEdge(v1, v2);
+        graph.addEdge(v2, v3);
+        
+        List<Vertex> sorted = graph.sort(TopologicalSort.KAHN);
+        
+        assertEquals(3, sorted.size());
+        assertTrue(sorted.indexOf(v1) < sorted.indexOf(v2));
+        assertTrue(sorted.indexOf(v2) < sorted.indexOf(v3));
+    }
+
+    @Test
+    void testGraphSortWithCustomAlgorithm() {
+        // Тест метода sort() с кастомным алгоритмом (лямбда)
+        graph.addVertex(v1);
+        graph.addVertex(v2);
+        
+        List<Vertex> sorted = graph.sort(g -> {
+            // Простой кастомный алгоритм для теста
+            return TopologicalSort.kahnSort(g);
+        });
+        
+        assertEquals(2, sorted.size());
     }
 }

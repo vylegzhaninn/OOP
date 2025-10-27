@@ -1,7 +1,6 @@
 package ru.nsu.vylegzhanin.interfaces;
 
 import java.util.List;
-import ru.nsu.vylegzhanin.algorithms.TopologicalSort;
 import ru.nsu.vylegzhanin.model.Vertex;
 
 /**
@@ -64,13 +63,13 @@ public interface Graph {
     boolean hasEdge(Vertex from, Vertex to);
 
     /**
-     * Выполняет топологическую сортировку графа.
-     * Использует алгоритм Кана для получения линейного упорядочивания вершин.
+     * Выполняет топологическую сортировку графа с использованием указанного алгоритма.
      *
+     * @param algorithm алгоритм сортировки
      * @return список вершин в топологическом порядке
      * @throws IllegalArgumentException если граф содержит цикл
      */
-    default List<Vertex> sort() {
-        return TopologicalSort.kahnSort(this);
+    default List<Vertex> sort(GraphSortAlgorithm algorithm) {
+        return algorithm.sort(this);
     }
 }

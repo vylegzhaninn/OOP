@@ -7,14 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import ru.nsu.vylegzhanin.interfaces.Graph;
+import ru.nsu.vylegzhanin.interfaces.GraphSortAlgorithm;
 import ru.nsu.vylegzhanin.model.Vertex;
 
 /**
  * Класс для выполнения топологической сортировки графа.
- * Использует алгоритм Кана.
+ * Предоставляет различные алгоритмы сортировки.
  */
 public class TopologicalSort {
     
+    /**
+     * Алгоритм Кана для топологической сортировки.
+     * Использует подсчёт входящих степеней вершин.
+     */
+    public static final GraphSortAlgorithm KAHN = TopologicalSort::kahnSort;
+
     /**
      * Выполняет топологическую сортировку графа алгоритмом Кана.
      *
