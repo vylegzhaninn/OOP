@@ -12,15 +12,15 @@ import java.util.ConcurrentModificationException;
  * @param <V> тип значений
  * @param <K> тип ключей
  */
-public class HashTableIterator<V, K> implements Iterator<HashTable.Entry<V, K>> {
-    private final List<LinkedList<HashTable.Entry<V, K>>> map;
+public class HashTableIterator<V, K> implements Iterator<Entry<V, K>> {
+    private final List<LinkedList<Entry<V, K>>> map;
     private final int size;
     private final int expectedModCount;
     private final ModificationCounter modificationCounter;
     
     private int currentBucket = 0;
     private int currentIndex = 0;
-    private HashTable.Entry<V, K> nextEntry = null;
+    private Entry<V, K> nextEntry = null;
     
     /**
      * Интерфейс для получения счетчика модификаций.
@@ -37,7 +37,7 @@ public class HashTableIterator<V, K> implements Iterator<HashTable.Entry<V, K>> 
      * @param modificationCounter объект для получения счетчика модификаций
      */
     public HashTableIterator(
-            List<LinkedList<HashTable.Entry<V, K>>> map,
+            List<LinkedList<Entry<V, K>>> map,
             int size,
             ModificationCounter modificationCounter) {
         this.map = map;
@@ -53,7 +53,7 @@ public class HashTableIterator<V, K> implements Iterator<HashTable.Entry<V, K>> 
     private void findNext() {
         nextEntry = null;
         while (currentBucket < size && nextEntry == null) {
-            LinkedList<HashTable.Entry<V, K>> bucket = map.get(currentBucket);
+            LinkedList<Entry<V, K>> bucket = map.get(currentBucket);
             if (currentIndex < bucket.size()) {
                 nextEntry = bucket.get(currentIndex);
                 currentIndex++;
@@ -84,12 +84,12 @@ public class HashTableIterator<V, K> implements Iterator<HashTable.Entry<V, K>> 
      * @throws ConcurrentModificationException если таблица была изменена во время итерации
      */
     @Override
-    public HashTable.Entry<V, K> next() {
+    public Entry<V, K> next() {
         checkForModification();
         if (nextEntry == null) {
             throw new NoSuchElementException("Нет больше элементов в хэш-таблице");
         }
-        HashTable.Entry<V, K> result = nextEntry;
+        Entry<V, K> result = nextEntry;
         findNext();
         return result;
     }

@@ -8,14 +8,42 @@ import java.util.LinkedList;
 /**
  * Реализация хэш-таблицы с методом цепочек для разрешения коллизий.
  * Поддерживает итерирование с обработкой ConcurrentModificationException.
+ * Автоматически увеличивает размер в 2 раза при заполнении.
  * 
  * @param <V> тип значений, хранящихся в таблице
  * @param <K> тип ключей
  */
-public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTableIterator.ModificationCounter {  
-    private final int size = 100;
+public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.ModificationCounter {  
+    private static final int DEFAULT_CAPACITY = 32; // Начальная емкость
+    
+    private int tableSize; // Текущий размер массива bucket'ов
+    private int elementCount = 0; // Количество элементов в таблице
     List<LinkedList<Entry<V,K>>> map = new ArrayList<>();
     private int modCount = 0; // Счетчик модификаций для отслеживания изменений
+    
+    /**
+     * Вычисляет хэш для ключа с учетом размера хэш-таблицы.
+     * 
+     * @param key ключ, для которого вычисляется хэш
+     * @return индекс в диапазоне [0, tableSize-1]
+     */
+    private int getHash(K key) {
+        if (key == null) return 0;
+        return Math.abs(key.hashCode()) % tableSize;
+    }
+    
+    /**
+     * Вычисляет хэш для ключа с учетом конкретного размера.
+     * Используется при изменении размера таблицы.
+     * 
+     * @param key ключ, для которого вычисляется хэш
+     * @param size размер таблицы
+     * @return индекс в диапазоне [0, size-1]
+     */
+    private int getHash(K key, int size) {
+        if (key == null) return 0;
+        return Math.abs(key.hashCode()) % size;
+    }
     
     /**
      * Возвращает счетчик модификаций.
@@ -26,46 +54,40 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
     public int getModCount() {
         return modCount;
     }
-
+    
     /**
-     * Внутренний класс для хранения пары ключ-значение.
+     * Возвращает количество пар ключ-значение в хэш-таблице.
      * 
-     * @param <V> тип значения
-     * @param <K> тип ключа
+     * @return количество элементов
      */
-    public static class Entry<V,K> {
-        V value;
-        K key;
-        
-        Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-        
-        /**
-         * Возвращает ключ записи.
-         * 
-         * @return ключ
-         */
-        public K getKey() { 
-            return key; 
-        }
-        
-        /**
-         * Возвращает значение записи.
-         * 
-         * @return значение
-         */
-        public V getValue() { 
-            return value; 
-        }
+    public int size() {
+        return elementCount;
+    }
+    
+    /**
+     * Проверяет, пуста ли хэш-таблица.
+     * 
+     * @return true, если таблица не содержит элементов
+     */
+    public boolean isEmpty() {
+        return elementCount == 0;
     }
 
     /**
-     * Создает новую пустую хэш-таблицу.
+     * Создает новую пустую хэш-таблицу с начальной емкостью по умолчанию.
      */
     public HashTable() {
-        for (int i = 0; i < size; i++) {
+        this(DEFAULT_CAPACITY);
+    }
+    
+    /**
+     * Создает новую пустую хэш-таблицу с указанной начальной емкостью.
+     * 
+     * @param initialCapacity начальная емкость таблицы
+     */
+    public HashTable(int initialCapacity) {
+        this.tableSize = initialCapacity;
+        for (int i = 0; i < tableSize; i++) {
             map.add(new LinkedList<>());
         }
     }
@@ -73,15 +95,15 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
     /**
      * Добавляет пару ключ-значение в хэш-таблицу.
      * Если ключ уже существует, обновляет его значение.
+     * Автоматически увеличивает размер в 2 раза при заполнении.
      * 
      * @param value значение для добавления
      * @param key ключ для добавления
      */
     public void put(V value, K key) {
-        int hash = Hash.getHash(key, size);
+        int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         
-        // Проверяем, существует ли ключ, и обновляем значение
         for (Entry<V,K> entry : bucket) {
             if (entry.key.equals(key)) {
                 entry.value = value;
@@ -90,9 +112,13 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
             }
         }
         
-        // Если ключ не найден, добавляем новую запись
         bucket.add(new Entry<>(key, value));
+        elementCount++; 
         modCount++;
+        
+        if (elementCount >= tableSize) {
+            resize(tableSize * 2);
+        }
     }
 
     /**
@@ -103,12 +129,12 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
      * @param key ключ для обновления
      */
     public void update(V value, K key) {
-        int hash = Hash.getHash(key, size);
+        int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
             if (entry.key.equals(key)) {
                 entry.value = value;
-                modCount++; // Увеличиваем счетчик при изменении
+                modCount++;
                 return;
             }
         }
@@ -121,17 +147,59 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
      * @param key ключ для удаления
      */
     public void delete(V value, K key){
-        int hash = Hash.getHash(key, size);
+        int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
             if (entry.key.equals(key)) {
                 bucket.remove(entry);
-                modCount++; // Увеличиваем счетчик при изменении
+                elementCount--;
+                modCount++;
                 return;
             }
         }
     }
-
+    
+    /**
+     * Удаляет все элементы из хэш-таблицы.
+     */
+    public void clear() {
+        if (elementCount == 0) return;
+        
+        for (LinkedList<Entry<V,K>> bucket : map) {
+            bucket.clear();
+        }
+        elementCount = 0;
+        modCount++;
+    }
+    
+    /**
+     * Увеличивает размер хэш-таблицы в 2 раза и перераспределяет все элементы.
+     * 
+     * @param newCapacity новая емкость таблицы (должна быть больше текущей)
+     */
+    private void resize(int newCapacity) {
+        List<LinkedList<Entry<V,K>>> oldMap = map;
+        
+        tableSize = newCapacity;
+        map = new ArrayList<>(tableSize);
+        
+        for (int i = 0; i < tableSize; i++) {
+            map.add(new LinkedList<>());
+        }
+        
+        elementCount = 0;
+        
+        for (LinkedList<Entry<V,K>> bucket : oldMap) {
+            for (Entry<V,K> entry : bucket) {
+                int newHash = getHash(entry.key, tableSize);
+                map.get(newHash).add(entry);
+                elementCount++;
+            }
+        }
+        
+        modCount++;
+    }
+    
     /**
      * Получает значение по ключу.
      * 
@@ -139,7 +207,7 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
      * @return значение, связанное с ключом, или null, если ключ не найден
      */
     public V get(K key){
-        int hash = Hash.getHash(key, size);
+        int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
             if (entry.key.equals(key)) return entry.value;
@@ -153,8 +221,8 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
      * @param key ключ для проверки
      * @return true, если ключ найден, иначе false
      */
-    public boolean hasValue(K key){
-        int hash = Hash.getHash(key, size);
+    public boolean containsKey(K key){
+        int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
             if (entry.key.equals(key)) return true;
@@ -198,35 +266,25 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof HashTable)) return false;
         
         @SuppressWarnings("unchecked")
         HashTable<V,K> other = (HashTable<V,K>) obj;
         
-        // Сравниваем количество элементов
-        int thisCount = 0;
-        int otherCount = 0;
+        if (this.size() != other.size()) return false;
         
-        for (@SuppressWarnings("unused") Entry<V,K> entry : this) {
-            thisCount++;
-        }
-        for (@SuppressWarnings("unused") Entry<V,K> entry : other) {
-            otherCount++;
-        }
-        
-        if (thisCount != otherCount) return false;
-        
-        // Проверяем, что все элементы из this есть в other
         for (Entry<V,K> entry : this) {
-            V otherValue = other.get(entry.getKey());
-            if (otherValue == null) {
-                // Проверяем, может ли значение быть null
-                if (!other.hasValue(entry.getKey())) {
-                    return false;
-                }
-            }
-            if (otherValue != null && !entry.getValue().equals(otherValue)) {
+            if (!other.containsKey(entry.getKey())) {
                 return false;
+            }
+            
+            V thisValue = entry.getValue();
+            V otherValue = other.get(entry.getKey());
+            
+            if (thisValue == null) {
+                if (otherValue != null) return false;
+            } else {
+                if (!thisValue.equals(otherValue)) return false;
             }
         }
         
@@ -255,6 +313,6 @@ public class HashTable <V,K> implements Iterable<HashTable.Entry<V,K>>, HashTabl
      */
     @Override
     public Iterator<Entry<V,K>> iterator() {
-        return new HashTableIterator<>(map, size, this);
+        return new HashTableIterator<>(map, tableSize, this);
     }
 }

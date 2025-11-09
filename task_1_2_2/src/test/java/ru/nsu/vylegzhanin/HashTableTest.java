@@ -20,6 +20,78 @@ class HashTableTest {
         table = new HashTable<>();
     }
     
+    // ========== Тесты методов size() и isEmpty() ==========
+    
+    @Test
+    @DisplayName("Размер пустой таблицы")
+    void testSizeEmptyTable() {
+        assertEquals(0, table.size());
+        assertTrue(table.isEmpty());
+    }
+    
+    @Test
+    @DisplayName("Размер после добавления элементов")
+    void testSizeAfterPut() {
+        table.put("Alice", 1);
+        assertEquals(1, table.size());
+        assertFalse(table.isEmpty());
+        
+        table.put("Bob", 2);
+        assertEquals(2, table.size());
+        
+        table.put("Charlie", 3);
+        assertEquals(3, table.size());
+    }
+    
+    @Test
+    @DisplayName("Размер после перезаписи элемента")
+    void testSizeAfterOverwrite() {
+        table.put("Alice", 1);
+        assertEquals(1, table.size());
+        
+        table.put("Bob", 1); // Перезаписываем
+        assertEquals(1, table.size()); // Размер не должен измениться
+    }
+    
+    @Test
+    @DisplayName("Размер после удаления")
+    void testSizeAfterDelete() {
+        table.put("Alice", 1);
+        table.put("Bob", 2);
+        assertEquals(2, table.size());
+        
+        table.delete("Alice", 1);
+        assertEquals(1, table.size());
+        
+        table.delete("Bob", 2);
+        assertEquals(0, table.size());
+        assertTrue(table.isEmpty());
+    }
+    
+    @Test
+    @DisplayName("Метод clear() очищает таблицу")
+    void testClear() {
+        table.put("Alice", 1);
+        table.put("Bob", 2);
+        table.put("Charlie", 3);
+        assertEquals(3, table.size());
+        
+        table.clear();
+        assertEquals(0, table.size());
+        assertTrue(table.isEmpty());
+        assertNull(table.get(1));
+        assertNull(table.get(2));
+        assertNull(table.get(3));
+    }
+    
+    @Test
+    @DisplayName("clear() на пустой таблице")
+    void testClearEmptyTable() {
+        table.clear();
+        assertEquals(0, table.size());
+        assertTrue(table.isEmpty());
+    }
+    
     // ========== Тесты метода put ==========
     
     @Test
@@ -146,27 +218,27 @@ class HashTableTest {
         assertNull(table.get(3));
     }
     
-    // ========== Тесты метода hasValue ==========
+    // ========== Тесты метода containsKey ==========
     
     @Test
     @DisplayName("Проверка существующего ключа")
-    void testHasValueExistingKey() {
+    void testContainsKeyExistingKey() {
         table.put("Alice", 1);
-        assertTrue(table.hasValue(1));
+        assertTrue(table.containsKey(1));
     }
     
     @Test
     @DisplayName("Проверка несуществующего ключа")
-    void testHasValueNonExistingKey() {
-        assertFalse(table.hasValue(999));
+    void testContainsKeyNonExistingKey() {
+        assertFalse(table.containsKey(999));
     }
     
     @Test
     @DisplayName("Проверка после удаления")
-    void testHasValueAfterDelete() {
+    void testContainsKeyAfterDelete() {
         table.put("Alice", 1);
         table.delete("Alice", 1);
-        assertFalse(table.hasValue(1));
+        assertFalse(table.containsKey(1));
     }
     
     // ========== Тесты итератора ==========
@@ -185,7 +257,7 @@ class HashTableTest {
         table.put("Charlie", 3);
         
         int count = 0;
-        for (HashTable.Entry<String, Integer> entry : table) {
+        for (Entry<String, Integer> entry : table) {
             assertNotNull(entry.getKey());
             assertNotNull(entry.getValue());
             count++;
@@ -198,7 +270,7 @@ class HashTableTest {
     @DisplayName("Итератор выбрасывает NoSuchElementException")
     void testIteratorNoSuchElementException() {
         table.put("Alice", 1);
-        Iterator<HashTable.Entry<String, Integer>> iterator = table.iterator();
+        Iterator<Entry<String, Integer>> iterator = table.iterator();
         
         iterator.next(); // Первый элемент
         assertThrows(NoSuchElementException.class, iterator::next);
@@ -342,7 +414,7 @@ class HashTableTest {
     void testNullValues() {
         table.put(null, 1);
         assertNull(table.get(1));
-        assertTrue(table.hasValue(1));
+        assertTrue(table.containsKey(1));
     }
     
     @Test
@@ -409,4 +481,69 @@ class HashTableTest {
         assertEquals(alice, personTable.get(1));
         assertEquals(bob, personTable.get(2));
     }
+    
+    // ========== Тесты метода resize и автоматического изменения размера ==========
+    
+    @Test
+    @DisplayName("Автоматическое изменение размера при заполнении")
+    void testAutoResize() {
+        HashTable<String, Integer> smallTable = new HashTable<>(4); // Маленькая таблица
+        
+        // Добавляем элементы до заполнения таблицы
+        smallTable.put("A", 1);
+        smallTable.put("B", 2);
+        smallTable.put("C", 3);
+        smallTable.put("D", 4); // Массив заполнен (4 элемента), должен произойти resize
+        
+        // Проверяем, что все элементы остались доступны после resize
+        assertEquals("A", smallTable.get(1));
+        assertEquals("B", smallTable.get(2));
+        assertEquals("C", smallTable.get(3));
+        assertEquals("D", smallTable.get(4));
+        
+        // Можем добавить ещё элементы
+        smallTable.put("E", 5);
+        assertEquals("E", smallTable.get(5));
+        assertEquals(5, smallTable.size());
+    }
+    
+    @Test
+    @DisplayName("Изменение размера сохраняет все элементы")
+    void testResizePreservesAllElements() {
+        HashTable<String, Integer> resizeTable = new HashTable<>(8);
+        
+        // Добавляем много элементов
+        for (int i = 0; i < 50; i++) {
+            resizeTable.put("Value" + i, i);
+        }
+        
+        // Проверяем, что все элементы доступны
+        for (int i = 0; i < 50; i++) {
+            assertEquals("Value" + i, resizeTable.get(i));
+        }
+        
+        assertEquals(50, resizeTable.size());
+    }
+    
+    @Test
+    @DisplayName("После resize итератор работает корректно")
+    void testIteratorAfterResize() {
+        HashTable<String, Integer> resizeTable = new HashTable<>(4);
+        
+        // Добавляем элементы для вызова resize
+        for (int i = 0; i < 10; i++) {
+            resizeTable.put("Value" + i, i);
+        }
+        
+        // Проверяем, что итератор видит все элементы
+        int count = 0;
+        for (Entry<String, Integer> entry : resizeTable) {
+            assertNotNull(entry);
+            count++;
+        }
+        
+        assertEquals(10, count);
+    }
+    
+    // ========== Тесты с коллизиями ==========
 }
