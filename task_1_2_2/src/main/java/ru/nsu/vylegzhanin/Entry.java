@@ -7,8 +7,8 @@ package ru.nsu.vylegzhanin;
  * @param <K> тип ключа
  */
 public class Entry<V,K> {
-    V value;
-    K key;
+    private V value;
+    private K key;
     
     Entry(K key, V value) {
         this.key = key;
@@ -31,5 +31,14 @@ public class Entry<V,K> {
      */
     public V getValue() { 
         return value; 
+    }
+    
+    /**
+     * Устанавливает новое значение для записи.
+     * 
+     * @param value новое значение
+     */
+    public void setValue(V value) {
+        this.value = value;
     }
 }

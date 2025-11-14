@@ -105,8 +105,8 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         
         for (Entry<V,K> entry : bucket) {
-            if (entry.key.equals(key)) {
-                entry.value = value;
+            if (entry.getKey().equals(key)) {
+                entry.setValue(value);
                 modCount++;
                 return;
             }
@@ -132,8 +132,8 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
-            if (entry.key.equals(key)) {
-                entry.value = value;
+            if (entry.getKey().equals(key)) {
+                entry.setValue(value);
                 modCount++;
                 return;
             }
@@ -150,7 +150,7 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
-            if (entry.key.equals(key)) {
+            if (entry.getKey().equals(key)) {
                 bucket.remove(entry);
                 elementCount--;
                 modCount++;
@@ -191,7 +191,7 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         
         for (LinkedList<Entry<V,K>> bucket : oldMap) {
             for (Entry<V,K> entry : bucket) {
-                int newHash = getHash(entry.key, tableSize);
+                int newHash = getHash(entry.getKey(), tableSize);
                 map.get(newHash).add(entry);
                 elementCount++;
             }
@@ -210,7 +210,7 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
-            if (entry.key.equals(key)) return entry.value;
+            if (entry.getKey().equals(key)) return entry.getValue();
         }
         return null;
     }
@@ -225,7 +225,7 @@ public class HashTable <V,K> implements Iterable<Entry<V,K>>, HashTableIterator.
         int hash = getHash(key);
         LinkedList<Entry<V,K>> bucket = map.get(hash);
         for (Entry<V,K> entry : bucket) {
-            if (entry.key.equals(key)) return true;
+            if (entry.getKey().equals(key)) return true;
         }
         return false;
     }
