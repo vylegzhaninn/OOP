@@ -25,11 +25,7 @@ class HashTableTest {
     @Test
     @DisplayName("Размер пустой таблицы")
     void testSizeEmptyTable() {
-    maksimvylegzanin@MacBook-Pro-Maksim task_1_2_2 % git add src
-The following paths are ignored by one of your .gitignore files:
-task_1_2_2
-hint: Use -f if you really want to add them.
-hint: Disable this message with "git config set advice.addIgnoredFile false"    assertEquals(0, table.size());
+        assertEquals(0, table.size());
         assertTrue(table.isEmpty());
     }
     
