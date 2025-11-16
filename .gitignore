@@ -1,0 +1,10 @@
+*
+!.gitignore
+!.github/
+!.github/**
+!task_1_2_2/
+!task_1_2_2/src/
+!task_1_2_2/src/**
+task_1_2_2/bin/
+task_1_2_2/build/
+task_1_2_2/.gradle/
