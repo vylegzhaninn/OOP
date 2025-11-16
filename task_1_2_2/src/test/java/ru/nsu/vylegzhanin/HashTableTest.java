@@ -8,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit тесты для класса HashTable.
@@ -472,7 +473,9 @@ class HashTableTest {
             
             @Override
             public boolean equals(Object obj) {
-                if (!(obj instanceof Person)) return false;
+                if (!(obj instanceof Person)) {
+                    return false;
+                }
                 Person other = (Person) obj;
                 return this.name.equals(other.name) && this.age == other.age;
             }

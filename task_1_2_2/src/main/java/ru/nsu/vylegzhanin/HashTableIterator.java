@@ -1,14 +1,14 @@
 package ru.nsu.vylegzhanin;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.ConcurrentModificationException;
 
 /**
  * Итератор для хэш-таблицы с проверкой одновременной модификации.
- * 
+ *
  * @param <V> тип значений
  * @param <K> тип ключей
  */
@@ -31,7 +31,7 @@ public class HashTableIterator<V, K> implements Iterator<Entry<V, K>> {
     
     /**
      * Создает новый итератор для хэш-таблицы.
-     * 
+     *
      * @param map список bucket'ов хэш-таблицы
      * @param size размер хэш-таблицы
      * @param modificationCounter объект для получения счетчика модификаций
@@ -66,7 +66,7 @@ public class HashTableIterator<V, K> implements Iterator<Entry<V, K>> {
     
     /**
      * Проверяет, есть ли следующий элемент в итерации.
-     * 
+     *
      * @return true, если есть следующий элемент, иначе false
      * @throws ConcurrentModificationException если таблица была изменена во время итерации
      */
@@ -78,7 +78,7 @@ public class HashTableIterator<V, K> implements Iterator<Entry<V, K>> {
     
     /**
      * Возвращает следующий элемент в итерации.
-     * 
+     *
      * @return следующая пара ключ-значение
      * @throws NoSuchElementException если больше нет элементов
      * @throws ConcurrentModificationException если таблица была изменена во время итерации
