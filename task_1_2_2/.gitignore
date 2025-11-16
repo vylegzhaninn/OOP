@@ -1,18 +1,6 @@
 # Gradle
 .gradle/
 build/
-gradle/
-gradlew
-gradlew.bat
-build.gradle
-settings.gradle
-
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
 
 # Eclipse
 .apt_generated
