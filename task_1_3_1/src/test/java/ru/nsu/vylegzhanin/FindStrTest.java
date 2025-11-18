@@ -35,4 +35,34 @@ class FindStrTest {
 
         assertEquals("[]", output);
     }
+
+    /**
+     * Создаёт временный UTF-8 файл с заданным содержимым и помечает его на удаление.
+     */
+    private Path writeTempFile(String content) throws IOException {
+        Path tempFile = Files.createTempFile("findstr", ".txt");
+        Files.writeString(tempFile, content, StandardCharsets.UTF_8);
+        tempFile.toFile().deleteOnExit();
+        return tempFile;
+    }
+
+    /**
+     * Перехватывает стандартный вывод на время выполнения переданного действия.
+     */
+    private String captureStdout(ThrowingRunnable action) throws IOException {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try (PrintStream proxy = new PrintStream(buffer, true, StandardCharsets.UTF_8)) {
+            System.setOut(proxy);
+            action.run();
+        } finally {
+            System.setOut(originalOut);
+        }
+        return buffer.toString(StandardCharsets.UTF_8).trim();
+    }
+
+    @FunctionalInterface
+    private interface ThrowingRunnable {
+        void run() throws IOException;
+    }
 }
