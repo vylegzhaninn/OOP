@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 /**
  * Набор тестов, проверяющий строковый вывод {@link FindStr} при различных входных данных.
@@ -64,6 +66,22 @@ class FindStrTest {
         assertEquals("[" + firstIndex + ", " + secondIndex + "]", output);
     }
 
+    @Test
+    @EnabledIfSystemProperty(named = "runGigabyteTest", matches = "true")
+    @DisplayName("Обрабатывает ~1 ГиБ файл")
+    void handlesAlmostGigabyteFileWhenRequested() throws IOException {
+        String goal = "needle";
+        long fileSize = 1_073_741_824L; // 1 GiB
+        int firstIndex = 123;
+        int secondIndex = (int) (fileSize - goal.length() - 1);
+
+        Path tempFile = createSparseFileWithNeedles(goal, fileSize, firstIndex, secondIndex);
+
+        String output = captureStdout(() -> FindStr.find(tempFile.toString(), goal));
+
+        assertEquals("[" + firstIndex + ", " + secondIndex + "]", output);
+    }
+
     /**
      * Создаёт временный UTF-8 файл с заданным содержимым и помечает его на удаление.
      */
@@ -93,6 +111,21 @@ class FindStrTest {
         for (int i = 0; i < repeat; i++) {
             writer.write(chunk);
         }
+    }
+
+    private Path createSparseFileWithNeedles(String goal, long fileSize, int... positions) throws IOException {
+        Path tempFile = Files.createTempFile("findstr-gig", ".txt");
+        tempFile.toFile().deleteOnExit();
+
+        byte[] goalBytes = goal.getBytes(StandardCharsets.UTF_8);
+        try (RandomAccessFile raf = new RandomAccessFile(tempFile.toFile(), "rw")) {
+            raf.setLength(fileSize);
+            for (int position : positions) {
+                raf.seek(position);
+                raf.write(goalBytes);
+            }
+        }
+        return tempFile;
     }
 
     @FunctionalInterface
