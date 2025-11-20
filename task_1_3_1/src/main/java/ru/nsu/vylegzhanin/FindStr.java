@@ -23,52 +23,62 @@ public class FindStr {
      * @throws IllegalArgumentException если {@code goal} пустая строка
      */
     public static void find(String fileName, String goal) throws IOException {
-        Reader reader = Files.newBufferedReader(Path.of(fileName), StandardCharsets.UTF_8);
-        int index = 0;
-        List<Integer> ans = new ArrayList<>();
-        List<MatchEntry> pairs = new ArrayList<>();
-        int rawChar;
+        try (Reader reader = Files.newBufferedReader(Path.of(fileName), StandardCharsets.UTF_8)) {
+            int index = 0;
+            List<Integer> ans = new ArrayList<>();
+            List<MatchEntry> pairs = new ArrayList<>();
+            int rawChar;
 
-        while ((rawChar = reader.read()) != -1) {
-            char c = (char) rawChar;
-            Iterator<MatchEntry> iterator = pairs.iterator();
-            while (iterator.hasNext()) {
-                MatchEntry pair = iterator.next();
-                pair.getBuffer().append(c);
-                if (pair.getBuffer().toString().equals(goal)) {
-                    ans.add(pair.getStartIndex());
-                    iterator.remove();
+            while ((rawChar = reader.read()) != -1) {
+                char c = (char) rawChar;
+                Iterator<MatchEntry> iterator = pairs.iterator();
+                while (iterator.hasNext()) {
+                    MatchEntry pair = iterator.next();
+                    int pos = pair.getCurrentPosition();
+
+                    if (c == goal.charAt(pos)) {
+                        pair.incrementPosition();
+                        if (pair.getCurrentPosition() == goal.length()) {
+                            ans.add(pair.getStartIndex());
+                            iterator.remove();
+                        }
+                    } else {
+                        iterator.remove();
+                    }
                 }
-            }
 
-            if (c == goal.charAt(0)) {
-                pairs.add(new MatchEntry(index, c));
-            }
+                if (c == goal.charAt(0)) {
+                    pairs.add(new MatchEntry(index));
+                }
 
-            index++;
+                index++;
+            }
+            System.out.println(ans);
         }
-
-        System.out.println(ans);
     }
 
     /**
-     * Хранит индекс начала предполагаемого совпадения и накапливает уже найденные символы.
+     * Хранит индекс начала предполагаемого совпадения и текущую позицию в искомой строке.
      */
     private static final class MatchEntry {
         private final int startIndex;
-        private final StringBuilder buffer;
+        private int currentPosition;
 
-        private MatchEntry(int startIndex, char firstChar) {
+        private MatchEntry(int startIndex) {
             this.startIndex = startIndex;
-            this.buffer = new StringBuilder().append(firstChar);
+            this.currentPosition = 1;
         }
 
         private int getStartIndex() {
             return startIndex;
         }
 
-        private StringBuilder getBuffer() {
-            return buffer;
+        private int getCurrentPosition() {
+            return currentPosition;
+        }
+
+        private void incrementPosition() {
+            currentPosition++;
         }
     }
 }
