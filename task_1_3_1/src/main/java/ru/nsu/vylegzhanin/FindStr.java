@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,62 +22,54 @@ public class FindStr {
      * @throws IllegalArgumentException если {@code goal} пустая строка
      */
     public static void find(String fileName, String goal) throws IOException {
+        if (goal.isEmpty()) {
+            throw new IllegalArgumentException("goal must not be empty");
+        }
+
+        char[] pattern = goal.toCharArray();
+        int[] fallback = buildFallback(pattern);
+
         try (Reader reader = Files.newBufferedReader(Path.of(fileName), StandardCharsets.UTF_8)) {
-            int index = 0;
-            List<Integer> ans = new ArrayList<>();
-            List<MatchEntry> pairs = new ArrayList<>();
+            List<Long> matches = new ArrayList<>();
+            int matched = 0;
+            long index = 0L;
             int rawChar;
 
             while ((rawChar = reader.read()) != -1) {
-                char c = (char) rawChar;
-                Iterator<MatchEntry> iterator = pairs.iterator();
-                while (iterator.hasNext()) {
-                    MatchEntry pair = iterator.next();
-                    int pos = pair.getCurrentPosition();
+                char next = (char) rawChar;
 
-                    if (c == goal.charAt(pos)) {
-                        pair.incrementPosition();
-                        if (pair.getCurrentPosition() == goal.length()) {
-                            ans.add(pair.getStartIndex());
-                            iterator.remove();
-                        }
-                    } else {
-                        iterator.remove();
-                    }
+                while (matched > 0 && next != pattern[matched]) {
+                    matched = fallback[matched - 1];
                 }
 
-                if (c == goal.charAt(0)) {
-                    pairs.add(new MatchEntry(index));
+                if (next == pattern[matched]) {
+                    matched++;
+                }
+
+                if (matched == pattern.length) {
+                    matches.add(index - pattern.length + 1);
+                    matched = fallback[matched - 1];
                 }
 
                 index++;
             }
-            System.out.println(ans);
+
+            System.out.println(matches);
         }
     }
 
-    /**
-     * Хранит индекс начала предполагаемого совпадения и текущую позицию в искомой строке.
-     */
-    private static final class MatchEntry {
-        private final int startIndex;
-        private int currentPosition;
-
-        private MatchEntry(int startIndex) {
-            this.startIndex = startIndex;
-            this.currentPosition = 1;
+    private static int[] buildFallback(char[] pattern) {
+        int[] fallback = new int[pattern.length];
+        int matched = 0;
+        for (int i = 1; i < pattern.length; i++) {
+            while (matched > 0 && pattern[i] != pattern[matched]) {
+                matched = fallback[matched - 1];
+            }
+            if (pattern[i] == pattern[matched]) {
+                matched++;
+            }
+            fallback[i] = matched;
         }
-
-        private int getStartIndex() {
-            return startIndex;
-        }
-
-        private int getCurrentPosition() {
-            return currentPosition;
-        }
-
-        private void incrementPosition() {
-            currentPosition++;
-        }
+        return fallback;
     }
 }
