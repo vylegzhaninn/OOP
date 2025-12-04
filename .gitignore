@@ -1,9 +1,9 @@
 *
-!task_1_3_1/
-!task_1_3_1/**
-task_1_3_1/bin/
-task_1_3_1/bin/**
-task_1_3_1/build/
-task_1_3_1/build/**
-task_1_3_1/.gradle/
-task_1_3_1/.gradle/**
+!task_1_5_1/
+!task_1_5_1/**
+task_1_5_1/bin/
+task_1_5_1/bin/**
+task_1_5_1/build/
+task_1_5_1/build/**
+task_1_5_1/.gradle/
+task_1_5_1/.gradle/**

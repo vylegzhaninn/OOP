@@ -1,9 +1,10 @@
 package ru.nsu.vylegzhanin.elements.tasksformatting;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import ru.nsu.vylegzhanin.elements.Element;
-import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TaskListTest {
     

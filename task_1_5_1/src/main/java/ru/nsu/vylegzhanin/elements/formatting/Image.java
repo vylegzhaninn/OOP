@@ -1,9 +1,11 @@
 package ru.nsu.vylegzhanin.elements.formatting;
 
 import java.util.Objects;
-
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents an image element in Markdown.
+ */
 public class Image extends Element {
     private final String url;
 
@@ -19,8 +21,12 @@ public class Image extends Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Image)) return false;
-        if (!super.equals(obj)) return false;
+        if (!(obj instanceof Image)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
         Image image = (Image) obj;
         return Objects.equals(url, image.url);
     }

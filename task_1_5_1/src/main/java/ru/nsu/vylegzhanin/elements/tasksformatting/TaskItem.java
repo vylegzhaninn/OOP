@@ -1,9 +1,11 @@
 package ru.nsu.vylegzhanin.elements.tasksformatting;
 
 import java.util.Objects;
-
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents a single task item in a task list.
+ */
 public class TaskItem extends Element {
 
     private final boolean done;
@@ -20,8 +22,12 @@ public class TaskItem extends Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof TaskItem)) return false;
-        if (!super.equals(obj)) return false;
+        if (!(obj instanceof TaskItem)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
         TaskItem taskItem = (TaskItem) obj;
         return done == taskItem.done;
     }

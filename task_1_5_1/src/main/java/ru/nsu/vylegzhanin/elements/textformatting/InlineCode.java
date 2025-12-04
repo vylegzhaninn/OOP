@@ -2,6 +2,9 @@ package ru.nsu.vylegzhanin.elements.textformatting;
 
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents inline code element in Markdown.
+ */
 public class InlineCode extends Element {
 
     public InlineCode(Element text) {

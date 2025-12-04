@@ -2,9 +2,11 @@ package ru.nsu.vylegzhanin.elements.tasksformatting;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents a task list in Markdown.
+ */
 public class TaskList extends Element {
 
     private final ArrayList<TaskItem> items;
@@ -25,7 +27,9 @@ public class TaskList extends Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof TaskList)) return false;
+        if (!(obj instanceof TaskList)) {
+            return false;
+        }
         TaskList taskList = (TaskList) obj;
         return Objects.equals(items, taskList.items);
     }

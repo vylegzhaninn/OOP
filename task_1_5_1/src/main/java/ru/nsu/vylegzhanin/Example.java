@@ -2,15 +2,20 @@ package ru.nsu.vylegzhanin;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import ru.nsu.vylegzhanin.elements.Element;
 import ru.nsu.vylegzhanin.elements.tasksformatting.TaskItem;
 
+/**
+ * Example class demonstrating the usage of MarkdownBuilder.
+ */
 public class Example {
+    /**
+     * Main method to demonstrate Markdown generation.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         //маркдаун
-        MarkdownBuilder builder = new MarkdownBuilder();
-        
         ArrayList<TaskItem> tasks = new ArrayList<>();
         tasks.add(new TaskItem(new Element("Первая задача"), true));
         tasks.add(new TaskItem(new Element("Вторая задача"), false));
@@ -21,7 +26,7 @@ public class Example {
         listItems.add(new Element("Элемент списка 2"));
         listItems.add(new Element("Элемент списка 3"));
         
-        List<List<Element>> tableData = new ArrayList<>();
+        final List<List<Element>> tableData = new ArrayList<>();
         
         List<Element> headers = new ArrayList<>();
         headers.add(new Element("Название"));
@@ -41,6 +46,7 @@ public class Example {
         row2.add(new Element("75"));
         tableData.add(row2);
         
+        MarkdownBuilder builder = new MarkdownBuilder();
         String markdown = builder.tasklist(tasks)
             .list(listItems)
             .table(tableData)
@@ -53,7 +59,9 @@ public class Example {
         Element e2 = new Element("Текст");
         Element e3 = new Element("Другой текст");
         
-        System.out.println("Element(\"Текст\").equals(Element(\"Текст\")): " + e1.equals(e2));
-        System.out.println("Element(\"Текст\").equals(Element(\"Другой текст\")): " + e1.equals(e3));
+        System.out.println("Element(\"Текст\").equals(Element(\"Текст\")): " 
+            + e1.equals(e2));
+        System.out.println("Element(\"Текст\").equals(Element(\"Другой текст\")): " 
+            + e1.equals(e3));
     }
 }

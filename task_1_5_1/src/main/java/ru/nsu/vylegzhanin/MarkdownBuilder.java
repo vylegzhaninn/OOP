@@ -2,7 +2,6 @@ package ru.nsu.vylegzhanin;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import ru.nsu.vylegzhanin.elements.Element;
 import ru.nsu.vylegzhanin.elements.formatting.Blockquotes;
 import ru.nsu.vylegzhanin.elements.formatting.Header;

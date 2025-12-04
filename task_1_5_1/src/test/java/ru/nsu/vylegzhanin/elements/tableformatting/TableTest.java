@@ -1,10 +1,12 @@
 package ru.nsu.vylegzhanin.elements.tableformatting;
 
-import org.junit.jupiter.api.Test;
-import ru.nsu.vylegzhanin.elements.Element;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import ru.nsu.vylegzhanin.elements.Element;
 
 class TableTest {
     

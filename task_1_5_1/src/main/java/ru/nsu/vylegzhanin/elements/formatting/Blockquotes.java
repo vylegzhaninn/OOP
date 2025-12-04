@@ -1,10 +1,11 @@
-
 package ru.nsu.vylegzhanin.elements.formatting;
 
 import java.util.Objects;
-
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents a blockquote element in Markdown.
+ */
 public class Blockquotes extends Element {
     private final int level;
 
@@ -20,8 +21,12 @@ public class Blockquotes extends Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Blockquotes)) return false;
-        if (!super.equals(obj)) return false;
+        if (!(obj instanceof Blockquotes)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
         Blockquotes header = (Blockquotes) obj;
         return level == header.level;
     }

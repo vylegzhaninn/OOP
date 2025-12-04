@@ -2,9 +2,11 @@ package ru.nsu.vylegzhanin.elements.textformatting;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
 import ru.nsu.vylegzhanin.elements.Element;
 
+/**
+ * Represents an unordered list in Markdown.
+ */
 public class Lists extends Element {
     private final ArrayList<Element> items;
 
@@ -13,6 +15,11 @@ public class Lists extends Element {
         this.items = items;
     }
 
+    /**
+     * Converts the list to Markdown format.
+     *
+     * @return Markdown representation of the list
+     */
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder();
         for (Element item : items) {
@@ -23,7 +30,9 @@ public class Lists extends Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Lists)) return false;
+        if (!(obj instanceof Lists)) {
+            return false;
+        }
         Lists lists = (Lists) obj;
         return Objects.equals(items, lists.items);
     }

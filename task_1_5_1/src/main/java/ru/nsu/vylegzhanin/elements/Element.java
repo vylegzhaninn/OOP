@@ -30,7 +30,9 @@ public class Element {
     
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Element)) return false;
+        if (!(obj instanceof Element)) {
+            return false;
+        }
         Element element = (Element) obj;
         return Objects.equals(text, element.text);
     }
