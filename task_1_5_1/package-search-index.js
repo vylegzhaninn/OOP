@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.vylegzhanin"},{"l":"ru.nsu.vylegzhanin.elements"},{"l":"ru.nsu.vylegzhanin.elements.formatting"},{"l":"ru.nsu.vylegzhanin.elements.tableformatting"},{"l":"ru.nsu.vylegzhanin.elements.tasksformatting"},{"l":"ru.nsu.vylegzhanin.elements.textformatting"}];updateSearchResults();
