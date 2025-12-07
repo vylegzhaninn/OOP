@@ -102,7 +102,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(ru.nsu.vylegzhanin.elements.Element,int)" class="member-name-link">Header</a><wbr>(<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&nbsp;text,
  int&nbsp;level)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a header element.</div>
+</div>
 </div>
 </section>
 </li>
@@ -150,6 +152,14 @@ loadScripts(document, 'script');</script>
 <h3>Header</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Header</span><wbr><span class="parameters">(<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&nbsp;text,
  int&nbsp;level)</span></div>
+<div class="block">Creates a header element.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>text</code> - the header content</dd>
+<dd><code>level</code> - the header level in [1,6]</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>level</code> is outside [1,6]</dd>
+</dl>
 </section>
 </li>
 </ul>
