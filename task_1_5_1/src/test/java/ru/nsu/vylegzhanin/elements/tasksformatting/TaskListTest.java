@@ -4,15 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
-import ru.nsu.vylegzhanin.elements.Element;
+import ru.nsu.vylegzhanin.elements.Text;
 
 class TaskListTest {
     
     @Test
     void testToMarkdown() {
         ArrayList<TaskItem> tasks = new ArrayList<>();
-        tasks.add(new TaskItem(new Element("Task 1"), true));
-        tasks.add(new TaskItem(new Element("Task 2"), false));
+        tasks.add(new TaskItem(new Text("Task 1"), true));
+        tasks.add(new TaskItem(new Text("Task 2"), false));
         
         TaskList taskList = new TaskList(tasks);
         String expected = "- [x] Task 1\n- [ ] Task 2\n";
@@ -22,10 +22,10 @@ class TaskListTest {
     @Test
     void testEquals_SameTasks() {
         ArrayList<TaskItem> tasks1 = new ArrayList<>();
-        tasks1.add(new TaskItem(new Element("Task"), true));
+        tasks1.add(new TaskItem(new Text("Task"), true));
         
         ArrayList<TaskItem> tasks2 = new ArrayList<>();
-        tasks2.add(new TaskItem(new Element("Task"), true));
+        tasks2.add(new TaskItem(new Text("Task"), true));
         
         TaskList tl1 = new TaskList(tasks1);
         TaskList tl2 = new TaskList(tasks2);

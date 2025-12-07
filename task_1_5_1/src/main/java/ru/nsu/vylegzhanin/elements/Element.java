@@ -6,7 +6,7 @@ import java.util.Objects;
  * Base class for all Markdown elements.
  * Contains text content and provides serialization to Markdown format.
  */
-public class Element {
+public abstract class Element {
     /** The text content of this element. */
     protected final String text;
     
