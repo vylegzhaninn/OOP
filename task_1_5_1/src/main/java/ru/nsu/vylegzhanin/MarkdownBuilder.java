@@ -29,8 +29,8 @@ public class MarkdownBuilder {
      * Adds a custom element to the document.
      *
      * @param element the element to add
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder addelement(Element element) {
         elements.add(Objects.requireNonNull(element));
@@ -42,9 +42,9 @@ public class MarkdownBuilder {
      *
      * @param element the content to quote
      * @param level the nesting level of the blockquote
+    * @return this builder for method chaining
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code level} is outside [1,6]
-     * @return this builder for method chaining
      */
     public MarkdownBuilder blockquotes(Element element, int level) {
         elements.add(new Blockquotes(Objects.requireNonNull(element), level));
@@ -56,9 +56,9 @@ public class MarkdownBuilder {
      *
      * @param element the header text
      * @param level the header level (1-6)
+    * @return this builder for method chaining
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code level} is outside [1,6]
-     * @return this builder for method chaining
      */
     public MarkdownBuilder header(Element element, int level) {
         elements.add(new Header(Objects.requireNonNull(element), level));
@@ -70,8 +70,8 @@ public class MarkdownBuilder {
      *
      * @param element the alt text for the image
      * @param url the image URL
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder image(Element element, String url) {
         elements.add(new Image(Objects.requireNonNull(element), url));
@@ -82,8 +82,8 @@ public class MarkdownBuilder {
      * Adds a link element.
      *
      * @param element the link text
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder link(Element element) {
         elements.add(new Link(Objects.requireNonNull(element)));
@@ -94,8 +94,8 @@ public class MarkdownBuilder {
      * Adds a table element.
      *
      * @param element the table rows (first row is header)
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder table(List<List<Element>> element) {
         elements.add(new Table(Objects.requireNonNull(element)));
@@ -106,8 +106,8 @@ public class MarkdownBuilder {
      * Adds a task list element.
      *
      * @param items the list of task items
-     * @throws NullPointerException if {@code items} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code items} is null
      */
     public MarkdownBuilder tasklist(ArrayList<TaskItem> items) {
         elements.add(new TaskList(Objects.requireNonNull(items)));
@@ -118,8 +118,8 @@ public class MarkdownBuilder {
      * Adds a bold text element.
      *
      * @param element the text to make bold
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder bold(Element element) {
         elements.add(new Bold(Objects.requireNonNull(element)));
@@ -130,8 +130,8 @@ public class MarkdownBuilder {
      * Adds a code block element.
      *
      * @param element the code content
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder codeblock(Element element) {
         elements.add(new CodeBlock(Objects.requireNonNull(element)));
@@ -142,8 +142,8 @@ public class MarkdownBuilder {
      * Adds an inline code element.
      *
      * @param element the code content
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder inlinecode(Element element) {
         elements.add(new InlineCode(Objects.requireNonNull(element)));
@@ -154,8 +154,8 @@ public class MarkdownBuilder {
      * Adds an italic text element.
      *
      * @param element the text to make italic
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder italic(Element element) {
         elements.add(new Italic(Objects.requireNonNull(element)));
@@ -166,8 +166,8 @@ public class MarkdownBuilder {
      * Adds a strikethrough text element.
      *
      * @param element the text to strike through
-     * @throws NullPointerException if {@code element} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder strike(Element element) {
         elements.add(new Strike(Objects.requireNonNull(element)));
@@ -178,8 +178,8 @@ public class MarkdownBuilder {
      * Adds an unordered list element.
      *
      * @param items the list items
-     * @throws NullPointerException if {@code items} is null
      * @return this builder for method chaining
+    * @throws NullPointerException if {@code items} is null
      */
     public MarkdownBuilder list(ArrayList<Element> items) {
         elements.add(new Lists(Objects.requireNonNull(items)));

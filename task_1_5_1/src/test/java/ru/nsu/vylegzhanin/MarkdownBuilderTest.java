@@ -28,8 +28,8 @@ class MarkdownBuilderTest {
     @Test
     void testBuild_MultipleElements() {
         MarkdownBuilder builder = new MarkdownBuilder();
-         builder.addelement(new Text("First"))
-             .addelement(new Text("Second"));
+        builder.addelement(new Text("First"))
+            .addelement(new Text("Second"));
         assertEquals("First\n\nSecond\n\n", builder.build());
     }
     
@@ -56,8 +56,6 @@ class MarkdownBuilderTest {
 
     @Test
     void testBuild_WithVariousElements() {
-        MarkdownBuilder builder = new MarkdownBuilder();
-
         ArrayList<Element> listItems = new ArrayList<>();
         listItems.add(new Text("one"));
         listItems.add(new Text("two"));
@@ -77,6 +75,7 @@ class MarkdownBuilderTest {
         dataRow.add(new Text("B"));
         table.add(dataRow);
 
+        MarkdownBuilder builder = new MarkdownBuilder();
         String markdown = builder
             .blockquotes(new Text("Quote"), 2)
             .link(new Text("https://example.com"))

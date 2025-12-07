@@ -18,7 +18,7 @@ public class Blockquotes extends Element {
      */
     public Blockquotes(Element text, int level) {
         super(text.toMarkdown());
-        if (level < 1 || level > 6){
+        if (level < 1 || level > 6) {
             throw new IllegalArgumentException("level must be in [1,6]");
         }
         this.level = level;

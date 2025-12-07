@@ -23,7 +23,8 @@ class BlockquotesTest {
 
     @Test
     void testToMarkdown_InvalidLevelThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new Blockquotes(new Text("No prefix"), 0));
+        assertThrows(IllegalArgumentException.class,
+            () -> new Blockquotes(new Text("No prefix"), 0));
     }
     
     @Test
