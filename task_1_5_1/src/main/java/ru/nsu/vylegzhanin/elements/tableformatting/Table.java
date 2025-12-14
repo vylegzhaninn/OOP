@@ -2,7 +2,6 @@ package ru.nsu.vylegzhanin.elements.tableformatting;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import ru.nsu.vylegzhanin.elements.Element;
 
 /**
@@ -20,24 +19,39 @@ public class Table extends Element {
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("| ")
-            .append(rows.get(0).stream()
-                .map(Element::toMarkdown)
-                .collect(Collectors.joining(" | ")))
-            .append(" |\n");
+        if (rows == null || rows.isEmpty()) {
+            return "";
+        }
 
-        sb.append("| ")
-            .append(rows.get(0).stream()
-                .map(e -> "---")
-                .collect(Collectors.joining(" | ")))
-            .append(" |\n");
+        List<Element> header = rows.get(0);
+        sb.append("| ");
+        for (int j = 0; j < header.size(); j++) {
+            if (j > 0) {
+                sb.append(" | ");
+            }
+            sb.append(header.get(j).toMarkdown());
+        }
+        sb.append(" |\n");
+
+        sb.append("| ");
+        for (int j = 0; j < header.size(); j++) {
+            if (j > 0) {
+                sb.append(" | ");
+            }
+            sb.append("---");
+        }
+        sb.append(" |\n");
 
         for (int i = 1; i < rows.size(); i++) {
-            sb.append("| ")
-                .append(rows.get(i).stream()
-                    .map(Element::toMarkdown)
-                    .collect(Collectors.joining(" | ")))
-                .append(" |\n");
+            List<Element> row = rows.get(i);
+            sb.append("| ");
+            for (int j = 0; j < row.size(); j++) {
+                if (j > 0) {
+                    sb.append(" | ");
+                }
+                sb.append(row.get(j).toMarkdown());
+            }
+            sb.append(" |\n");
         }
 
         return sb.toString();
