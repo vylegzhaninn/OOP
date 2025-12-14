@@ -175,6 +175,18 @@ loadScripts(document, 'script');</script>
 <div class="block">Adds a table element.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MarkdownBuilder.html" title="class in ru.nsu.vylegzhanin">MarkdownBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#table(java.util.List,java.util.List)" class="member-name-link">table</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;element,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/tableformatting/Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>&gt;&nbsp;alignments)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a table element with column alignments.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MarkdownBuilder.html" title="class in ru.nsu.vylegzhanin">MarkdownBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#table(java.util.List,ru.nsu.vylegzhanin.elements.tableformatting.Table.Alignment...)" class="member-name-link">table</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;element,
+ <a href="elements/tableformatting/Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>...&nbsp;alignments)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a table element with column alignments specified as varargs.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MarkdownBuilder.html" title="class in ru.nsu.vylegzhanin">MarkdownBuilder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tasklist(java.util.ArrayList)" class="member-name-link">tasklist</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="elements/tasksformatting/TaskItem.html" title="class in ru.nsu.vylegzhanin.elements.tasksformatting">TaskItem</a>&gt;&nbsp;items)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a task list element.</div>
@@ -305,6 +317,36 @@ loadScripts(document, 'script');</script>
 <dd>this builder for method chaining</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>element</code> is null</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="table(java.util.List,java.util.List)">
+<h3>table</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MarkdownBuilder.html" title="class in ru.nsu.vylegzhanin">MarkdownBuilder</a></span>&nbsp;<span class="element-name">table</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;element,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/tableformatting/Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>&gt;&nbsp;alignments)</span></div>
+<div class="block">Adds a table element with column alignments.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>element</code> - the table rows (first row is header)</dd>
+<dd><code>alignments</code> - per-column alignments (may be null or shorter than columns)</dd>
+<dt>Returns:</dt>
+<dd>this builder for method chaining</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="table(java.util.List,ru.nsu.vylegzhanin.elements.tableformatting.Table.Alignment...)">
+<h3>table</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MarkdownBuilder.html" title="class in ru.nsu.vylegzhanin">MarkdownBuilder</a></span>&nbsp;<span class="element-name">table</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="elements/Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;element,
+ <a href="elements/tableformatting/Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>...&nbsp;alignments)</span></div>
+<div class="block">Adds a table element with column alignments specified as varargs.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>element</code> - the table rows (first row is header)</dd>
+<dd><code>alignments</code> - per-column alignments as varargs</dd>
+<dt>Returns:</dt>
+<dd>this builder for method chaining</dd>
 </dl>
 </section>
 </li>

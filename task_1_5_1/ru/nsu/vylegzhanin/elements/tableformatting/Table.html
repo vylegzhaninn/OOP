@@ -43,7 +43,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -83,6 +83,23 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="Table.Alignment.html" class="type-name-link" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Column alignment options for a table.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- =========== FIELD SUMMARY =========== -->
 <li>
 <section class="field-summary" id="field-summary">
@@ -102,6 +119,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.List)" class="member-name-link">Table</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;rows)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.util.List,java.util.List)" class="member-name-link">Table</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;rows,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>&gt;&nbsp;alignments)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a table with optional column alignments.</div>
+</div>
 </div>
 </section>
 </li>
@@ -148,6 +170,20 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.util.List)">
 <h3>Table</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Table</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;rows)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.util.List,java.util.List)">
+<h3>Table</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Table</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Element.html" title="class in ru.nsu.vylegzhanin.elements">Element</a>&gt;&gt;&nbsp;rows,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Table.Alignment.html" title="enum class in ru.nsu.vylegzhanin.elements.tableformatting">Table.Alignment</a>&gt;&nbsp;alignments)</span></div>
+<div class="block">Creates a table with optional column alignments. If <code>alignments</code> is null
+ or shorter than the number of header columns, missing alignments default to LEFT.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rows</code> - table rows (first row is header)</dd>
+<dd><code>alignments</code> - optional per-column alignments</dd>
+</dl>
 </section>
 </li>
 </ul>
