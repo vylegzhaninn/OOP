@@ -2,6 +2,7 @@ package ru.nsu.vylegzhanin;
 
 import java.util.ArrayList;
 import java.util.List;
+import ru.nsu.vylegzhanin.elements.tableformatting.Table;
 import ru.nsu.vylegzhanin.elements.Element;
 import ru.nsu.vylegzhanin.elements.Text;
 import ru.nsu.vylegzhanin.elements.tasksformatting.TaskItem;
@@ -50,7 +51,7 @@ public class Example {
         MarkdownBuilder builder = new MarkdownBuilder();
         String markdown = builder.tasklist(tasks)
             .list(listItems)
-            .table(tableData)
+            .table(tableData, Table.Alignment.LEFT, Table.Alignment.CENTER, Table.Alignment.RIGHT)
             .build();
         
         System.out.println(markdown);

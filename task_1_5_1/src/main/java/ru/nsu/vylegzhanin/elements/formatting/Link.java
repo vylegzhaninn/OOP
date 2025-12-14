@@ -1,5 +1,6 @@
 package ru.nsu.vylegzhanin.elements.formatting;
 
+import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
 
 /**
@@ -7,9 +8,9 @@ import ru.nsu.vylegzhanin.elements.Element;
  */
 public class Link extends Element {
     public Link(Element text) {
-        super(text.toMarkdown());
+        super(Objects.requireNonNull(text).toMarkdown());
     }
-
+    
     @Override
     public String toMarkdown() {
         return "<" + text + ">";

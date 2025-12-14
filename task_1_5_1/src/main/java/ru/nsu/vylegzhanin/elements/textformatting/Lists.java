@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.textformatting;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
@@ -12,7 +14,7 @@ public class Lists extends Element {
 
     public Lists(ArrayList<Element> items) {
         super(null);
-        this.items = items;
+        this.items = requireNonNull(items);
     }
 
     /**

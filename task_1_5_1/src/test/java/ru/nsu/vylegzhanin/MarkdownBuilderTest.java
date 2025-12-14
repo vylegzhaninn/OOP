@@ -100,4 +100,26 @@ class MarkdownBuilderTest {
 
         assertEquals(expected, markdown);
     }
+
+    @Test
+    void testTableWithAlignments() {
+        List<List<Element>> table = new ArrayList<>();
+        List<Element> header = new ArrayList<>();
+        header.add(new Text("Col1"));
+        header.add(new Text("Col2"));
+        table.add(header);
+
+        List<Element> row = new ArrayList<>();
+        row.add(new Text("L"));
+        row.add(new Text("R"));
+        table.add(row);
+
+        MarkdownBuilder builder = new MarkdownBuilder();
+        String md = builder.table(table, ru.nsu.vylegzhanin.elements.tableformatting.Table.Alignment.CENTER,
+                ru.nsu.vylegzhanin.elements.tableformatting.Table.Alignment.RIGHT)
+            .build();
+
+        assertTrue(md.contains("| :---: | ---: |"));
+        assertTrue(md.contains("| L | R |"));
+    }
 }

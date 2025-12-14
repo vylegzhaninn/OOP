@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.tasksformatting;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
@@ -13,7 +15,7 @@ public class TaskList extends Element {
 
     public TaskList(ArrayList<TaskItem> items) {
         super(null);
-        this.items = items;
+        this.items = requireNonNull(items);
     }
 
     @Override

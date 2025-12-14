@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.textformatting;
 
+import static java.util.Objects.requireNonNull;
+
 import ru.nsu.vylegzhanin.elements.Element;
 
 /**
@@ -7,9 +9,9 @@ import ru.nsu.vylegzhanin.elements.Element;
  */
 public class Strike extends Element {
     public Strike(Element text) {
-        super(text.toMarkdown());
+        super(requireNonNull(text).toMarkdown());
     }
-
+    
     @Override
     public String toMarkdown() {
         return "~~" + text + "~~";

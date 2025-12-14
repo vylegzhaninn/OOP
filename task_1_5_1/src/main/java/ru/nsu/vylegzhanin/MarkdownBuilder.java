@@ -2,7 +2,6 @@ package ru.nsu.vylegzhanin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
 import ru.nsu.vylegzhanin.elements.formatting.Blockquotes;
 import ru.nsu.vylegzhanin.elements.formatting.Header;
@@ -33,7 +32,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder addelement(Element element) {
-        elements.add(Objects.requireNonNull(element));
+        elements.add(element);
         return this;
     }
 
@@ -47,7 +46,7 @@ public class MarkdownBuilder {
      * @throws IllegalArgumentException if {@code level} is outside [1,6]
      */
     public MarkdownBuilder blockquotes(Element element, int level) {
-        elements.add(new Blockquotes(Objects.requireNonNull(element), level));
+        elements.add(new Blockquotes(element, level));
         return this;
     }
 
@@ -61,7 +60,7 @@ public class MarkdownBuilder {
      * @throws IllegalArgumentException if {@code level} is outside [1,6]
      */
     public MarkdownBuilder header(Element element, int level) {
-        elements.add(new Header(Objects.requireNonNull(element), level));
+        elements.add(new Header(element, level));
         return this;
     }
 
@@ -74,7 +73,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder image(Element element, String url) {
-        elements.add(new Image(Objects.requireNonNull(element), url));
+        elements.add(new Image(element, url));
         return this;
     }
 
@@ -86,7 +85,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder link(Element element) {
-        elements.add(new Link(Objects.requireNonNull(element)));
+        elements.add(new Link(element));
         return this;
     }
 
@@ -98,7 +97,38 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder table(List<List<Element>> element) {
-        elements.add(new Table(Objects.requireNonNull(element)));
+        elements.add(new Table(element));
+        return this;
+    }
+
+    /**
+     * Adds a table element with column alignments.
+     *
+     * @param element the table rows (first row is header)
+     * @param alignments per-column alignments (may be null or shorter than columns)
+     * @return this builder for method chaining
+     */
+    public MarkdownBuilder table(List<List<Element>> element, List<Table.Alignment> alignments) {
+        elements.add(new Table(element, alignments));
+        return this;
+    }
+
+    /**
+     * Adds a table element with column alignments specified as varargs.
+     *
+     * @param element the table rows (first row is header)
+     * @param alignments per-column alignments as varargs
+     * @return this builder for method chaining
+     */
+    public MarkdownBuilder table(List<List<Element>> element, Table.Alignment... alignments) {
+        List<Table.Alignment> list = null;
+        if (alignments != null) {
+            list = new ArrayList<>();
+            for (Table.Alignment a : alignments) {
+                list.add(a);
+            }
+        }
+        elements.add(new Table(element, list));
         return this;
     }
 
@@ -110,7 +140,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code items} is null
      */
     public MarkdownBuilder tasklist(ArrayList<TaskItem> items) {
-        elements.add(new TaskList(Objects.requireNonNull(items)));
+        elements.add(new TaskList(items));
         return this;
     }
 
@@ -122,7 +152,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder bold(Element element) {
-        elements.add(new Bold(Objects.requireNonNull(element)));
+        elements.add(new Bold(element));
         return this;
     }
 
@@ -134,7 +164,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder codeblock(Element element) {
-        elements.add(new CodeBlock(Objects.requireNonNull(element)));
+        elements.add(new CodeBlock(element));
         return this;
     }
 
@@ -146,7 +176,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder inlinecode(Element element) {
-        elements.add(new InlineCode(Objects.requireNonNull(element)));
+        elements.add(new InlineCode(element));
         return this;
     }
 
@@ -158,7 +188,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder italic(Element element) {
-        elements.add(new Italic(Objects.requireNonNull(element)));
+        elements.add(new Italic(element));
         return this;
     }
 
@@ -170,7 +200,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code element} is null
      */
     public MarkdownBuilder strike(Element element) {
-        elements.add(new Strike(Objects.requireNonNull(element)));
+        elements.add(new Strike(element));
         return this;
     }
 
@@ -182,7 +212,7 @@ public class MarkdownBuilder {
     * @throws NullPointerException if {@code items} is null
      */
     public MarkdownBuilder list(ArrayList<Element> items) {
-        elements.add(new Lists(Objects.requireNonNull(items)));
+        elements.add(new Lists(items));
         return this;
     }
 

@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.tasksformatting;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
 
@@ -11,7 +13,7 @@ public class TaskItem extends Element {
     private final boolean done;
 
     public TaskItem(Element text, boolean done) {
-        super(text.toMarkdown());
+        super(requireNonNull(text).toMarkdown());
         this.done = done;
     }
 

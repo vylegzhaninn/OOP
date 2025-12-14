@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.formatting;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
 
@@ -17,7 +19,7 @@ public class Blockquotes extends Element {
      * @throws IllegalArgumentException if {@code level} is outside [1,6]
      */
     public Blockquotes(Element text, int level) {
-        super(text.toMarkdown());
+        super(requireNonNull(text).toMarkdown());
         if (level < 1 || level > 6) {
             throw new IllegalArgumentException("level must be in [1,6]");
         }

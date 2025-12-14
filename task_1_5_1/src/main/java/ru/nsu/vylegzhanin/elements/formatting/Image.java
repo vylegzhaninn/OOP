@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.formatting;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Objects;
 import ru.nsu.vylegzhanin.elements.Element;
 
@@ -10,7 +12,7 @@ public class Image extends Element {
     private final String url;
 
     public Image(Element text, String url) {
-        super(text.toMarkdown());
+        super(requireNonNull(text).toMarkdown());
         this.url = url;
     }
 

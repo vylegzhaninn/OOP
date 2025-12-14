@@ -1,5 +1,7 @@
 package ru.nsu.vylegzhanin.elements.textformatting;
 
+import static java.util.Objects.requireNonNull;
+
 import ru.nsu.vylegzhanin.elements.Element;
 
 /**
@@ -7,7 +9,7 @@ import ru.nsu.vylegzhanin.elements.Element;
  */
 public class Bold extends Element {
     public Bold(Element text) {
-        super(text.toMarkdown());
+        super(requireNonNull(text).toMarkdown());
     }
 
     @Override
