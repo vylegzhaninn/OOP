@@ -25,7 +25,7 @@ public class Main {
         System.out.println("3) параллельное решение с parallelStream()");
         time = System.nanoTime();
 
-        System.out.println("Ответ: " + SequentialSol.sequentialSolution(arr));
+        System.out.println("Ответ: " + StreamSol.streamSolution(arr));
 
         etime = System.nanoTime();
         long timeStream = etime - time;
