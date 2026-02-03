@@ -1,7 +1,15 @@
 package vylegzhanin;
 
+/**
+ * Демонстрационный файл
+ */
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+
+    /**
+     * метод
+     * @throws InterruptedException прикольно
+     */
+    static void main() throws InterruptedException {
         var arr = new int[] {6, 8, 7, 13, 5, 9, 4};
 
         System.out.println("1) Последовательное решение");
@@ -16,7 +24,7 @@ public class Main {
         System.out.println("2) параллельное решение");
         time = System.nanoTime();
 
-        System.out.println("Ответ: " + ParallelSol.parallelSolution(arr, 32));
+        System.out.println("Ответ: " + ParallelSol.parallelSolution(arr, 7));
 
         etime = System.nanoTime();
         long timeParallel = etime - time;

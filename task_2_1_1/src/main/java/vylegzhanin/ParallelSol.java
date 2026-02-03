@@ -1,6 +1,16 @@
 package vylegzhanin;
 
+/**
+ * Класс для паралельного решения с заданым кол-вом потоков
+ */
 public class ParallelSol {
+
+    /**
+     * Метод реализующий паралельное решение
+     * @param arr список чисел
+     * @param k число потоков
+     * @return true если список содержит простое число
+     */
     public static boolean parallelSolution(int[] arr, int k) throws InterruptedException {
         int n = arr.length;
 
@@ -33,7 +43,9 @@ public class ParallelSol {
         }
 
         for(boolean el : threadsBool){
-            if(el) return true;
+            if(el){
+                return true;
+            }
         }
 
         return false;
