@@ -1,7 +1,7 @@
 package vylegzhanin;
 
 public class Main {
-    static void main() throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         var arr = new int[] {6, 8, 7, 13, 5, 9, 4};
 
         System.out.println("1) Последовательное решение");
