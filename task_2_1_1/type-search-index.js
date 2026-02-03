@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"vylegzhanin","l":"Main"},{"p":"vylegzhanin","l":"ParallelSol"},{"p":"vylegzhanin","l":"Prime"},{"p":"vylegzhanin","l":"SequentialSol"},{"p":"vylegzhanin","l":"StreamSol"}];updateSearchResults();
