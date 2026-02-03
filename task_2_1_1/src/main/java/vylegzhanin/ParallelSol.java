@@ -1,12 +1,13 @@
 package vylegzhanin;
 
 /**
- * Класс для паралельного решения с заданым кол-вом потоков
+ * Класс для паралельного решения с заданым кол-вом потоков.
  */
 public class ParallelSol {
 
     /**
-     * Метод реализующий паралельное решение
+     * Метод, реализующий паралельное решение.
+     *
      * @param arr список чисел
      * @param k число потоков
      * @return true если список содержит простое число
@@ -14,7 +15,9 @@ public class ParallelSol {
     public static boolean parallelSolution(int[] arr, int k) throws InterruptedException {
         int n = arr.length;
 
-        if (n == 0) return false;
+        if (n == 0) {
+            return false;
+        }
 
         int numThreads = Math.min(k, n);
         int chunkSize = n / numThreads;
@@ -29,7 +32,7 @@ public class ParallelSol {
             int finalI = i;
             threads[i] = new Thread(() -> {
                 for (int j = start; j < end; j++) {
-                    if (Prime.isPrime(arr[j])){
+                    if (Prime.isPrime(arr[j])) {
                         threadsBool[finalI] = true;
                         break;
                     }
@@ -42,8 +45,8 @@ public class ParallelSol {
             t.join();
         }
 
-        for(boolean el : threadsBool){
-            if(el){
+        for (boolean el : threadsBool) {
+            if (el) {
                 return true;
             }
         }

@@ -1,13 +1,15 @@
 package vylegzhanin;
 
 /**
- * Демонстрационный файл
+ * Демонстрационный файл.
  */
 public class Main {
 
     /**
-     * метод
-     * @throws InterruptedException прикольно
+     * Демонстрационный метод: запускает три варианта поиска простых чисел в массиве
+     * и печатает ответ и время выполнения каждого варианта.
+     *
+     * @throws InterruptedException если текущий поток был прерван при ожидании завершения рабочих потоков
      */
     static void main() throws InterruptedException {
         var arr = new int[] {6, 8, 7, 13, 5, 9, 4};

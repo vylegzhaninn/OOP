@@ -11,6 +11,7 @@ public class StreamSolTest {
 
     /**
      * Тест с массивом, содержащим простое число.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
@@ -21,6 +22,7 @@ public class StreamSolTest {
 
     /**
      * Тест с массивом без простых чисел.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
@@ -31,6 +33,7 @@ public class StreamSolTest {
 
     /**
      * Тест с пустым массивом.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
@@ -41,6 +44,7 @@ public class StreamSolTest {
 
     /**
      * Тест, где простое число находится в конце массива.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
@@ -51,6 +55,7 @@ public class StreamSolTest {
 
     /**
      * Тест с отрицательными числами и нулем.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
@@ -61,6 +66,7 @@ public class StreamSolTest {
 
     /**
      * Нагрузочный тест с большим массивом.
+     *
      * @throws InterruptedException если поток был прерван
      */
     @Test
