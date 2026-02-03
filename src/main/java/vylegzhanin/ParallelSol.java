@@ -3,11 +3,14 @@ package vylegzhanin;
 public class ParallelSol {
     public static boolean parallelSolution(int[] arr, int k) throws InterruptedException {
         int n = arr.length;
+
+        if (n == 0) return false;
+
         int numThreads = Math.min(k, n);
         int chunkSize = n / numThreads;
 
         Thread[] threads = new Thread[numThreads];
-        Boolean[] threadsBool = new Boolean[numThreads];
+        boolean[] threadsBool = new boolean[numThreads];
 
         for (int i = 0; i < numThreads; i++) {
             int start = i * chunkSize;

@@ -16,7 +16,7 @@ public class Main {
         System.out.println("2) параллельное решение");
         time = System.nanoTime();
 
-        System.out.println("Ответ: " + ParallelSol.parallelSolution(arr, 1));
+        System.out.println("Ответ: " + ParallelSol.parallelSolution(arr, 32));
 
         etime = System.nanoTime();
         long timeParallel = etime - time;
