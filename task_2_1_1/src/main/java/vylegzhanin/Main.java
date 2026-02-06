@@ -1,44 +1,41 @@
 package vylegzhanin;
 
+import vylegzhanin.Solutions.ParallelSolution;
+import vylegzhanin.Solutions.SequentialSolution;
+import vylegzhanin.Solutions.StreamSolution;
+
 /**
  * Демонстрационный файл.
+ * @author Данил Колбасенко
  */
 public class Main {
 
     /**
      * Демонстрационный метод: запускает три варианта поиска простых чисел в массиве
      * и печатает ответ и время выполнения каждого варианта.
-     *
-     * @throws InterruptedException если текущий поток был прерван при ожидании завершения рабочих потоков
      */
     static void main() throws InterruptedException {
-        var arr = new int[] {6, 8, 7, 13, 5, 9, 4};
+        var arr = new int[] {3, 3, 3, 3, 3, 3, 3, 20};
 
-        System.out.println("1) Последовательное решение");
-        long time = System.nanoTime();
+        ContainCompound solution;
 
-        System.out.println("Ответ: " + SequentialSol.sequentialSolution(arr));
+        int counter = 1;
+        while (counter <= 3){
+            System.out.println("Решение - " + counter);
+            solution = switch (counter) {
+                case 1 -> new SequentialSolution();
+                case 2 -> new ParallelSolution(10);
+                case 3 -> new StreamSolution();
+                default -> throw new IllegalStateException("Unexpected value: " + counter);
+            };
 
-        long etime = System.nanoTime();
-        long timeSequential = etime - time;
-        System.out.println("Время выполнения: " + timeSequential + "\n");
+            long startTime = System.nanoTime();
+            System.out.println("Ответ: " + solution.containCompound(arr));
+            long endTime = System.nanoTime();
 
-        System.out.println("2) параллельное решение");
-        time = System.nanoTime();
-
-        System.out.println("Ответ: " + ParallelSol.parallelSolution(arr, 7));
-
-        etime = System.nanoTime();
-        long timeParallel = etime - time;
-        System.out.println("Время выполнения: " + timeParallel + "\n");
-
-        System.out.println("3) параллельное решение с parallelStream()");
-        time = System.nanoTime();
-
-        System.out.println("Ответ: " + StreamSol.streamSolution(arr));
-
-        etime = System.nanoTime();
-        long timeStream = etime - time;
-        System.out.println("Время выполнения: " + timeStream + "\n");
+            long resultTime = endTime - startTime;
+            System.out.println("Время выполнения: " + resultTime + "\n");
+            counter++;
+        }
     }
 }

@@ -1,18 +1,27 @@
-package vylegzhanin;
+package vylegzhanin.Solutions;
+
+import vylegzhanin.ContainCompound;
+import vylegzhanin.Prime;
 
 /**
  * Класс для паралельного решения с заданым кол-вом потоков.
  */
-public class ParallelSol {
+public class ParallelSolution implements ContainCompound {
+    volatile boolean foundCompound;
+    private final int k;
+
+    public ParallelSolution(int nThreads) {
+        this.k = nThreads;
+        this.foundCompound = false;
+    }
 
     /**
      * Метод, реализующий паралельное решение.
      *
      * @param arr список чисел
-     * @param k число потоков
-     * @return true если список содержит простое число
+     * @return true если список не содержит простое число
      */
-    public static boolean parallelSolution(int[] arr, int k) throws InterruptedException {
+    public boolean containCompound(int[] arr) throws InterruptedException {
         int n = arr.length;
 
         if (n == 0) {
@@ -23,17 +32,15 @@ public class ParallelSol {
         int chunkSize = n / numThreads;
 
         Thread[] threads = new Thread[numThreads];
-        boolean[] threadsBool = new boolean[numThreads];
 
         for (int i = 0; i < numThreads; i++) {
             int start = i * chunkSize;
             int end = (i == numThreads - 1) ? n : start + chunkSize;
 
-            int finalI = i;
             threads[i] = new Thread(() -> {
-                for (int j = start; j < end; j++) {
-                    if (Prime.isPrime(arr[j])) {
-                        threadsBool[finalI] = true;
+                for (int j = start; j < end && !foundCompound; j++) {
+                    if (!Prime.isPrime(arr[j])) {
+                        foundCompound = true;
                         break;
                     }
                 }
@@ -41,16 +48,10 @@ public class ParallelSol {
             threads[i].start();
         }
 
-        for (Thread t : threads) {
+        for (Thread t: threads){
             t.join();
         }
 
-        for (boolean el : threadsBool) {
-            if (el) {
-                return true;
-            }
-        }
-
-        return false;
+        return foundCompound;
     }
 }

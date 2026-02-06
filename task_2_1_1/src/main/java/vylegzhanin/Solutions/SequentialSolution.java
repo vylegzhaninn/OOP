@@ -1,19 +1,22 @@
-package vylegzhanin;
+package vylegzhanin.Solutions;
+
+import vylegzhanin.ContainCompound;
+import vylegzhanin.Prime;
 
 /**
  * Класс для последовательного решения.
  */
-public class SequentialSol {
+public class SequentialSolution implements ContainCompound {
 
     /**
      * Метод, реализующий последовательное решение.
      *
      * @param arr список чисел
-     * @return true если список содержит простое число
+     * @return true если список не содержит простое число
      */
-    public static boolean sequentialSolution(int[] arr) {
+    public boolean containCompound(int[] arr) {
         for (int el : arr) {
-            if (Prime.isPrime(el)) {
+            if (!Prime.isPrime(el)) {
                 return true;
             }
         }

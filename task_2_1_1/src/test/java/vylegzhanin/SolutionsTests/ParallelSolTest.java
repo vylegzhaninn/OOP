@@ -1,34 +1,37 @@
-package vylegzhanin;
+package vylegzhanin.SolutionsTests;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import vylegzhanin.Solutions.ParallelSolution;
 
 /**
- * Тесты для проверки решения с использованием Stream API.
+ * Тесты для проверки параллельного алгоритма поиска составных чисел.
  */
-public class StreamSolTest {
+class ParallelSolutionTest {
 
     /**
-     * Тест с массивом, содержащим простое число.
+     * Тест с массивом, содержащим составные числа.
      *
      * @throws InterruptedException если поток был прерван
      */
     @Test
     void testArrayWithPrime() throws InterruptedException {
+        ParallelSolution solution = new ParallelSolution(8);
         int[] arr = {4, 6, 8, 11, 12, 14};
-        Assertions.assertTrue(StreamSol.streamSolution(arr));
+        Assertions.assertTrue(solution.containCompound(arr));
     }
 
     /**
-     * Тест с массивом без простых чисел.
+     * Тест с массивом, содержащим только составные числа.
      *
      * @throws InterruptedException если поток был прерван
      */
     @Test
     void testArrayWithoutPrime() throws InterruptedException {
+        ParallelSolution solution = new ParallelSolution(8);
         int[] arr = {4, 6, 8, 9, 10, 15};
-        Assertions.assertFalse(StreamSol.streamSolution(arr));
+        Assertions.assertTrue(solution.containCompound(arr));
     }
 
     /**
@@ -38,30 +41,33 @@ public class StreamSolTest {
      */
     @Test
     void testEmptyArray() throws InterruptedException {
+        ParallelSolution solution = new ParallelSolution(8);
         int[] arr = {};
-        Assertions.assertFalse(StreamSol.streamSolution(arr));
+        Assertions.assertFalse(solution.containCompound(arr));
     }
 
     /**
-     * Тест, где простое число находится в конце массива.
+     * Тест с массивом только из простых чисел.
      *
      * @throws InterruptedException если поток был прерван
      */
     @Test
     void testPrimeAtTheEnd() throws InterruptedException {
-        int[] arr = {4, 4, 4, 4, 4, 7};
-        Assertions.assertTrue(StreamSol.streamSolution(arr));
+        ParallelSolution solution = new ParallelSolution(8);
+        int[] arr = {2, 3, 5, 7, 11, 13};
+        Assertions.assertFalse(solution.containCompound(arr));
     }
 
     /**
-     * Тест с отрицательными числами и нулем.
+     * Тест с отрицательными числами и нулем (все составные).
      *
      * @throws InterruptedException если поток был прерван
      */
     @Test
     void testNegativeNumbers() throws InterruptedException {
+        ParallelSolution solution = new ParallelSolution(8);
         int[] arr = {-1, -2, -3, 0, 1};
-        Assertions.assertFalse(StreamSol.streamSolution(arr));
+        Assertions.assertTrue(solution.containCompound(arr));
     }
 
     /**
@@ -71,9 +77,10 @@ public class StreamSolTest {
      */
     @Test
     void stressTest() throws InterruptedException {
+        ParallelSolution solution = new ParallelSolution(8);
         int[] arr = new int[1_000_000];
         Arrays.fill(arr, 4);
         arr[999_999] = 13;
-        Assertions.assertTrue(StreamSol.streamSolution(arr));
+        Assertions.assertTrue(solution.containCompound(arr));
     }
 }
