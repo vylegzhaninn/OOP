@@ -1,8 +1,8 @@
 package vylegzhanin;
 
-import vylegzhanin.solutions.ParallelSolution;
-import vylegzhanin.solutions.SequentialSolution;
-import vylegzhanin.solutions.StreamSolution;
+import vylegzhanin.Solutions.ParallelSolution;
+import vylegzhanin.Solutions.SequentialSolution;
+import vylegzhanin.Solutions.StreamSolution;
 
 /**
  * Демонстрационный файл.
