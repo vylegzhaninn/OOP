@@ -1,15 +1,16 @@
-package vylegzhanin.SolutionsTests;
+package vylegzhanin.solutionstests;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import vylegzhanin.Solutions.StreamSolution;
+import vylegzhanin.solutions.StreamSolution;
 
 /**
  * Тесты для проверки решения с использованием Stream API для поиска составных чисел.
  */
 public class StreamSolutionTest {
     StreamSolution solution = new StreamSolution();
+
     /**
      * Тест с массивом, содержащим составные числа.
      */

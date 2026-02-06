@@ -1,11 +1,12 @@
 package vylegzhanin;
 
-import vylegzhanin.Solutions.ParallelSolution;
-import vylegzhanin.Solutions.SequentialSolution;
-import vylegzhanin.Solutions.StreamSolution;
+import vylegzhanin.solutions.ParallelSolution;
+import vylegzhanin.solutions.SequentialSolution;
+import vylegzhanin.solutions.StreamSolution;
 
 /**
  * Демонстрационный файл.
+ *
  * @author Данил Колбасенко
  */
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
         ContainCompound solution;
 
         int counter = 1;
-        while (counter <= 3){
+        while (counter <= 3) {
             System.out.println("Решение - " + counter);
             solution = switch (counter) {
                 case 1 -> new SequentialSolution();

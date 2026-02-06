@@ -1,9 +1,9 @@
-package vylegzhanin.SolutionsTests;
+package vylegzhanin.solutionstests;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import vylegzhanin.Solutions.SequentialSolution;
+import vylegzhanin.solutions.SequentialSolution;
 
 /**
  * Тесты для проверки последовательного алгоритма поиска составных чисел.

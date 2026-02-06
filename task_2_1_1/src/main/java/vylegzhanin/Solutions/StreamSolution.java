@@ -1,8 +1,9 @@
 package vylegzhanin.Solutions;
 
+import java.util.Arrays;
+
 import vylegzhanin.ContainCompound;
 import vylegzhanin.Prime;
-import java.util.Arrays;
 
 /**
  * Класс для парального решения при помощи Stream.

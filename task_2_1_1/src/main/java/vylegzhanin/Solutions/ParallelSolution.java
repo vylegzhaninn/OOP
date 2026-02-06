@@ -8,10 +8,10 @@ import vylegzhanin.Prime;
  */
 public class ParallelSolution implements ContainCompound {
     volatile boolean foundCompound;
-    private final int k;
+    private final int numThreadsLimit;
 
-    public ParallelSolution(int nThreads) {
-        this.k = nThreads;
+    public ParallelSolution(int numThreads) {
+        this.numThreadsLimit = numThreads;
         this.foundCompound = false;
     }
 
@@ -28,7 +28,7 @@ public class ParallelSolution implements ContainCompound {
             return false;
         }
 
-        int numThreads = Math.min(k, n);
+        int numThreads = Math.min(numThreadsLimit, n);
         int chunkSize = n / numThreads;
 
         Thread[] threads = new Thread[numThreads];
@@ -48,7 +48,7 @@ public class ParallelSolution implements ContainCompound {
             threads[i].start();
         }
 
-        for (Thread t: threads){
+        for (Thread t : threads) {
             t.join();
         }
 

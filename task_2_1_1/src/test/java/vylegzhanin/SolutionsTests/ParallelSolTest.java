@@ -1,9 +1,9 @@
-package vylegzhanin.SolutionsTests;
+package vylegzhanin.solutionstests;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import vylegzhanin.Solutions.ParallelSolution;
+import vylegzhanin.solutions.ParallelSolution;
 
 /**
  * Тесты для проверки параллельного алгоритма поиска составных чисел.
