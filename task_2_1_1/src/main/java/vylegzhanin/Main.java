@@ -1,8 +1,8 @@
 package vylegzhanin;
 
-import vylegzhanin.Solutions.ParallelSolution;
-import vylegzhanin.Solutions.SequentialSolution;
-import vylegzhanin.Solutions.StreamSolution;
+import vylegzhanin.solutions.ParallelSolution;
+import vylegzhanin.solutions.SequentialSolution;
+import vylegzhanin.solutions.StreamSolution;
 
 /**
  * Демонстрационный файл.
@@ -25,7 +25,7 @@ public class Main {
             System.out.println("Решение - " + counter);
             solution = switch (counter) {
                 case 1 -> new SequentialSolution();
-                case 2 -> new ParallelSolution(10);
+                case 2 -> new ParallelSolution(8);
                 case 3 -> new StreamSolution();
                 default -> throw new IllegalStateException("Unexpected value: " + counter);
             };

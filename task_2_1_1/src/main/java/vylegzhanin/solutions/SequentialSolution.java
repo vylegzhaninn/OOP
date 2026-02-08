@@ -1,4 +1,4 @@
-package vylegzhanin.Solutions;
+package vylegzhanin.solutions;
 
 import vylegzhanin.ContainCompound;
 import vylegzhanin.Prime;

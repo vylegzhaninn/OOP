@@ -1,7 +1,6 @@
-package vylegzhanin.Solutions;
+package vylegzhanin.solutions;
 
 import java.util.Arrays;
-
 import vylegzhanin.ContainCompound;
 import vylegzhanin.Prime;
 
