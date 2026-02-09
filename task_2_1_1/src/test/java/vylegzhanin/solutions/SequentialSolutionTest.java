@@ -61,8 +61,8 @@ public class SequentialSolutionTest {
     @Test
     void stressTest() {
         int[] arr = new int[1_000_000];
-        Arrays.fill(arr, 4);
-        arr[999_999] = 13;
+        Arrays.fill(arr, 13);
+        arr[999_999] = 4;
         Assertions.assertTrue(solution.containCompound(arr));
     }
 }
