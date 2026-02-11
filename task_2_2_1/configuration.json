@@ -1,0 +1,8 @@
+{
+  "N": 3,
+  "M": 3,
+  "T": 100,
+  "WorkTime": 1000,
+  "OrderInterval": 1000,
+  "PizzeriaWorkTime": 10000
+}
