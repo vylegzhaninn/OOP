@@ -25,23 +25,25 @@ public class Pizzeria {
     public void work() throws InterruptedException {
         OrderGenerator orderGenerator = new OrderGenerator(config.orderInterval(), orderQueue);
         Thread generatorThread = new Thread(orderGenerator);
+        Thread[] bakers = new Thread[config.bakersCount()];
+        Thread[] couriers = new Thread[config.couriersCount()];
         generatorThread.start();
 
         long endTime = startTime + config.pizzeriaWorkTime();
 
-        int i = 1;
+        int i = 0;
         while (i < config.bakersCount()){
-            Baker baker = new Baker(orderQueue, config.workTime(), storage, endTime, i);
-            Thread bakerThread = new Thread(baker);
-            bakerThread.start();
+            Baker baker = new Baker(orderQueue, config.workTime(), storage, endTime, i + 1);
+            bakers[i] = new Thread(baker);
+            bakers[i].start();
             i++;
         }
 
-        i = 1;
-        while (i <= config.couriersCount()){
-            Courier courier = new Courier(storage, config.workTime(), endTime, i);
-            Thread courierThread = new Thread(courier);
-            courierThread.start();
+        i = 0;
+        while (i < config.couriersCount()){
+            Courier courier = new Courier(storage, config.workTime(), endTime, i + 1);
+            couriers[i] = new Thread(courier);
+            couriers[i].start();
             i++;
         }
 
@@ -58,6 +60,14 @@ public class Pizzeria {
         }
 
         orderGenerator.endGenerating();
+
+        for (Thread baker : bakers) {
+            baker.interrupt();
+        }
+
+        for (Thread courier : couriers) {
+            courier.interrupt();
+        }
 
         log.info("Пиццерия закрылась");
     }
