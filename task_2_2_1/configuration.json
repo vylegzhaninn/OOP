@@ -3,6 +3,7 @@
   "M": 3,
   "T": 100,
   "WorkTime": 1000,
+  "TrunkSize": 100,
   "OrderInterval": 1000,
   "PizzeriaWorkTime": 10000
 }

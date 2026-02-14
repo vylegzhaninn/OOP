@@ -1,4 +1,6 @@
-package vylegzhanin.pizzeria.supportive;
+package vylegzhanin.pizzeria.repositories;
+
+import vylegzhanin.pizzeria.model.Order;
 
 import java.util.LinkedList;
 

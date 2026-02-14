@@ -1,7 +1,8 @@
 package vylegzhanin.pizzeria;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import vylegzhanin.pizzeria.supportive.AppConfig;
+import vylegzhanin.pizzeria.controllers.Pizzeria;
+import vylegzhanin.pizzeria.configs.AppConfig;
 
 import java.io.File;
 import java.io.IOException;

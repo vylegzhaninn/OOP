@@ -1,8 +1,8 @@
-package vylegzhanin.pizzeria.workers;
+package vylegzhanin.pizzeria.model.workers;
 
-import vylegzhanin.pizzeria.supportive.Order;
-import vylegzhanin.pizzeria.supportive.OrderQueue;
-import vylegzhanin.pizzeria.supportive.Storage;
+import vylegzhanin.pizzeria.model.Order;
+import vylegzhanin.pizzeria.repositories.OrderQueue;
+import vylegzhanin.pizzeria.repositories.Storage;
 
 public class Baker extends Worker {
     private final OrderQueue orderQueue;

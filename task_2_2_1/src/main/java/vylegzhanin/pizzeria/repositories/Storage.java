@@ -1,4 +1,6 @@
-package vylegzhanin.pizzeria.supportive;
+package vylegzhanin.pizzeria.repositories;
+
+import vylegzhanin.pizzeria.model.Order;
 
 public class Storage {
     private final Order[] storage;
@@ -14,6 +16,14 @@ public class Storage {
             storage[i++] = order;
         }else {
             throw new ArrayIndexOutOfBoundsException("Склад переполнен");
+        }
+    }
+
+    public synchronized int getOrderSize(){
+        if (!isEmpty()){
+            return storage[i - 1].size();
+        }else {
+            throw new ArrayIndexOutOfBoundsException("Склад пуст");
         }
     }
 

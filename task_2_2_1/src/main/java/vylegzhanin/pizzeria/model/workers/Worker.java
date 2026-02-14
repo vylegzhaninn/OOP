@@ -1,9 +1,9 @@
-package vylegzhanin.pizzeria.workers;
+package vylegzhanin.pizzeria.model.workers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vylegzhanin.pizzeria.supportive.Order;
-import vylegzhanin.pizzeria.supportive.Storage;
+import vylegzhanin.pizzeria.model.Order;
+import vylegzhanin.pizzeria.repositories.Storage;
 
 public abstract class Worker implements Runnable {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -22,7 +22,7 @@ public abstract class Worker implements Runnable {
     protected abstract void uniqueTask(Order order);
 
     protected final void work(Order order) throws InterruptedException {
-        if (System.currentTimeMillis() + operatingTime < endTime) {
+        if (System.currentTimeMillis() + operatingTime + 100 < endTime) {
             log.info("{} № {} выполняет заказ с id: {}", getClass().getSimpleName(), id, order.id());
             Thread.sleep(operatingTime);
             uniqueTask(order);
