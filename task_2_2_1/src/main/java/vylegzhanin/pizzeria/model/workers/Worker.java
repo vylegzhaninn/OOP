@@ -3,6 +3,7 @@ package vylegzhanin.pizzeria.model.workers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vylegzhanin.pizzeria.model.Order;
+import vylegzhanin.pizzeria.repositories.OrderQueue;
 import vylegzhanin.pizzeria.repositories.Storage;
 
 public abstract class Worker implements Runnable {
@@ -31,12 +32,23 @@ public abstract class Worker implements Runnable {
         }
     }
 
+    protected void work(OrderQueue orders) throws InterruptedException {
+        while (!orders.isEmpty()) {
+            Order order = orders.poll();
+            if (order != null) {
+                Thread.sleep(operatingTime);
+                uniqueTask(order);
+            }
+        }
+    }
+
     protected abstract void waitingForOrder() throws InterruptedException;
 
     @Override
     public void run() {
         try {
-            log.info("{} {} начал работу", getClass().getSimpleName(), id);
+            log.info("{} {} начал работу с временем работы {} мс",
+                    getClass().getSimpleName(), id, operatingTime);
             while (!Thread.currentThread().isInterrupted() && System.currentTimeMillis() < endTime) {
                 waitingForOrder();
             }

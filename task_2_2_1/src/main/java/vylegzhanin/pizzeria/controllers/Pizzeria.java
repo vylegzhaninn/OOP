@@ -28,6 +28,7 @@ public class Pizzeria extends PizzeriaService {
                 storage.notify();
             }
         }
+        log.info("Время работы пиццерии закончилось");
 
         orderGenerator.endGenerating();
         endThreads();

@@ -30,7 +30,8 @@ public abstract class PizzeriaService {
     protected void workersThreadsStart(){
         int i = 0;
         while (i < config.bakersCount()){
-            Baker baker = new Baker(orderQueue, random.nextInt((int) config.workTime()), storage, endTime, i + 1);
+            Baker baker = new Baker(orderQueue, random.nextInt((int) config.workTime()),
+                    storage, endTime, i + 1);
             bakers[i] = new Thread(baker);
             bakers[i].start();
             i++;

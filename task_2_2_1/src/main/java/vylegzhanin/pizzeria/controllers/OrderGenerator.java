@@ -29,7 +29,7 @@ public class OrderGenerator implements Runnable{
         while (isAreLive) {
             Thread.sleep(orderInterval);
             Order order = new Order(orderId++, random.nextInt(config.trankSize()));
-            log.info("Поступил новый заказ {}", orderId);
+            log.info("Поступил новый заказ {} с массой {}", orderId, order.size());
             orderQueue.offer(order);
         }
     }
