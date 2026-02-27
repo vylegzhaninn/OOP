@@ -8,25 +8,50 @@ import vylegzhanin.pizzeria.repositories.OrderQueue;
 
 import java.util.Random;
 
-public class OrderGenerator implements Runnable{
+/**
+ * Генератор входящих заказов пиццерии.
+ *
+ * <p>Запускается в отдельном потоке и периодически создаёт новые {@link Order}
+ * со случайной массой, помещая их в {@link OrderQueue}. После каждого добавления
+ * уведомляет ожидающих пекарей через {@code notifyAll()} на мониторе очереди.</p>
+ *
+ * <p>Генерация останавливается вызовом {@link #endGenerating()}.</p>
+ */
+public class OrderGenerator implements Runnable {
     private final long orderInterval;
     private final OrderQueue orderQueue;
-    private boolean isAreLive;
+    private boolean isALive;
     private static final Logger log = LoggerFactory.getLogger(OrderGenerator.class);
     private final AppConfig config;
     private final Random random;
 
-    public OrderGenerator(long orderInterval, OrderQueue orderQueue, AppConfig config){
+    /**
+     * Создаёт генератор заказов с заданными параметрами.
+     *
+     * @param orderInterval интервал между заказами, мс
+     * @param orderQueue    очередь, в которую помещаются новые заказы
+     * @param config        конфигурация пиццерии
+     */
+    public OrderGenerator(long orderInterval, OrderQueue orderQueue, AppConfig config) {
         this.orderInterval = orderInterval;
         this.orderQueue = orderQueue;
-        this.isAreLive = true;
+        this.isALive = true;
         this.config = config;
         this.random = new Random();
     }
 
+    /**
+     * Основной цикл генерации заказов.
+     *
+     * <p>Каждые {@code orderInterval} мс создаёт новый заказ со случайной массой
+     * в диапазоне {@code [0, trunkSize)}, добавляет его в очередь и уведомляет
+     * ожидающих пекарей.</p>
+     *
+     * @throws InterruptedException если поток был прерван во время ожидания
+     */
     public void generateOrders() throws InterruptedException {
         long orderId = 1;
-        while (isAreLive) {
+        while (isALive) {
             Thread.sleep(orderInterval);
             Order order = new Order(orderId++, random.nextInt(config.trankSize()));
             log.info("Поступил новый заказ {} с массой {}", orderId, order.size());
@@ -34,19 +59,31 @@ public class OrderGenerator implements Runnable{
         }
     }
 
+    /**
+     * Точка входа потока генератора.
+     *
+     * <p>Вызывает {@link #generateOrders()}. При возникновении
+     * {@link InterruptedException} логирует ошибку и восстанавливает флаг прерывания.</p>
+     */
     @Override
-    public void run(){
+    public void run() {
         try {
             log.info("Заказы поступают");
             generateOrders();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Генератор заказов был прерван" + e.getMessage());
+            Thread.currentThread().interrupt();
+            log.error("Генератор заказов был прерван: {}", e.getMessage());
         }
     }
 
-    public void endGenerating(){
-        isAreLive = false;
-        Thread.currentThread().interrupt();
+    /**
+     * Останавливает генерацию заказов.
+     *
+     * <p>Устанавливает флаг {@code isALive} в {@code false} и прерывает
+     * текущий поток, если он заблокирован в {@code Thread.sleep()}.</p>
+     */
+    public void endGenerating() {
+        isALive = false;
         log.info("Заказы перестали поступать");
     }
 }
