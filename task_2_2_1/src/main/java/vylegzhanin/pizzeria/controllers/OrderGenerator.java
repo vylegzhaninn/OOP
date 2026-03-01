@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import vylegzhanin.pizzeria.configs.AppConfig;
 import vylegzhanin.pizzeria.model.Order;
 import vylegzhanin.pizzeria.repositories.OrderQueue;

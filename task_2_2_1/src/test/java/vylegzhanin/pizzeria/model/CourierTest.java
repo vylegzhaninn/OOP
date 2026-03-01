@@ -2,9 +2,12 @@ package vylegzhanin.pizzeria.model;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import vylegzhanin.pizzeria.model.workers.Courier;
 import vylegzhanin.pizzeria.repositories.Storage;
 
