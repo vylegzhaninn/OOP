@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"vylegzhanin.pizzeria"},{"l":"vylegzhanin.pizzeria.configs"},{"l":"vylegzhanin.pizzeria.controllers"},{"l":"vylegzhanin.pizzeria.model"},{"l":"vylegzhanin.pizzeria.model.workers"},{"l":"vylegzhanin.pizzeria.repositories"}];updateSearchResults();
