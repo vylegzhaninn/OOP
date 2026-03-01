@@ -1,11 +1,12 @@
 package vylegzhanin.pizzeria;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import vylegzhanin.pizzeria.controllers.Pizzeria;
-import vylegzhanin.pizzeria.configs.AppConfig;
-
 import java.io.File;
 import java.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import vylegzhanin.pizzeria.configs.AppConfig;
+import vylegzhanin.pizzeria.controllers.Pizzeria;
 
 /**
  * Точка входа приложения «Пиццерия».

@@ -1,12 +1,12 @@
 package vylegzhanin.pizzeria.controllers;
 
+import java.util.Random;
+
 import vylegzhanin.pizzeria.configs.AppConfig;
-import vylegzhanin.pizzeria.repositories.OrderQueue;
-import vylegzhanin.pizzeria.repositories.Storage;
 import vylegzhanin.pizzeria.model.workers.Baker;
 import vylegzhanin.pizzeria.model.workers.Courier;
-
-import java.util.Random;
+import vylegzhanin.pizzeria.repositories.OrderQueue;
+import vylegzhanin.pizzeria.repositories.Storage;
 
 /**
  * Базовый класс пиццерии, содержащий общую инфраструктуру для управления работниками.
@@ -16,11 +16,34 @@ import java.util.Random;
  * определяя конкретную логику работы пиццерии.</p>
  */
 public abstract class AbstractPizzeria {
+    /**
+     * Потоки пекарей, работающих в пиццерии.
+     */
     protected final Thread[] bakers;
+
+    /**
+     * Потоки курьеров, работающих в пиццерии.
+     */
     protected final Thread[] couriers;
+
+    /**
+     * Очередь заказов, доступная для пекарей и курьеров.
+     */
     protected final OrderQueue orderQueue;
+
+    /**
+     * Хранилище готовых заказов.
+     */
     protected final Storage storage;
+
+    /**
+     * Конфигурация пиццерии.
+     */
     protected final AppConfig config;
+
+    /**
+     * Время завершения работы пиццерии (мс с эпохи Unix).
+     */
     protected final long endTime;
     private final Random random;
 
@@ -43,7 +66,7 @@ public abstract class AbstractPizzeria {
     /**
      * Создаёт и запускает потоки для всех пекарей и курьеров.
      *
-     * <p>Каждому работнику назначается случайное время выполнения заказа
+     * <p>Каждому работнику назначается случайное время выполнения за��аза
      * в диапазоне {@code [0, workTime)} мс.</p>
      */
     protected void workersThreadsStart() {

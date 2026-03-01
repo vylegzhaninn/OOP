@@ -18,13 +18,17 @@ import vylegzhanin.pizzeria.repositories.Storage;
  *   <li>{@link #waitingForOrder()} — логику ожидания и получения заказа;</li>
  *   <li>{@link #handleOrder(Order)} — что делать с заказом по завершении работы.</li>
  * </ul>
- * </p>
  */
 public abstract class Worker implements Runnable {
+    /** Логгер для вывода информации о работе работника. */
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    /** Время выполнения одного заказа в миллисекундах. */
     protected final long operatingTime;
+    /** Общее хранилище готовых заказов. */
     protected final Storage storage;
+    /** Момент окончания рабочего дня (мс с эпохи Unix). */
     protected final long endTime;
+    /** Порядковый номер работника. */
     protected final int id;
 
     /**
@@ -45,9 +49,7 @@ public abstract class Worker implements Runnable {
     /**
      * Выполняет финальное действие над заказом после завершения работы по нему.
      *
-     * <p>Для пекаря — кладёт заказ на склад; для курьера — отдаёт заказчику.</p>
-     *
-     * @param order обработанный заказ
+     * @param order заказ для обработки
      */
     protected abstract void handleOrder(Order order);
 
@@ -55,7 +57,7 @@ public abstract class Worker implements Runnable {
      * Обрабатывает один заказ: логирует начало работы, ждёт {@code operatingTime} мс
      * и вызывает {@link #handleOrder(Order)}.
      *
-     * <p>Если до конца рабочего дня остаётся меньше {@code operatingTime + 100} мс,
+     * <p>Если до конца рабочего дня остаётся ��еньше {@code operatingTime + 100} мс,
      * поток прерывает сам себя, чтобы корректно завершиться.</p>
      *
      * @param order заказ для обработки
@@ -63,7 +65,8 @@ public abstract class Worker implements Runnable {
      */
     protected final void work(Order order) throws InterruptedException {
         if (System.currentTimeMillis() + operatingTime + 100 < endTime) {
-            log.info("{} № {} выполняет заказ с id: {}", getClass().getSimpleName(), id, order.id());
+            log.info("{} № {} выполняет заказ с id: {}",
+                    getClass().getSimpleName(), id, order.id());
             Thread.sleep(operatingTime);
             handleOrder(order);
         } else {
@@ -112,7 +115,8 @@ public abstract class Worker implements Runnable {
         try {
             log.info("{} {} начал работу с временем работы {} мс",
                     getClass().getSimpleName(), id, operatingTime);
-            while (!Thread.currentThread().isInterrupted() && System.currentTimeMillis() < endTime) {
+            while (!Thread.currentThread().isInterrupted()
+                    && System.currentTimeMillis() < endTime) {
                 waitingForOrder();
             }
         } catch (InterruptedException e) {

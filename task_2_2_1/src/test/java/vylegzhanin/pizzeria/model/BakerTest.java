@@ -1,20 +1,22 @@
 package vylegzhanin.pizzeria.model;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import vylegzhanin.pizzeria.model.workers.Baker;
 import vylegzhanin.pizzeria.repositories.OrderQueue;
 import vylegzhanin.pizzeria.repositories.Storage;
 
-import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@DisplayName("Baker — пекарь")
+@DisplayName("Baker — пекарь.")
 class BakerTest {
 
     /**
-     * Вспомогательный метод: создаёт Baker с endTime = now + ttl
+     * Вспомогательный метод: создаёт Baker с endTime = now + ttl.
      */
     private Baker baker(OrderQueue queue, Storage storage, long operatingTime, long ttlMs) {
         return new Baker(queue, operatingTime, storage, System.currentTimeMillis() + ttlMs, 1);
@@ -29,7 +31,6 @@ class BakerTest {
         Storage storage = new Storage(5);
         Baker b = baker(queue, storage, 50, 5000);
 
-        // Кладём заказ в очередь и запускаем пекаря в отдельном потоке
         Order order = new Order(1L, 5);
         queue.offer(order);
         synchronized (queue) {
@@ -39,7 +40,6 @@ class BakerTest {
         Thread bakerThread = new Thread(b);
         bakerThread.start();
 
-        // Ждём, пока пекарь положит заказ на склад
         long deadline = System.currentTimeMillis() + 3000;
         while (storage.isEmpty() && System.currentTimeMillis() < deadline) {
             Thread.sleep(50);
@@ -70,14 +70,14 @@ class BakerTest {
         bakerThread.start();
 
         long deadline = System.currentTimeMillis() + 5000;
-        while (storage.isEmpty() || /* не все */ !queue.isEmpty() && System.currentTimeMillis() < deadline) {
+        while ((storage.isEmpty() || !queue.isEmpty())
+                && System.currentTimeMillis() < deadline) {
             Thread.sleep(50);
         }
-        Thread.sleep(300); // даём обработать последний
+        Thread.sleep(300);
         bakerThread.interrupt();
         bakerThread.join(1000);
 
-        // хранилище должно содержать все 5 заказов
         int stored = 0;
         while (!storage.isEmpty()) {
             storage.get();
@@ -97,7 +97,7 @@ class BakerTest {
 
         Thread bakerThread = new Thread(b);
         bakerThread.start();
-        Thread.sleep(100); // даём пекарю начать ожидание
+        Thread.sleep(100);
 
         assertTrue(storage.isEmpty(), "До появления заказа хранилище должно быть пустым");
 
@@ -124,7 +124,6 @@ class BakerTest {
     void baker_doesNotWork_ifEndTimeExpired() throws InterruptedException {
         OrderQueue queue = new OrderQueue();
         Storage storage = new Storage(5);
-        // endTime уже в прошлом
         Baker b = new Baker(queue, 50, storage, System.currentTimeMillis() - 1, 1);
 
         Order order = new Order(1L, 5);
@@ -137,7 +136,6 @@ class BakerTest {
         bakerThread.start();
         bakerThread.join(TimeUnit.SECONDS.toMillis(2));
 
-        // Хранилище должно быть пустым — работник не должен был выполнять работу
         assertTrue(storage.isEmpty(),
                 "Пекарь не должен класть заказ на склад, если рабочее время истекло");
     }

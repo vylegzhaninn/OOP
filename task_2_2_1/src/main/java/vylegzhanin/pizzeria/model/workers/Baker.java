@@ -36,7 +36,8 @@ public class Baker extends Worker {
     @Override
     public void handleOrder(Order order) {
         storage.add(order);
-        log.info("{} № {} положил заказ с id: {} на склад", getClass().getSimpleName(), id, order.id());
+        log.info("{} № {} положил заказ с id: {} на склад",
+                getClass().getSimpleName(), id, order.id());
     }
 
     /**

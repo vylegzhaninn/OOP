@@ -10,9 +10,6 @@ import vylegzhanin.pizzeria.repositories.Storage;
  * <p>Курьер блокируется на мониторе {@link Storage}, пока склад пуст, затем
  * набирает заказы до исчерпания вместимости багажника ({@code trunkSize}) и
  * доставляет их, тратя {@code operatingTime} мс на каждый заказ.</p>
- *
- * <p>В отличие от {@link Baker}, курьер переопределяет метод {@link #run()},
- * дополнительно логируя объём своего багажника при старте.</p>
  */
 public class Courier extends Worker {
     private final int trankSize;
@@ -38,7 +35,8 @@ public class Courier extends Worker {
      */
     @Override
     protected void handleOrder(Order order) {
-        log.info("{} № {} отдал заказчику заказ с id: {}", getClass().getSimpleName(), id, order.id());
+        log.info("{} № {} отдал заказчику заказ с id: {}",
+                getClass().getSimpleName(), id, order.id());
     }
 
     /**
@@ -52,7 +50,6 @@ public class Courier extends Worker {
      *   <li>Освобождает блокировку и доставляет каждый набранный заказ
      *       через {@link #work(OrderQueue)}.</li>
      * </ol>
-     * </p>
      *
      * @throws InterruptedException если поток был прерван во время ожидания
      */
@@ -96,7 +93,8 @@ public class Courier extends Worker {
         try {
             log.info("{} {} начал работу с объёмом багажника {} и временем работы {} мс",
                     getClass().getSimpleName(), id, trankSize, operatingTime);
-            while (!Thread.currentThread().isInterrupted() && System.currentTimeMillis() < endTime) {
+            while (!Thread.currentThread().isInterrupted()
+                    && System.currentTimeMillis() < endTime) {
                 waitingForOrder();
             }
         } catch (InterruptedException e) {

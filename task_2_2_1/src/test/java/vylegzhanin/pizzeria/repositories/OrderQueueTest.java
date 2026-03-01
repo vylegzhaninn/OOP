@@ -1,17 +1,22 @@
 package vylegzhanin.pizzeria.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import vylegzhanin.pizzeria.model.Order;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import vylegzhanin.pizzeria.model.Order;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("OrderQueue — очередь входящих заказов")
 class OrderQueueTest {
@@ -56,7 +61,7 @@ class OrderQueueTest {
 
     @Test
     @DisplayName("Очередь работает по принципу FIFO")
-    void offer_and_poll_respectFIFO() {
+    void offer_and_poll_respectFifo() {
         Order first = new Order(1L, 5);
         Order second = new Order(2L, 10);
         Order third = new Order(3L, 15);

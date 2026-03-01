@@ -39,12 +39,12 @@ public class Pizzeria extends AbstractPizzeria {
      *   <li>По достижении {@code endTime} останавливает генератор заказов
      *       и прерывает все рабочие потоки через {@link #endThreads()}.</li>
      * </ol>
-     * </p>
      *
      * @throws InterruptedException если главный поток был прерван во время ожидания
      */
     public void work() throws InterruptedException {
-        OrderGenerator orderGenerator = new OrderGenerator(config.orderInterval(), orderQueue, config);
+        OrderGenerator orderGenerator =
+                new OrderGenerator(config.orderInterval(), orderQueue, config);
         Thread generatorThread = new Thread(orderGenerator);
         generatorThread.start();
         workersThreadsStart();

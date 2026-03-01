@@ -1,8 +1,8 @@
 package vylegzhanin.pizzeria.repositories;
 
-import vylegzhanin.pizzeria.model.Order;
-
 import java.util.LinkedList;
+
+import vylegzhanin.pizzeria.model.Order;
 
 /**
  * Потокобезопасная очередь входящих заказов (FIFO).

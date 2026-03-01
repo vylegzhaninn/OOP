@@ -3,7 +3,10 @@ package vylegzhanin.pizzeria.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Order — модель заказа")
 class OrderTest {
@@ -22,9 +25,9 @@ class OrderTest {
     @Test
     @DisplayName("Сокращённый конструктор автоматически проставляет reservationTime")
     void shortConstructor_setsReservationTimeAutomatically() {
-        long before = System.currentTimeMillis();
-        Order order = new Order(5L, 30);
-        long after = System.currentTimeMillis();
+        final long before = System.currentTimeMillis();
+        final Order order = new Order(5L, 30);
+        final long after = System.currentTimeMillis();
 
         assertEquals(5L, order.id());
         assertEquals(30, order.size());

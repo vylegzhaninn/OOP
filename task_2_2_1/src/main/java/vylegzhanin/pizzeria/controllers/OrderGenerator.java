@@ -1,12 +1,12 @@
 package vylegzhanin.pizzeria.controllers;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vylegzhanin.pizzeria.configs.AppConfig;
 import vylegzhanin.pizzeria.model.Order;
 import vylegzhanin.pizzeria.repositories.OrderQueue;
-
-import java.util.Random;
 
 /**
  * Генератор входящих заказов пиццерии.
@@ -20,7 +20,7 @@ import java.util.Random;
 public class OrderGenerator implements Runnable {
     private final long orderInterval;
     private final OrderQueue orderQueue;
-    private boolean isALive;
+    private boolean isAlive;
     private static final Logger log = LoggerFactory.getLogger(OrderGenerator.class);
     private final AppConfig config;
     private final Random random;
@@ -35,7 +35,7 @@ public class OrderGenerator implements Runnable {
     public OrderGenerator(long orderInterval, OrderQueue orderQueue, AppConfig config) {
         this.orderInterval = orderInterval;
         this.orderQueue = orderQueue;
-        this.isALive = true;
+        this.isAlive = true;
         this.config = config;
         this.random = new Random();
     }
@@ -51,7 +51,7 @@ public class OrderGenerator implements Runnable {
      */
     public void generateOrders() throws InterruptedException {
         long orderId = 1;
-        while (isALive) {
+        while (isAlive) {
             Thread.sleep(orderInterval);
             Order order = new Order(orderId++, random.nextInt(config.trankSize()));
             log.info("Поступил новый заказ {} с массой {}", orderId, order.size());
@@ -83,7 +83,7 @@ public class OrderGenerator implements Runnable {
      * текущий поток, если он заблокирован в {@code Thread.sleep()}.</p>
      */
     public void endGenerating() {
-        isALive = false;
+        isAlive = false;
         log.info("Заказы перестали поступать");
     }
 }

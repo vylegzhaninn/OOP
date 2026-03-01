@@ -1,10 +1,5 @@
 package vylegzhanin.pizzeria.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import vylegzhanin.pizzeria.model.Order;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -12,7 +7,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import vylegzhanin.pizzeria.model.Order;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Storage — промежуточное хранилище заказов")
 class StorageTest {
@@ -78,7 +81,7 @@ class StorageTest {
 
     @Test
     @DisplayName("get() возвращает последний добавленный заказ (LIFO)")
-    void get_returnsLastAddedOrder_LIFO() {
+    void get_returnsLastAddedOrderLifo() {
         Order first = new Order(1L, 5);
         Order second = new Order(2L, 10);
         storage.add(first);

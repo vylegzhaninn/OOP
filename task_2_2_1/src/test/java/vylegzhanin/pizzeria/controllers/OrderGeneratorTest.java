@@ -1,18 +1,20 @@
 package vylegzhanin.pizzeria.controllers;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import vylegzhanin.pizzeria.configs.AppConfig;
-import vylegzhanin.pizzeria.model.Order;
-import vylegzhanin.pizzeria.repositories.OrderQueue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import vylegzhanin.pizzeria.configs.AppConfig;
+import vylegzhanin.pizzeria.model.Order;
+import vylegzhanin.pizzeria.repositories.OrderQueue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("OrderGenerator — генератор заказов")
 class OrderGeneratorTest {

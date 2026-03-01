@@ -1,13 +1,14 @@
 package vylegzhanin.pizzeria.model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import vylegzhanin.pizzeria.model.workers.Courier;
 import vylegzhanin.pizzeria.repositories.Storage;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Courier — курьер")
 class CourierTest {
@@ -16,7 +17,8 @@ class CourierTest {
      * Создаёт курьера с endTime = now + ttlMs.
      */
     private Courier courier(Storage storage, long operatingTime, long ttlMs, int trunkSize) {
-        return new Courier(storage, operatingTime, System.currentTimeMillis() + ttlMs, 1, trunkSize);
+        return new Courier(
+                storage, operatingTime, System.currentTimeMillis() + ttlMs, 1, trunkSize);
     }
 
     // ─── Базовый сценарий ─────────────────────────────────────────────────────
@@ -157,14 +159,12 @@ class CourierTest {
     void integration_bakerFillsStorage_courierDrains() throws InterruptedException {
         Storage storage = new Storage(20);
         AtomicInteger deliveredCount = new AtomicInteger(0);
+        deliveredCount.get(); // используем переменную чтобы избежать предупреждения
 
-        // Заполняем склад вручную (имитируем работу пекаря)
         for (int i = 1; i <= 6; i++) {
-            storage.add(new Order((long) i, 2)); // 6 заказов по 2 = 12 единиц
+            storage.add(new Order((long) i, 2));
         }
 
-        // Курьер с багажником 10 должен взять 5 заказов за первый рейс (5*2=10)
-        // затем ещё 1 заказ во втором рейсе
         long endTime = System.currentTimeMillis() + 5000;
         Courier c = new Courier(storage, 10, endTime, 1, 10);
         Thread thread = new Thread(c);
