@@ -21,11 +21,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param pizzeriaWorkTime общее время работы пиццерии, мс (JSON: {@code "PizzeriaWorkTime"})
  */
 public record AppConfig(
-        @JsonProperty("N") int bakersCount,
-        @JsonProperty("M") int couriersCount,
-        @JsonProperty("T") int storageCapacity,
-        @JsonProperty("WorkTime") long workTime,
-        @JsonProperty("TrunkSize") int trankSize,
-        @JsonProperty("OrderInterval") long orderInterval,
-        @JsonProperty("PizzeriaWorkTime") long pizzeriaWorkTime
-) {}
+    @JsonProperty("N") int bakersCount,
+    @JsonProperty("M") int couriersCount,
+    @JsonProperty("T") int storageCapacity,
+    @JsonProperty("WorkTime") long workTime,
+    @JsonProperty("TrunkSize") int trankSize,
+    @JsonProperty("OrderInterval") long orderInterval,
+    @JsonProperty("PizzeriaWorkTime") long pizzeriaWorkTime
+) {
+}

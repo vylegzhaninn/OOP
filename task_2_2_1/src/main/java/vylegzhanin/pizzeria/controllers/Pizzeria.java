@@ -44,7 +44,7 @@ public class Pizzeria extends AbstractPizzeria {
      */
     public void work() throws InterruptedException {
         OrderGenerator orderGenerator =
-                new OrderGenerator(config.orderInterval(), orderQueue, config);
+            new OrderGenerator(config.orderInterval(), orderQueue, config);
         Thread generatorThread = new Thread(orderGenerator);
         generatorThread.start();
         workersThreadsStart();

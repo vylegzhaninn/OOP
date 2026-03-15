@@ -1,7 +1,6 @@
 package vylegzhanin.pizzeria.controllers;
 
 import java.util.Random;
-
 import vylegzhanin.pizzeria.configs.AppConfig;
 import vylegzhanin.pizzeria.model.workers.Baker;
 import vylegzhanin.pizzeria.model.workers.Courier;
@@ -66,14 +65,14 @@ public abstract class AbstractPizzeria {
     /**
      * Создаёт и запускает потоки для всех пекарей и курьеров.
      *
-     * <p>Каждому работнику назначается случайное время выполнения за��аза
+     * <p>Каждому работнику назначается случайное время выполнения заказа
      * в диапазоне {@code [0, workTime)} мс.</p>
      */
     protected void workersThreadsStart() {
         int i = 0;
         while (i < config.bakersCount()) {
             Baker baker = new Baker(orderQueue, random.nextInt((int) config.workTime()),
-                    storage, endTime, i + 1);
+                storage, endTime, i + 1);
             bakers[i] = new Thread(baker);
             bakers[i].start();
             i++;
@@ -81,7 +80,7 @@ public abstract class AbstractPizzeria {
         i = 0;
         while (i < config.couriersCount()) {
             Courier courier = new Courier(storage, random.nextInt((int) config.workTime()),
-                    endTime, i + 1, random.nextInt(config.trankSize()));
+                endTime, i + 1, random.nextInt(config.trankSize()));
             couriers[i] = new Thread(courier);
             couriers[i].start();
             i++;

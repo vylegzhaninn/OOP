@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import vylegzhanin.pizzeria.model.workers.Courier;
 import vylegzhanin.pizzeria.repositories.Storage;
 
@@ -20,7 +18,7 @@ class CourierTest {
      */
     private Courier courier(Storage storage, long operatingTime, long ttlMs, int trunkSize) {
         return new Courier(
-                storage, operatingTime, System.currentTimeMillis() + ttlMs, 1, trunkSize);
+            storage, operatingTime, System.currentTimeMillis() + ttlMs, 1, trunkSize);
     }
 
     // ─── Базовый сценарий ─────────────────────────────────────────────────────
@@ -99,7 +97,7 @@ class CourierTest {
 
         // Верхний заказ (размер 3) не влез → ни один не забран (курьер делает break)
         assertFalse(storage.isEmpty(),
-                "Курьер не должен брать заказ, который не влезает в багажник");
+            "Курьер не должен брать заказ, который не влезает в багажник");
     }
 
     // ─── Ожидание ─────────────────────────────────────────────────────────────
@@ -151,7 +149,7 @@ class CourierTest {
         thread.join(2000);
 
         assertFalse(storage.isEmpty(),
-                "Курьер не должен брать заказы после окончания рабочего времени");
+            "Курьер не должен брать заказы после окончания рабочего времени");
     }
 
     // ─── Интеграция Baker + Courier ───────────────────────────────────────────

@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import vylegzhanin.pizzeria.configs.AppConfig;
 import vylegzhanin.pizzeria.model.Order;
 import vylegzhanin.pizzeria.repositories.OrderQueue;
@@ -21,7 +19,9 @@ import vylegzhanin.pizzeria.repositories.OrderQueue;
 @DisplayName("OrderGenerator — генератор заказов")
 class OrderGeneratorTest {
 
-    /** Стандартный конфиг для тестов: trunkSize=20, интервал=intervalMs. */
+    /**
+     * Стандартный конфиг для тестов: trunkSize=20, интервал=intervalMs.
+     */
     private AppConfig cfg(long intervalMs) {
         return new AppConfig(1, 1, 5, 500, 20, intervalMs, 10000);
     }
@@ -68,7 +68,7 @@ class OrderGeneratorTest {
 
         assertFalse(orders.isEmpty());
         orders.forEach(o -> assertTrue(o.size() >= 0 && o.size() < trunkSize,
-                "Размер заказа должен быть в диапазоне [0, trunkSize), но был: " + o.size()));
+            "Размер заказа должен быть в диапазоне [0, trunkSize), но был: " + o.size()));
     }
 
     @Test
@@ -97,7 +97,7 @@ class OrderGeneratorTest {
         }
 
         assertEquals(0, countAfterDelay,
-                "После endGenerating() новых заказов поступать не должно");
+            "После endGenerating() новых заказов поступать не должно");
     }
 
     @Test
@@ -121,7 +121,7 @@ class OrderGeneratorTest {
         assertTrue(orders.size() >= 2, "Должно быть минимум 2 заказа для проверки нарастания id");
         for (int i = 0; i < orders.size() - 1; i++) {
             assertTrue(orders.get(i).id() < orders.get(i + 1).id(),
-                    "id должны быть строго возрастающими");
+                "id должны быть строго возрастающими");
         }
     }
 
@@ -145,7 +145,7 @@ class OrderGeneratorTest {
         thread.interrupt();
 
         assertTrue(latch.await(2, TimeUnit.SECONDS),
-                "Поток генератора должен завершиться после прерывания");
+            "Поток генератора должен завершиться после прерывания");
         assertTrue(threadFinished.get());
     }
 }

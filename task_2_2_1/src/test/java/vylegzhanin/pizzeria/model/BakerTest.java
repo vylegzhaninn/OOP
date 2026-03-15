@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import vylegzhanin.pizzeria.model.workers.Baker;
 import vylegzhanin.pizzeria.repositories.OrderQueue;
 import vylegzhanin.pizzeria.repositories.Storage;
@@ -73,7 +71,7 @@ class BakerTest {
 
         long deadline = System.currentTimeMillis() + 5000;
         while ((storage.isEmpty() || !queue.isEmpty())
-                && System.currentTimeMillis() < deadline) {
+            && System.currentTimeMillis() < deadline) {
             Thread.sleep(50);
         }
         Thread.sleep(300);
@@ -139,6 +137,6 @@ class BakerTest {
         bakerThread.join(TimeUnit.SECONDS.toMillis(2));
 
         assertTrue(storage.isEmpty(),
-                "Пекарь не должен класть заказ на склад, если рабочее время истекло");
+            "Пекарь не должен класть заказ на склад, если рабочее время истекло");
     }
 }

@@ -35,9 +35,19 @@ public class Baker extends Worker {
      */
     @Override
     public void handleOrder(Order order) {
-        storage.add(order);
+        synchronized (storage) {
+            while (!storage.add(order)) {
+                try {
+                    storage.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+            storage.notifyAll();
+        }
         log.info("{} № {} положил заказ с id: {} на склад",
-                getClass().getSimpleName(), id, order.id());
+            getClass().getSimpleName(), id, order.id());
     }
 
     /**

@@ -33,7 +33,7 @@ class OrderTest {
         assertEquals(30, order.size());
         assertNotNull(order.reservationTime());
         assertTrue(order.reservationTime() >= before && order.reservationTime() <= after,
-                "reservationTime должно быть в диапазоне [before, after]");
+            "reservationTime должно быть в диапазоне [before, after]");
     }
 
     @Test

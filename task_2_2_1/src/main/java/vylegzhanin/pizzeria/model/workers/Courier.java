@@ -36,7 +36,7 @@ public class Courier extends Worker {
     @Override
     protected void handleOrder(Order order) {
         log.info("{} № {} отдал заказчику заказ с id: {}",
-                getClass().getSimpleName(), id, order.id());
+            getClass().getSimpleName(), id, order.id());
     }
 
     /**
@@ -70,10 +70,13 @@ public class Courier extends Worker {
                 int orderSize = storage.getOrderSize();
                 if (orderSize <= tmpTrankSize) {
                     Order order = storage.get();
-                    tmpTrankSize -= orderSize;
-                    orders.offer(order);
-                    log.info("Courier № {} взял заказ с id: {} и массой: {}",
+                    if (order != null) {
+                        tmpTrankSize -= orderSize;
+                        orders.offer(order);
+                        log.info("Courier № {} взял заказ с id: {} и массой: {}",
                             id, order.id(), order.size());
+                        storage.notifyAll();
+                    }
                 } else {
                     break;
                 }
@@ -92,9 +95,9 @@ public class Courier extends Worker {
     public void run() {
         try {
             log.info("{} {} начал работу с объёмом багажника {} и временем работы {} мс",
-                    getClass().getSimpleName(), id, trankSize, operatingTime);
+                getClass().getSimpleName(), id, trankSize, operatingTime);
             while (!Thread.currentThread().isInterrupted()
-                    && System.currentTimeMillis() < endTime) {
+                && System.currentTimeMillis() < endTime) {
                 waitingForOrder();
             }
         } catch (InterruptedException e) {

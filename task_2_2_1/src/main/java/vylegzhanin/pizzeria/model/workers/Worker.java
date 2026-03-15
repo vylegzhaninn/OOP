@@ -20,15 +20,25 @@ import vylegzhanin.pizzeria.repositories.Storage;
  * </ul>
  */
 public abstract class Worker implements Runnable {
-    /** Логгер для вывода информации о работе работника. */
+    /**
+     * Логгер для вывода информации о работе работника.
+     */
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    /** Время выполнения одного заказа в миллисекундах. */
+    /**
+     * Время выполнения одного заказа в миллисекундах.
+     */
     protected final long operatingTime;
-    /** Общее хранилище готовых заказов. */
+    /**
+     * Общее хранилище готовых заказов.
+     */
     protected final Storage storage;
-    /** Момент окончания рабочего дня (мс с эпохи Unix). */
+    /**
+     * Момент окончания рабочего дня (мс с эпохи Unix).
+     */
     protected final long endTime;
-    /** Порядковый номер работника. */
+    /**
+     * Порядковый номер работника.
+     */
     protected final int id;
 
     /**
@@ -66,7 +76,7 @@ public abstract class Worker implements Runnable {
     protected final void work(Order order) throws InterruptedException {
         if (System.currentTimeMillis() + operatingTime + 100 < endTime) {
             log.info("{} № {} выполняет заказ с id: {}",
-                    getClass().getSimpleName(), id, order.id());
+                getClass().getSimpleName(), id, order.id());
             Thread.sleep(operatingTime);
             handleOrder(order);
         } else {
@@ -114,9 +124,9 @@ public abstract class Worker implements Runnable {
     public void run() {
         try {
             log.info("{} {} начал работу с временем работы {} мс",
-                    getClass().getSimpleName(), id, operatingTime);
+                getClass().getSimpleName(), id, operatingTime);
             while (!Thread.currentThread().isInterrupted()
-                    && System.currentTimeMillis() < endTime) {
+                && System.currentTimeMillis() < endTime) {
                 waitingForOrder();
             }
         } catch (InterruptedException e) {

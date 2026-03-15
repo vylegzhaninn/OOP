@@ -10,10 +10,14 @@ import vylegzhanin.pizzeria.model.Order;
  * из нескольких потоков (пекарей и курьеров).</p>
  */
 public class Storage {
-    /** Массив для хранения заказов; ёмкость задаётся при создании. */
+    /**
+     * Массив для хранения заказов; ёмкость задаётся при создании.
+     */
     private final Order[] storage;
 
-    /** Индекс следующей свободной ячейки (одновременно — текущий размер). */
+    /**
+     * Индекс следующей свободной ячейки (одновременно — текущий размер).
+     */
     private int top;
 
     /**
@@ -29,15 +33,15 @@ public class Storage {
     /**
      * Добавляет заказ в хранилище.
      *
-     * <p><b>Предусловие:</b> хранилище не должно быть заполнено
-     * ({@link #isFull()} == {@code false}).
-     * Вызывающий код обязан проверить это перед вызовом, иначе возможен
-     * {@link ArrayIndexOutOfBoundsException}.</p>
-     *
      * @param order заказ, который необходимо положить на хранение; не должен быть {@code null}
+     * @return {@code true}, если заказ успешно добавлен; {@code false}, если хранилище заполнено
      */
-    public synchronized void add(Order order) {
+    public synchronized boolean add(Order order) {
+        if (isFull()) {
+            return false;
+        }
         storage[top++] = order;
+        return true;
     }
 
     /**
@@ -59,12 +63,12 @@ public class Storage {
      *
      * <p>После вызова заказ удаляется из хранилища и его ячейка освобождается.</p>
      *
-     * <p><b>Предусловие:</b> хранилище не должно быть пустым
-     * ({@link #isEmpty()} == {@code false}).</p>
-     *
-     * @return последний добавленный заказ
+     * @return последний добавленный заказ или {@code null}, если хранилище пусто
      */
     public synchronized Order get() {
+        if (isEmpty()) {
+            return null;
+        }
         return storage[--top];
     }
 
@@ -81,7 +85,7 @@ public class Storage {
      * Проверяет, заполнено ли хранилище до максимальной ёмкости.
      *
      * @return {@code true}, если новый заказ добавить невозможно;
-     *         {@code false} — если место есть
+     * {@code false} — если место есть
      */
     public synchronized boolean isFull() {
         return storage.length <= top;
