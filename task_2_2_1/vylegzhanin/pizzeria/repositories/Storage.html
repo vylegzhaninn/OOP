@@ -111,7 +111,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(vylegzhanin.pizzeria.model.Order)" class="member-name-link">add</a><wbr>(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Добавляет заказ в хранилище.</div>
@@ -176,16 +176,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="add(vylegzhanin.pizzeria.model.Order)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span></div>
-<div class="block">Добавляет заказ в хранилище.
-
- <p><b>Предусловие:</b> хранилище не должно быть заполнено
- (<a href="#isFull()"><code>isFull()</code></a> == <code>false</code>).
- Вызывающий код обязан проверить это перед вызовом, иначе возможен
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ArrayIndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link"><code>ArrayIndexOutOfBoundsException</code></a>.</p></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span></div>
+<div class="block">Добавляет заказ в хранилище.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>order</code> - заказ, который необходимо положить на хранение; не должен быть <code>null</code></dd>
+<dt>Returns:</dt>
+<dd><code>true</code>, если заказ успешно добавлен; <code>false</code>, если хранилище заполнено</dd>
 </dl>
 </section>
 </li>
@@ -212,13 +209,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></span>&nbsp;<span class="element-name">get</span>()</div>
 <div class="block">Извлекает верхний заказ из хранилища (операция pop).
 
- <p>После вызова заказ удаляется из хранилища и его ячейка освобождается.</p>
-
- <p><b>Предусловие:</b> хранилище не должно быть пустым
- (<a href="#isEmpty()"><code>isEmpty()</code></a> == <code>false</code>).</p></div>
+ <p>После вызова заказ удаляется из хранилища и его ячейка освобождается.</p></div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>последний добавленный заказ</dd>
+<dd>последний добавленный заказ или <code>null</code>, если хранилище пусто</dd>
 </dl>
 </section>
 </li>
@@ -241,7 +235,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code>, если новый заказ добавить невозможно;
-         <code>false</code> — если место есть</dd>
+ <code>false</code> — если место есть</dd>
 </dl>
 </section>
 </li>
