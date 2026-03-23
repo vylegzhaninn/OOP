@@ -25,16 +25,30 @@ public class OrderQueue {
     }
 
     /**
-     * Добавляет заказ в конец очереди.
+     * Добавляет заказ в конец очереди и уведомляет всех ожидающих.
      *
      * @param order заказ для добавления; не должен быть {@code null}
      */
     public synchronized void offer(Order order) {
         orderQueue.offer(order);
+        notifyAll();
     }
 
     /**
-     * Извлекает и удаляет первый заказ из очереди.
+     * Ожидает появления заказа в очереди и забирает его.
+     *
+     * @return первый заказ в очереди
+     * @throws InterruptedException если поток был прерван во время ожидания
+     */
+    public synchronized Order take() throws InterruptedException {
+        while (orderQueue.isEmpty()) {
+            wait();
+        }
+        return orderQueue.poll();
+    }
+
+    /**
+     * Извлекает и удаляет первый заказ из очереди без ожидания.
      *
      * @return первый заказ в очереди, или {@code null}, если очередь пуста
      */

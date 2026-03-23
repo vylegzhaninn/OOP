@@ -1,5 +1,7 @@
 package vylegzhanin.pizzeria.repositories;
 
+import java.util.ArrayList;
+import java.util.List;
 import vylegzhanin.pizzeria.model.Order;
 
 /**
@@ -31,17 +33,43 @@ public class Storage {
     }
 
     /**
-     * Добавляет заказ в хранилище.
+     * Добавляет заказ в хранилище, блокируясь, если оно заполнено.
      *
      * @param order заказ, который необходимо положить на хранение; не должен быть {@code null}
-     * @return {@code true}, если заказ успешно добавлен; {@code false}, если хранилище заполнено
+     * @throws InterruptedException если поток был прерван во время ожидания
      */
-    public synchronized boolean add(Order order) {
-        if (isFull()) {
-            return false;
+    public synchronized void add(Order order) throws InterruptedException {
+        while (isFull()) {
+            wait();
         }
         storage[top++] = order;
-        return true;
+        notifyAll();
+    }
+
+    /**
+     * Извлекает заказы из хранилища, заполняя доступную ёмкость.
+     * Блокируется, если хранилище пусто.
+     *
+     * @param maxCapacity максимальная суммарная масса заказов
+     * @return список извлечённых заказов
+     * @throws InterruptedException если поток был прерван во время ожидания
+     */
+    public synchronized List<Order> take(int maxCapacity) throws InterruptedException {
+        while (isEmpty()) {
+            wait();
+        }
+
+        List<Order> orders = new ArrayList<>();
+        int currentCapacity = maxCapacity;
+
+        while (!isEmpty() && getOrderSize() <= currentCapacity) {
+            Order order = get();
+            orders.add(order);
+            currentCapacity -= order.size();
+        }
+        
+        notifyAll();
+        return orders;
     }
 
     /**

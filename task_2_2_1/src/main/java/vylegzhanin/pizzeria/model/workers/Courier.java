@@ -1,5 +1,6 @@
 package vylegzhanin.pizzeria.model.workers;
 
+import java.util.List;
 import vylegzhanin.pizzeria.model.Order;
 import vylegzhanin.pizzeria.repositories.OrderQueue;
 import vylegzhanin.pizzeria.repositories.Storage;
@@ -56,32 +57,18 @@ public class Courier extends Worker {
     @Override
     public void waitingForOrder() throws InterruptedException {
         OrderQueue orders = new OrderQueue();
-        int tmpTrankSize = trankSize;
 
-        synchronized (storage) {
-            if (storage.isEmpty()) {
-                log.info("Courier № {} ожидает заказ", id);
-            }
-            while (storage.isEmpty()) {
-                storage.wait();
-            }
-
-            while (!storage.isEmpty() && tmpTrankSize > 0) {
-                int orderSize = storage.getOrderSize();
-                if (orderSize <= tmpTrankSize) {
-                    Order order = storage.get();
-                    if (order != null) {
-                        tmpTrankSize -= orderSize;
-                        orders.offer(order);
-                        log.info("Courier № {} взял заказ с id: {} и массой: {}",
-                            id, order.id(), order.size());
-                        storage.notifyAll();
-                    }
-                } else {
-                    break;
-                }
-            }
+        if (storage.isEmpty()) {
+            log.info("Courier № {} ожидает заказ", id);
         }
+
+        List<Order> takenOrders = storage.take(trankSize);
+        for (Order order : takenOrders) {
+             orders.offer(order);
+             log.info("Courier № {} взял заказ с id: {} и массой: {}",
+                 id, order.id(), order.size());
+        }
+        
         work(orders);
     }
 

@@ -35,15 +35,11 @@ public class Baker extends Worker {
      */
     @Override
     public void handleOrder(Order order) {
-        synchronized (storage) {
-            while (!storage.add(order)) {
-                try {
-                    storage.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
-                }
-            }
+        try {
+            storage.add(order);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
         }
         log.info("{} № {} положил заказ с id: {} на склад",
             getClass().getSimpleName(), id, order.id());
@@ -60,16 +56,7 @@ public class Baker extends Worker {
      */
     @Override
     public void waitingForOrder() throws InterruptedException {
-        Order order;
-        synchronized (orderQueue) {
-            if (orderQueue.isEmpty()) {
-                log.info("Baker № {} ожидает заказ", id);
-            }
-            while (orderQueue.isEmpty()) {
-                orderQueue.wait();
-            }
-            order = orderQueue.poll();
-        }
+        Order order = orderQueue.take();
         work(order);
     }
 }

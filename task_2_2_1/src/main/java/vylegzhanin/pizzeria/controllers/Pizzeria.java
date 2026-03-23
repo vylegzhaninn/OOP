@@ -49,15 +49,11 @@ public class Pizzeria extends AbstractPizzeria {
         generatorThread.start();
         workersThreadsStart();
 
-        while (System.currentTimeMillis() < endTime) {
-            Thread.sleep(1000);
-            synchronized (orderQueue) {
-                orderQueue.notify();
-            }
-            synchronized (storage) {
-                storage.notify();
-            }
+        long timeToSleep = endTime - System.currentTimeMillis();
+        if (timeToSleep > 0) {
+            Thread.sleep(timeToSleep);
         }
+
         log.info("Время работы пиццерии закончилось");
 
         orderGenerator.endGenerating();
