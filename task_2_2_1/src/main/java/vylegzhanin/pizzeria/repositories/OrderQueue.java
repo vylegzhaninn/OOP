@@ -16,20 +16,36 @@ import vylegzhanin.pizzeria.model.Order;
  */
 public class OrderQueue {
     private final LinkedList<Order> orderQueue;
+    private final int capacity;
 
     /**
-     * Создаёт пустую очередь заказов.
+     * Создаёт пустую очередь заказов с неограниченной вместимостью.
      */
     public OrderQueue() {
-        orderQueue = new LinkedList<>();
+        this(Integer.MAX_VALUE);
+    }
+
+    /**
+     * Создаёт пустую очередь заказов с заданной вместимостью.
+     *
+     * @param capacity максимальное количество заказов в очереди
+     */
+    public OrderQueue(int capacity) {
+        this.orderQueue = new LinkedList<>();
+        this.capacity = capacity;
     }
 
     /**
      * Добавляет заказ в конец очереди и уведомляет всех ожидающих.
+     * Если очередь заполнена, поток блокируется до появления свободного о места.
      *
      * @param order заказ для добавления; не должен быть {@code null}
+     * @throws InterruptedException если поток был прерван во время ожидания
      */
-    public synchronized void offer(Order order) {
+    public synchronized void offer(Order order) throws InterruptedException {
+        while (orderQueue.size() >= capacity) {
+            wait();
+        }
         orderQueue.offer(order);
         notifyAll();
     }
@@ -44,7 +60,9 @@ public class OrderQueue {
         while (orderQueue.isEmpty()) {
             wait();
         }
-        return orderQueue.poll();
+        Order order = orderQueue.poll();
+        notifyAll();
+        return order;
     }
 
     /**
@@ -53,7 +71,20 @@ public class OrderQueue {
      * @return первый заказ в очереди, или {@code null}, если очередь пуста
      */
     public synchronized Order poll() {
-        return orderQueue.poll();
+        Order order = orderQueue.poll();
+        if (order != null) {
+            notifyAll();
+        }
+        return order;
+    }
+
+    /**
+     * Возвращает первый заказ в очереди без удаления.
+     *
+     * @return первый заказ или {@code null}, если очередь пуста
+     */
+    public synchronized Order peek() {
+        return orderQueue.peek();
     }
 
     /**
@@ -63,5 +94,14 @@ public class OrderQueue {
      */
     public synchronized boolean isEmpty() {
         return orderQueue.isEmpty();
+    }
+
+    /**
+     * Проверяет, заполнена ли очередь.
+     *
+     * @return {@code true} если очередь полна, {@code false} иначе
+     */
+    public synchronized boolean isFull() {
+        return orderQueue.size() >= capacity;
     }
 }

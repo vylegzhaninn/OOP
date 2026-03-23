@@ -7,20 +7,10 @@ import vylegzhanin.pizzeria.model.Order;
 /**
  * Потокобезопасное промежуточное хранилище готовых заказов.
  *
- * <p>Реализует стек (LIFO) поверх массива фиксированной ёмкости.
- * Все публичные методы синхронизированы для безопасного доступа
- * из нескольких потоков (пекарей и курьеров).</p>
+ * <p>Использует {@link OrderQueue} (FIFO) для хранения заказов.</p>
  */
 public class Storage {
-    /**
-     * Массив для хранения заказов; ёмкость задаётся при создании.
-     */
-    private final Order[] storage;
-
-    /**
-     * Индекс следующей свободной ячейки (одновременно — текущий размер).
-     */
-    private int top;
+    private final OrderQueue queue;
 
     /**
      * Создаёт хранилище с заданной максимальной ёмкостью.
@@ -28,8 +18,7 @@ public class Storage {
      * @param capacity максимальное количество заказов, которые можно хранить одновременно
      */
     public Storage(int capacity) {
-        storage = new Order[capacity];
-        top = 0;
+        queue = new OrderQueue(capacity);
     }
 
     /**
@@ -38,12 +27,8 @@ public class Storage {
      * @param order заказ, который необходимо положить на хранение; не должен быть {@code null}
      * @throws InterruptedException если поток был прерван во время ожидания
      */
-    public synchronized void add(Order order) throws InterruptedException {
-        while (isFull()) {
-            wait();
-        }
-        storage[top++] = order;
-        notifyAll();
+    public void add(Order order) throws InterruptedException {
+        queue.offer(order);
     }
 
     /**
@@ -54,50 +39,53 @@ public class Storage {
      * @return список извлечённых заказов
      * @throws InterruptedException если поток был прерван во время ожидания
      */
-    public synchronized List<Order> take(int maxCapacity) throws InterruptedException {
-        while (isEmpty()) {
-            wait();
-        }
+    public List<Order> take(int maxCapacity) throws InterruptedException {
+        synchronized (queue) {
+            while (isEmpty()) {
+                queue.wait();
+            }
 
-        List<Order> orders = new ArrayList<>();
-        int currentCapacity = maxCapacity;
+            List<Order> orders = new ArrayList<>();
+            int currentCapacity = maxCapacity;
 
-        while (!isEmpty() && getOrderSize() <= currentCapacity) {
-            Order order = get();
-            orders.add(order);
-            currentCapacity -= order.size();
+            while (!isEmpty()) {
+                Order next = queue.peek();
+                if (next.size() <= currentCapacity) {
+                    orders.add(queue.poll());
+                    currentCapacity -= next.size();
+                } else {
+                    break;
+                }
+            }
+            return orders;
         }
-        
-        notifyAll();
-        return orders;
     }
 
     /**
-     * Возвращает объём (массу) последнего добавленного заказа
+     * Возвращает объём (массу) следующего доступного заказа
      * без его удаления из хранилища.
      *
      * <p><b>Предусловие:</b> хранилище не должно быть пустым
      * ({@link #isEmpty()} == {@code false}).</p>
      *
-     * @return размер (масса) верхнего заказа в стеке
+     * @return размер (масса) следующего заказа
      * @throws NullPointerException если хранилище пусто
      */
-    public synchronized int getOrderSize() {
-        return storage[top - 1].size();
+    public int getOrderSize() {
+        Order order = queue.peek();
+        if (order == null) {
+            throw new NullPointerException();
+        }
+        return order.size();
     }
 
     /**
-     * Извлекает верхний заказ из хранилища (операция pop).
+     * Извлекает один заказ из хранилища.
      *
-     * <p>После вызова заказ удаляется из хранилища и его ячейка освобождается.</p>
-     *
-     * @return последний добавленный заказ или {@code null}, если хранилище пусто
+     * @return следующий заказ или {@code null}, если хранилище пусто
      */
-    public synchronized Order get() {
-        if (isEmpty()) {
-            return null;
-        }
-        return storage[--top];
+    public Order get() {
+        return queue.poll();
     }
 
     /**
@@ -105,8 +93,8 @@ public class Storage {
      *
      * @return {@code true}, если заказов нет; {@code false} — если есть хотя бы один
      */
-    public synchronized boolean isEmpty() {
-        return top < 1;
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 
     /**
@@ -115,7 +103,7 @@ public class Storage {
      * @return {@code true}, если новый заказ добавить невозможно;
      * {@code false} — если место есть
      */
-    public synchronized boolean isFull() {
-        return storage.length <= top;
+    public boolean isFull() {
+        return queue.isFull();
     }
 }
