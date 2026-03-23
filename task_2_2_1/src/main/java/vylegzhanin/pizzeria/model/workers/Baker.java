@@ -44,7 +44,6 @@ public class Baker extends Worker {
                     return;
                 }
             }
-            storage.notifyAll();
         }
         log.info("{} № {} положил заказ с id: {} на склад",
             getClass().getSimpleName(), id, order.id());
