@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-class SmokeTest {
+/** Тесты для класса Point. */
+public class PointTest {
 
     @Test
     void pointShouldStoreCoordinatesCorrectly() {

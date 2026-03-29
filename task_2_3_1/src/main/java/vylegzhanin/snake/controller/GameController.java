@@ -18,6 +18,9 @@ import vylegzhanin.snake.model.Item;
 import vylegzhanin.snake.model.Level;
 import vylegzhanin.snake.model.Point;
 
+/**
+ * Контроллер игрового интерфейса. Управляет отрисовкой и взаимодействием пользователя с игрой.
+ */
 public class GameController {
     private static final int TILE_SIZE = 30;
 
@@ -41,6 +44,7 @@ public class GameController {
     private AnimationTimer timer;
 
     @FXML
+    /** Инициализация контроллера: создаёт уровни, загружает текущий уровень и запускает таймер. */
     public void initialize() {
         game = new Game();
         levels = new ArrayList<>();
@@ -58,7 +62,7 @@ public class GameController {
             public void handle(long now) {
                 if (isRunning && now - lastUpdate >= game.getCurrentLevel().getTickDelayMs()) {
                     game.update();
-                    updateUI();
+                    updateUi();
                     lastUpdate = now;
                 }
             }
@@ -70,23 +74,25 @@ public class GameController {
         });
     }
 
+    /** Загружает текущий уровень или отмечает победу при отсутствии уровней. */
     private void loadCurrentLevel() {
         if (currentLevelIndex < levels.size()) {
             game.loadLevel(levels.get(currentLevelIndex));
         } else {
             game.setWon(true); // Прошли все уровни!
         }
-        updateUI();
+        updateUi();
         draw();
     }
 
     @FXML
+    /** Обработка нажатия кнопки действия (старт/рестарт/следующий уровень). */
     private void handleAction() {
         if (!isRunning && !game.isGameOver() && !game.isWon() && !game.isLevelCompleted()) {
             isRunning = true;
             actionBtn.setText("Restart");
             lastUpdate = System.nanoTime();
-            updateUI();
+            updateUi();
         } else {
             if (game.isGameOver() || game.isWon()) {
                 currentLevelIndex = 0; // Начинаем сначала
@@ -100,25 +106,34 @@ public class GameController {
             isRunning = true;
             actionBtn.setText("Restart");
             lastUpdate = System.nanoTime();
-            updateUI();
+            updateUi();
         }
     }
 
+    /** Обработка нажатий клавиш движения змейки. */
     private void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
-            case UP, W -> game.getSnake().setDirection(Direction.UP);
-            case DOWN, S -> game.getSnake().setDirection(Direction.DOWN);
-            case LEFT, A -> game.getSnake().setDirection(Direction.LEFT);
-            case RIGHT, D -> game.getSnake().setDirection(Direction.RIGHT);
+            case UP, W ->
+                game.getSnake().setDirection(Direction.UP);
+            case DOWN, S ->
+                game.getSnake().setDirection(Direction.DOWN);
+            case LEFT, A ->
+                game.getSnake().setDirection(Direction.LEFT);
+            case RIGHT, D ->
+                game.getSnake().setDirection(Direction.RIGHT);
+            default -> {
+                // ничего
+            }
         }
     }
 
-    private void updateUI() {
+    /** Обновляет элементы UI и перерисовывает сцену. */
+    private void updateUi() {
         if (game.getCurrentLevel() != null) {
             levelLabel.setText("Level: " + game.getCurrentLevel().getLevelNumber());
         }
-        scoreLabel.setText("Score: " + game.getScore() + "/" +
-            (game.getCurrentLevel() == null ? "-" : game.getCurrentLevel().getWinLength()));
+        scoreLabel.setText("Score: " + game.getScore()
+            + "/" + (game.getCurrentLevel() == null ? "-" : game.getCurrentLevel().getWinLength()));
 
         if (game.isWon()) {
             statusLabel.setText("You Beat The Game!");
@@ -147,6 +162,7 @@ public class GameController {
         draw();
     }
 
+    /** Перерисовывает игровое поле. */
     private void draw() {
         if (game.getCurrentLevel() == null) {
             return;

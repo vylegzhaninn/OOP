@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Точка входа JavaFX приложения. Отвечает за загрузку FXML и показ окна игры.
+ */
 public class Main extends Application {
 
     @Override

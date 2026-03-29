@@ -111,8 +111,10 @@ public class Game {
         snake.move();
         Point head = snake.getHead();
 
-        if (head.x() < 0 || head.x() >= currentLevel.getWidth() ||
-            head.y() < 0 || head.y() >= currentLevel.getHeight()) {
+        if (head.x() < 0
+            || head.x() >= currentLevel.getWidth()
+            || head.y() < 0
+            || head.y() >= currentLevel.getHeight()) {
             isGameOver = true;
             return;
         }
