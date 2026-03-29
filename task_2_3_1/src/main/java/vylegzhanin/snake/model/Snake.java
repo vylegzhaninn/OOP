@@ -45,7 +45,8 @@ public class Snake {
     public void move() {
         currentDirection = nextDirection;
         Point head = body.getFirst();
-        Point newHead = new Point(head.x() + currentDirection.getDx(), head.y() + currentDirection.getDy());
+        Point newHead =
+            new Point(head.x() + currentDirection.getDx(), head.y() + currentDirection.getDy());
         body.addFirst(newHead);
         body.removeLast();
     }

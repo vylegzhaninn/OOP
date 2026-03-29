@@ -1,8 +1,11 @@
 package vylegzhanin.snake.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     private Game game;
@@ -29,12 +32,12 @@ class GameTest {
     void gameShouldDetectWallCollision() {
         // Змейка стартует в (5,5), идет вправо
         Snake snake = game.getSnake();
-        
+
         // Делаем 5 шагов вправо, чтобы удариться о правую стену (x=10)
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             game.update();
         }
-        
+
         assertTrue(game.isGameOver(), "Game should be over after hitting the right wall.");
     }
 }

@@ -1,5 +1,7 @@
 package vylegzhanin.snake.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,22 +18,24 @@ import vylegzhanin.snake.model.Item;
 import vylegzhanin.snake.model.Level;
 import vylegzhanin.snake.model.Point;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameController {
     private static final int TILE_SIZE = 30;
-    
-    @FXML private Label levelLabel;
-    @FXML private Label scoreLabel;
-    @FXML private Label statusLabel;
-    @FXML private Button actionBtn;
-    @FXML private Canvas canvas;
-    
+
+    @FXML
+    private Label levelLabel;
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private Button actionBtn;
+    @FXML
+    private Canvas canvas;
+
     private Game game;
     private List<Level> levels;
     private int currentLevelIndex = 0;
-    
+
     private boolean isRunning = false;
     private long lastUpdate = 0;
     private AnimationTimer timer;
@@ -46,9 +50,9 @@ public class GameController {
         levels.add(new Level(2, 15, 15, 20, 120_000_000L, 3));
         // Уровень 3: Еще быстрее (90мс), нужно 30 яблок, 4 яблока сразу
         levels.add(new Level(3, 15, 15, 30, 90_000_000L, 4));
-        
+
         loadCurrentLevel();
-        
+
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -75,7 +79,7 @@ public class GameController {
         updateUI();
         draw();
     }
-    
+
     @FXML
     private void handleAction() {
         if (!isRunning && !game.isGameOver() && !game.isWon() && !game.isLevelCompleted()) {
@@ -99,7 +103,7 @@ public class GameController {
             updateUI();
         }
     }
-    
+
     private void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case UP, W -> game.getSnake().setDirection(Direction.UP);
@@ -108,13 +112,14 @@ public class GameController {
             case RIGHT, D -> game.getSnake().setDirection(Direction.RIGHT);
         }
     }
-    
+
     private void updateUI() {
         if (game.getCurrentLevel() != null) {
             levelLabel.setText("Level: " + game.getCurrentLevel().getLevelNumber());
         }
-        scoreLabel.setText("Score: " + game.getScore() + "/" + (game.getCurrentLevel() == null ? "-" : game.getCurrentLevel().getWinLength()));
-        
+        scoreLabel.setText("Score: " + game.getScore() + "/" +
+            (game.getCurrentLevel() == null ? "-" : game.getCurrentLevel().getWinLength()));
+
         if (game.isWon()) {
             statusLabel.setText("You Beat The Game!");
             statusLabel.setTextFill(Color.GREEN);
@@ -141,14 +146,16 @@ public class GameController {
         }
         draw();
     }
-    
+
     private void draw() {
-        if (game.getCurrentLevel() == null) return;
-        
+        if (game.getCurrentLevel() == null) {
+            return;
+        }
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        
+
         for (Item item : game.getItems()) {
             if (item instanceof Apple) {
                 gc.setFill(Color.RED);
@@ -158,7 +165,7 @@ public class GameController {
             Point p = item.getPosition();
             gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         }
-        
+
         gc.setFill(Color.GREEN);
         if (game.getSnake() != null) {
             for (Point p : game.getSnake().getBody()) {

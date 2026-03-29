@@ -22,7 +22,8 @@ public class Level {
      * @param tickDelayMs   задержка между шагами змейки в наносекундах (влияет на скорость игры).
      * @param initialApples количество яблок, которое должно одновременно находиться на поле.
      */
-    public Level(int levelNumber, int width, int height, int winLength, long tickDelayMs, int initialApples) {
+    public Level(int levelNumber, int width, int height, int winLength, long tickDelayMs,
+                 int initialApples) {
         this.levelNumber = levelNumber;
         this.width = width;
         this.height = height;
@@ -31,10 +32,27 @@ public class Level {
         this.initialApples = initialApples;
     }
 
-    public int getLevelNumber() { return levelNumber; }
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
-    public int getWinLength() { return winLength; }
-    public long getTickDelayMs() { return tickDelayMs; }
-    public int getInitialApples() { return initialApples; }
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWinLength() {
+        return winLength;
+    }
+
+    public long getTickDelayMs() {
+        return tickDelayMs;
+    }
+
+    public int getInitialApples() {
+        return initialApples;
+    }
 }

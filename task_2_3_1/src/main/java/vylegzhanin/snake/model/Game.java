@@ -12,7 +12,7 @@ public class Game {
     private Level currentLevel;
     private Snake snake;
     private final List<Item> items;
-    
+
     private boolean isGameOver;
     private boolean isWon;
     private boolean levelCompleted;
@@ -42,7 +42,9 @@ public class Game {
 
         for (int i = 0; i < level.getInitialApples(); i++) {
             Point p = findFreeSpot();
-            if (p != null) items.add(new Apple(p));
+            if (p != null) {
+                items.add(new Apple(p));
+            }
         }
     }
 
@@ -70,7 +72,9 @@ public class Game {
                     break;
                 }
             }
-            if (!collision) return p;
+            if (!collision) {
+                return p;
+            }
         }
         return null;
     }
@@ -96,11 +100,13 @@ public class Game {
     }
 
     /**
-     * Выполняет один игровой тик: перемещает змейку, проверяет коллизии со стенами, 
+     * Выполняет один игровой тик: перемещает змейку, проверяет коллизии со стенами,
      * собственным телом и предметами. Обновляет состояние игры (поражение/победа).
      */
     public void update() {
-        if (isGameOver || isWon || levelCompleted) return;
+        if (isGameOver || isWon || levelCompleted) {
+            return;
+        }
 
         snake.move();
         Point head = snake.getHead();
@@ -130,12 +136,35 @@ public class Game {
         }
     }
 
-    public Snake getSnake() { return snake; }
-    public List<Item> getItems() { return items; }
-    public boolean isGameOver() { return isGameOver; }
-    public boolean isLevelCompleted() { return levelCompleted; }
-    public void setWon(boolean won) { this.isWon = won; }
-    public boolean isWon() { return isWon; }
-    public int getScore() { return snake.getBody().size(); }
-    public Level getCurrentLevel() { return currentLevel; }
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public boolean isLevelCompleted() {
+        return levelCompleted;
+    }
+
+    public void setWon(boolean won) {
+        this.isWon = won;
+    }
+
+    public boolean isWon() {
+        return isWon;
+    }
+
+    public int getScore() {
+        return snake.getBody().size();
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
 }

@@ -2,7 +2,7 @@ package vylegzhanin.snake.model;
 
 /**
  * Перечисление для возможных направлений движения змейки.
- * Содержит смещения по осям X и Y для каждого направления, 
+ * Содержит смещения по осям X и Y для каждого направления,
  * а также логику определения противоположного направления.
  */
 public enum Direction {
@@ -19,8 +19,13 @@ public enum Direction {
         this.dy = dy;
     }
 
-    public int getDx() { return dx; }
-    public int getDy() { return dy; }
+    public int getDx() {
+        return dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
 
     /**
      * Возвращает направление, противоположное текущему.
