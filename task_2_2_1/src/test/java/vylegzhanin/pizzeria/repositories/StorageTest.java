@@ -37,14 +37,14 @@ class StorageTest {
 
     @Test
     @DisplayName("isEmpty() возвращает false после добавления заказа")
-    void isEmpty_afterAdd_returnsFalse() {
+    void isEmpty_afterAdd_returnsFalse() throws InterruptedException {
         storage.add(new Order(1L, 10));
         assertFalse(storage.isEmpty());
     }
 
     @Test
     @DisplayName("isEmpty() возвращает true после добавления и извлечения заказа")
-    void isEmpty_afterAddAndGet_returnsTrue() {
+    void isEmpty_afterAddAndGet_returnsTrue() throws InterruptedException {
         storage.add(new Order(1L, 10));
         storage.get();
         assertTrue(storage.isEmpty());
@@ -60,7 +60,7 @@ class StorageTest {
 
     @Test
     @DisplayName("isFull() возвращает true когда хранилище заполнено")
-    void isFull_whenFull_returnsTrue() {
+    void isFull_whenFull_returnsTrue() throws InterruptedException {
         for (int i = 1; i <= 5; i++) {
             storage.add(new Order((long) i, i));
         }
@@ -69,7 +69,7 @@ class StorageTest {
 
     @Test
     @DisplayName("isFull() возвращает false после извлечения заказа из полного хранилища")
-    void isFull_afterGetFromFull_returnsFalse() {
+    void isFull_afterGetFromFull_returnsFalse() throws InterruptedException {
         for (int i = 1; i <= 5; i++) {
             storage.add(new Order((long) i, i));
         }
@@ -80,20 +80,20 @@ class StorageTest {
     // ─── add / get ────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("get() возвращает последний добавленный заказ (LIFO)")
-    void get_returnsLastAddedOrderLifo() {
+    @DisplayName("get() возвращает первый добавленный заказ (FIFO)")
+    void get_returnsLastAddedOrderLifo() throws InterruptedException {
         Order first = new Order(1L, 5);
         Order second = new Order(2L, 10);
         storage.add(first);
         storage.add(second);
 
-        assertSame(second, storage.get());
         assertSame(first, storage.get());
+        assertSame(second, storage.get());
     }
 
     @Test
     @DisplayName("get() возвращает именно тот заказ, который был добавлен")
-    void get_returnsSameOrderThatWasAdded() {
+    void get_returnsSameOrderThatWasAdded() throws InterruptedException {
         Order order = new Order(42L, 99);
         storage.add(order);
         Order retrieved = storage.get();
@@ -105,29 +105,29 @@ class StorageTest {
 
     @Test
     @DisplayName("getOrderSize() возвращает размер верхнего заказа без его удаления")
-    void getOrderSize_returnsTopOrderSize_withoutRemoving() {
+    void getOrderSize_returnsTopOrderSize_withoutRemoving() throws InterruptedException {
         storage.add(new Order(1L, 7));
         storage.add(new Order(2L, 13));
 
-        assertEquals(13, storage.getOrderSize());
+        assertEquals(7, storage.getOrderSize());
         assertFalse(storage.isEmpty()); // заказ остался
     }
 
     @Test
     @DisplayName("getOrderSize() не изменяет количество заказов в хранилище")
-    void getOrderSize_doesNotChangeSize() {
+    void getOrderSize_doesNotChangeSize() throws InterruptedException {
         storage.add(new Order(1L, 5));
         storage.add(new Order(2L, 3));
 
         // двукратный вызов getOrderSize не должен изменять стек
-        assertEquals(3, storage.getOrderSize());
-        assertEquals(3, storage.getOrderSize());
+        assertEquals(5, storage.getOrderSize());
+        assertEquals(5, storage.getOrderSize());
 
         assertFalse(storage.isEmpty());
-        // get() возвращает верхний заказ (LIFO) — тот что был добавлен последним (id=2, size=3)
-        assertEquals(3, storage.get().size());
-        // теперь на вершине первый заказ (id=1, size=5)
+        // get() возвращает верхний заказ (FIFO) 
         assertEquals(5, storage.get().size());
+        // теперь на вершине второй заказ
+        assertEquals(3, storage.get().size());
         assertTrue(storage.isEmpty());
     }
 
