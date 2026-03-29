@@ -38,14 +38,14 @@ class OrderQueueTest {
 
     @Test
     @DisplayName("isEmpty() возвращает false после добавления заказа")
-    void isEmpty_afterOffer_returnsFalse() {
+    void isEmpty_afterOffer_returnsFalse() throws InterruptedException {
         queue.offer(new Order(1L, 5));
         assertFalse(queue.isEmpty());
     }
 
     @Test
     @DisplayName("isEmpty() возвращает true после того как единственный заказ извлечён")
-    void isEmpty_afterPollLastElement_returnsTrue() {
+    void isEmpty_afterPollLastElement_returnsTrue() throws InterruptedException {
         queue.offer(new Order(1L, 5));
         queue.poll();
         assertTrue(queue.isEmpty());
@@ -61,7 +61,7 @@ class OrderQueueTest {
 
     @Test
     @DisplayName("Очередь работает по принципу FIFO")
-    void offer_and_poll_respectFifo() {
+    void offer_and_poll_respectFifo() throws InterruptedException {
         Order first = new Order(1L, 5);
         Order second = new Order(2L, 10);
         Order third = new Order(3L, 15);
@@ -78,7 +78,7 @@ class OrderQueueTest {
 
     @Test
     @DisplayName("poll() возвращает корректные данные заказа")
-    void poll_returnsCorrectOrderData() {
+    void poll_returnsCorrectOrderData() throws InterruptedException {
         queue.offer(new Order(77L, 42));
         Order result = queue.poll();
 
@@ -90,7 +90,7 @@ class OrderQueueTest {
 
     @Test
     @DisplayName("Несколько операций offer/poll подряд работают корректно")
-    void multipleOffersAndPolls_workCorrectly() {
+    void multipleOffersAndPolls_workCorrectly() throws InterruptedException {
         for (int i = 1; i <= 10; i++) {
             queue.offer(new Order((long) i, i * 2));
         }
@@ -150,7 +150,12 @@ class OrderQueueTest {
         // Producer
         Thread producer = new Thread(() -> {
             for (int i = 0; i < totalOrders; i++) {
-                queue.offer(new Order((long) i, 1));
+                try {
+                    queue.offer(new Order((long) i, 1));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
                 produced.incrementAndGet();
                 synchronized (queue) {
                     queue.notifyAll();
