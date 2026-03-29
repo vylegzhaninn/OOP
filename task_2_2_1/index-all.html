@@ -62,7 +62,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/Storage.html#add(vylegzhanin.pizzeria.model.Order)" class="member-name-link">add(Order)</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/Storage.html" title="class in vylegzhanin.pizzeria.repositories">Storage</a></dt>
 <dd>
-<div class="block">Добавляет заказ в хранилище.</div>
+<div class="block">Добавляет заказ в хранилище, блокируясь, если оно заполнено.</div>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/configs/AppConfig.html" class="type-name-link" title="class in vylegzhanin.pizzeria.configs">AppConfig</a> - Record Class in <a href="vylegzhanin/pizzeria/configs/package-summary.html">vylegzhanin.pizzeria.configs</a></dt>
 <dd>
@@ -150,11 +150,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/Storage.html#get()" class="member-name-link">get()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/Storage.html" title="class in vylegzhanin.pizzeria.repositories">Storage</a></dt>
 <dd>
-<div class="block">Извлекает верхний заказ из хранилища (операция pop).</div>
+<div class="block">Извлекает один заказ из хранилища.</div>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/Storage.html#getOrderSize()" class="member-name-link">getOrderSize()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/Storage.html" title="class in vylegzhanin.pizzeria.repositories">Storage</a></dt>
 <dd>
-<div class="block">Возвращает объём (массу) последнего добавленного заказа
+<div class="block">Возвращает объём (массу) следующего доступного заказа
  без его удаления из хранилища.</div>
 </dd>
 </dl>
@@ -199,6 +199,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Проверяет, пусто ли хранилище.</div>
 </dd>
+<dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#isFull()" class="member-name-link">isFull()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
+<dd>
+<div class="block">Проверяет, заполнена ли очередь.</div>
+</dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/Storage.html#isFull()" class="member-name-link">isFull()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/Storage.html" title="class in vylegzhanin.pizzeria.repositories">Storage</a></dt>
 <dd>
 <div class="block">Проверяет, заполнено ли хранилище до максимальной ёмкости.</div>
@@ -224,7 +228,7 @@ loadScripts(document, 'script');</script>
 <dl class="index">
 <dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#offer(vylegzhanin.pizzeria.model.Order)" class="member-name-link">offer(Order)</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
 <dd>
-<div class="block">Добавляет заказ в конец очереди.</div>
+<div class="block">Добавляет заказ в конец очереди и уведомляет всех ожидающих.</div>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/model/workers/Worker.html#operatingTime" class="member-name-link">operatingTime</a> - Variable in class vylegzhanin.pizzeria.model.workers.<a href="vylegzhanin/pizzeria/model/workers/Worker.html" title="class in vylegzhanin.pizzeria.model.workers">Worker</a></dt>
 <dd>
@@ -264,11 +268,19 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#%3Cinit%3E()" class="member-name-link">OrderQueue()</a> - Constructor for class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
 <dd>
-<div class="block">Создаёт пустую очередь заказов.</div>
+<div class="block">Создаёт пустую очередь заказов с неограниченной вместимостью.</div>
+</dd>
+<dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#%3Cinit%3E(int)" class="member-name-link">OrderQueue(int)</a> - Constructor for class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
+<dd>
+<div class="block">Создаёт пустую очередь заказов с заданной вместимостью.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
+<dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#peek()" class="member-name-link">peek()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
+<dd>
+<div class="block">Возвращает первый заказ в очереди без удаления.</div>
+</dd>
 <dt><a href="vylegzhanin/pizzeria/controllers/Pizzeria.html" class="type-name-link" title="class in vylegzhanin.pizzeria.controllers">Pizzeria</a> - Class in <a href="vylegzhanin/pizzeria/controllers/package-summary.html">vylegzhanin.pizzeria.controllers</a></dt>
 <dd>
 <div class="block">Конкретная реализация пиццерии.</div>
@@ -283,7 +295,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#poll()" class="member-name-link">poll()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
 <dd>
-<div class="block">Извлекает и удаляет первый заказ из очереди.</div>
+<div class="block">Извлекает и удаляет первый заказ из очереди без ожидания.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:R">R</h2>
@@ -334,6 +346,14 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:T">T</h2>
 <dl class="index">
+<dt><a href="vylegzhanin/pizzeria/repositories/OrderQueue.html#take()" class="member-name-link">take()</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories">OrderQueue</a></dt>
+<dd>
+<div class="block">Ожидает появления заказа в очереди и забирает его.</div>
+</dd>
+<dt><a href="vylegzhanin/pizzeria/repositories/Storage.html#take(int)" class="member-name-link">take(int)</a> - Method in class vylegzhanin.pizzeria.repositories.<a href="vylegzhanin/pizzeria/repositories/Storage.html" title="class in vylegzhanin.pizzeria.repositories">Storage</a></dt>
+<dd>
+<div class="block">Извлекает заказы из хранилища, заполняя доступную ёмкость.</div>
+</dd>
 <dt><a href="vylegzhanin/pizzeria/configs/AppConfig.html#toString()" class="member-name-link">toString()</a> - Method in record class vylegzhanin.pizzeria.configs.<a href="vylegzhanin/pizzeria/configs/AppConfig.html" title="class in vylegzhanin.pizzeria.configs">AppConfig</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>

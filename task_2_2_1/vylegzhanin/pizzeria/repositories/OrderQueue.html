@@ -99,7 +99,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">OrderQueue</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Создаёт пустую очередь заказов.</div>
+<div class="block">Создаёт пустую очередь заказов с неограниченной вместимостью.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">OrderQueue</a><wbr>(int&nbsp;capacity)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Создаёт пустую очередь заказов с заданной вместимостью.</div>
 </div>
 </div>
 </section>
@@ -120,15 +124,30 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Проверяет, пуста ли очередь.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#offer(vylegzhanin.pizzeria.model.Order)" class="member-name-link">offer</a><wbr>(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFull()" class="member-name-link">isFull</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Добавляет заказ в конец очереди.</div>
+<div class="block">Проверяет, заполнена ли очередь.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#offer(vylegzhanin.pizzeria.model.Order)" class="member-name-link">offer</a><wbr>(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Добавляет заказ в конец очереди и уведомляет всех ожидающих.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#peek()" class="member-name-link">peek</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает первый заказ в очереди без удаления.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#poll()" class="member-name-link">poll</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Извлекает и удаляет первый заказ из очереди.</div>
+<div class="block">Извлекает и удаляет первый заказ из очереди без ожидания.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#take()" class="member-name-link">take</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Ожидает появления заказа в очереди и забирает его.</div>
 </div>
 </div>
 </div>
@@ -151,7 +170,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>OrderQueue</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OrderQueue</span>()</div>
-<div class="block">Создаёт пустую очередь заказов.</div>
+<div class="block">Создаёт пустую очередь заказов с неограниченной вместимостью.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(int)">
+<h3>OrderQueue</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OrderQueue</span><wbr><span class="parameters">(int&nbsp;capacity)</span></div>
+<div class="block">Создаёт пустую очередь заказов с заданной вместимостью.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>capacity</code> - максимальное количество заказов в очереди</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -165,11 +195,29 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="offer(vylegzhanin.pizzeria.model.Order)">
 <h3>offer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">offer</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span></div>
-<div class="block">Добавляет заказ в конец очереди.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">offer</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span>
+           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Добавляет заказ в конец очереди и уведомляет всех ожидающих.
+ Если очередь заполнена, поток блокируется до появления свободного о места.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>order</code> - заказ для добавления; не должен быть <code>null</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - если поток был прерван во время ожидания</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="take()">
+<h3>take</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></span>&nbsp;<span class="element-name">take</span>()
+           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Ожидает появления заказа в очереди и забирает его.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>первый заказ в очереди</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - если поток был прерван во время ожидания</dd>
 </dl>
 </section>
 </li>
@@ -177,10 +225,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="poll()">
 <h3>poll</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></span>&nbsp;<span class="element-name">poll</span>()</div>
-<div class="block">Извлекает и удаляет первый заказ из очереди.</div>
+<div class="block">Извлекает и удаляет первый заказ из очереди без ожидания.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>первый заказ в очереди, или <code>null</code>, если очередь пуста</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="peek()">
+<h3>peek</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></span>&nbsp;<span class="element-name">peek</span>()</div>
+<div class="block">Возвращает первый заказ в очереди без удаления.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>первый заказ или <code>null</code>, если очередь пуста</dd>
 </dl>
 </section>
 </li>
@@ -192,6 +251,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code>, если заказов нет; <code>false</code> — если есть хотя бы один</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isFull()">
+<h3>isFull</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFull</span>()</div>
+<div class="block">Проверяет, заполнена ли очередь.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code> если очередь полна, <code>false</code> иначе</dd>
 </dl>
 </section>
 </li>

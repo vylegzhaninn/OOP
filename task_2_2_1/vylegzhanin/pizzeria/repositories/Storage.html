@@ -79,9 +79,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Потокобезопасное промежуточное хранилище готовых заказов.
 
- <p>Реализует стек (LIFO) поверх массива фиксированной ёмкости.
- Все публичные методы синхронизированы для безопасного доступа
- из нескольких потоков (пекарей и курьеров).</p></div>
+ <p>Использует <a href="OrderQueue.html" title="class in vylegzhanin.pizzeria.repositories"><code>OrderQueue</code></a> (FIFO) для хранения заказов.</p></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -111,20 +109,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(vylegzhanin.pizzeria.model.Order)" class="member-name-link">add</a><wbr>(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Добавляет заказ в хранилище.</div>
+<div class="block">Добавляет заказ в хранилище, блокируясь, если оно заполнено.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Извлекает верхний заказ из хранилища (операция pop).</div>
+<div class="block">Извлекает один заказ из хранилища.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrderSize()" class="member-name-link">getOrderSize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Возвращает объём (массу) последнего добавленного заказа
+<div class="block">Возвращает объём (массу) следующего доступного заказа
  без его удаления из хранилища.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
@@ -136,6 +134,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFull()" class="member-name-link">isFull</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Проверяет, заполнено ли хранилище до максимальной ёмкости.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#take(int)" class="member-name-link">take</a><wbr>(int&nbsp;maxCapacity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Извлекает заказы из хранилища, заполняя доступную ёмкость.</div>
 </div>
 </div>
 </div>
@@ -176,13 +179,31 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="add(vylegzhanin.pizzeria.model.Order)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span></div>
-<div class="block">Добавляет заказ в хранилище.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&nbsp;order)</span>
+         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Добавляет заказ в хранилище, блокируясь, если оно заполнено.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>order</code> - заказ, который необходимо положить на хранение; не должен быть <code>null</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - если поток был прерван во время ожидания</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="take(int)">
+<h3>take</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a>&gt;</span>&nbsp;<span class="element-name">take</span><wbr><span class="parameters">(int&nbsp;maxCapacity)</span>
+                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Извлекает заказы из хранилища, заполняя доступную ёмкость.
+ Блокируется, если хранилище пусто.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>maxCapacity</code> - максимальная суммарная масса заказов</dd>
 <dt>Returns:</dt>
-<dd><code>true</code>, если заказ успешно добавлен; <code>false</code>, если хранилище заполнено</dd>
+<dd>список извлечённых заказов</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - если поток был прерван во время ожидания</dd>
 </dl>
 </section>
 </li>
@@ -190,14 +211,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getOrderSize()">
 <h3>getOrderSize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getOrderSize</span>()</div>
-<div class="block">Возвращает объём (массу) последнего добавленного заказа
+<div class="block">Возвращает объём (массу) следующего доступного заказа
  без его удаления из хранилища.
 
  <p><b>Предусловие:</b> хранилище не должно быть пустым
  (<a href="#isEmpty()"><code>isEmpty()</code></a> == <code>false</code>).</p></div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>размер (масса) верхнего заказа в стеке</dd>
+<dd>размер (масса) следующего заказа</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - если хранилище пусто</dd>
 </dl>
@@ -207,12 +228,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="get()">
 <h3>get</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/Order.html" title="class in vylegzhanin.pizzeria.model">Order</a></span>&nbsp;<span class="element-name">get</span>()</div>
-<div class="block">Извлекает верхний заказ из хранилища (операция pop).
-
- <p>После вызова заказ удаляется из хранилища и его ячейка освобождается.</p></div>
+<div class="block">Извлекает один заказ из хранилища.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>последний добавленный заказ или <code>null</code>, если хранилище пусто</dd>
+<dd>следующий заказ или <code>null</code>, если хранилище пусто</dd>
 </dl>
 </section>
 </li>
