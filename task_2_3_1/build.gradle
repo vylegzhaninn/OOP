@@ -29,3 +29,8 @@ test {
 application {
     mainClass = 'vylegzhanin.snake.Main'
 }
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
