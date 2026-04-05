@@ -25,10 +25,6 @@ public class GameController {
         });
     }
 
-    public void start() {
-        // метод для запуска игры
-    }
-
     /**
      * Обработка нажатий клавиш движения змейки.
      */
