@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"vylegzhanin.snake"},{"l":"vylegzhanin.snake.controller"},{"l":"vylegzhanin.snake.model"},{"l":"vylegzhanin.snake.model.items"},{"l":"vylegzhanin.snake.view"}];updateSearchResults();
