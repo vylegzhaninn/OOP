@@ -17,7 +17,16 @@ public class GameController {
      */
     public GameController(Game game, Canvas canvas) {
         this.game = game;
-        Platform.runLater(() -> canvas.getScene().setOnKeyPressed(this::handleKeyPressed));
+
+        Platform.runLater(() -> {
+            if (canvas.getScene() != null) {
+                canvas.getScene().setOnKeyPressed(this::handleKeyPressed);
+            }
+        });
+    }
+
+    public void start() {
+        // метод для запуска игры
     }
 
     /**
