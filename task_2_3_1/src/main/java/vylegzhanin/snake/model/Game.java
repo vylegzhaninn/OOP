@@ -3,6 +3,7 @@ package vylegzhanin.snake.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javafx.animation.AnimationTimer;
 import vylegzhanin.snake.model.items.Apple;
 import vylegzhanin.snake.model.items.Item;
 import vylegzhanin.snake.model.items.Snake;
@@ -21,12 +22,61 @@ public class Game {
     private boolean levelCompleted;
     private final Random random;
 
+    private final AnimationTimer timer;
+    private boolean isRunning = false;
+    private final List<GameObserver> observers = new ArrayList<>();
+
     /**
      * Создает новый инстанс игры.
      */
     public Game() {
         this.items = new ArrayList<>();
         this.random = new Random();
+
+        this.timer = new AnimationTimer() {
+            private long lastUpdate = 0;
+
+            @Override
+            public void handle(long now) {
+                if (!isRunning || currentLevel == null) {
+                    return;
+                }
+
+                long tickDelay = currentLevel.tickDelayMs();
+                if (now - lastUpdate >= tickDelay) {
+                    update();
+                    notifyObservers();
+                    lastUpdate = now;
+                }
+            }
+        };
+    }
+
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.onGameStateChanged();
+        }
+    }
+
+    /**
+     * Запускает игру.
+     */
+    public void start() {
+        isRunning = true;
+        timer.start();
+    }
+
+    /**
+     * Останавливает игру.
+     */
+    public void stop() {
+        isRunning = false;
+        timer.stop();
+        notifyObservers();
     }
 
     /**

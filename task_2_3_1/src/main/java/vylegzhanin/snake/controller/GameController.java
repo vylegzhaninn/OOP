@@ -1,6 +1,5 @@
 package vylegzhanin.snake.controller;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
@@ -12,46 +11,13 @@ import vylegzhanin.snake.model.Game;
  */
 public class GameController {
     private final Game game;
-    private final AnimationTimer timer;
-    private boolean isRunning = false;
 
     /**
      * Инициализация обработчика.
      */
-    public GameController(Game game, Canvas canvas, Runnable onUpdate) {
+    public GameController(Game game, Canvas canvas) {
         this.game = game;
-
-        this.timer = new AnimationTimer() {
-            private long lastUpdate = 0;
-
-            @Override
-            public void handle(long now) {
-                if (!isRunning || game.getCurrentLevel() == null) {
-                    return;
-                }
-
-                long tickDelay = game.getCurrentLevel().tickDelayMs();
-                if (now - lastUpdate >= tickDelay) {
-                    game.update();
-                    if (onUpdate != null) {
-                        onUpdate.run();
-                    }
-                    lastUpdate = now;
-                }
-            }
-        };
-
         Platform.runLater(() -> canvas.getScene().setOnKeyPressed(this::handleKeyPressed));
-    }
-
-    public void start() {
-        isRunning = true;
-        timer.start();
-    }
-
-    public void stop() {
-        isRunning = false;
-        timer.stop();
     }
 
     /**

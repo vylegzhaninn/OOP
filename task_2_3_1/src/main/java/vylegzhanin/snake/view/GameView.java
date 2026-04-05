@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import vylegzhanin.snake.controller.GameController;
 import vylegzhanin.snake.model.Game;
+import vylegzhanin.snake.model.GameObserver;
 import vylegzhanin.snake.model.Level;
 import vylegzhanin.snake.model.Point;
 import vylegzhanin.snake.model.items.Apple;
@@ -17,7 +18,7 @@ import vylegzhanin.snake.model.items.Item;
 /**
  * Основной класс логики view.
  */
-public class GameView {
+public class GameView implements GameObserver {
     private static final int TILE_SIZE = 30;
 
     @FXML
@@ -36,7 +37,6 @@ public class GameView {
     private int currentLevelIndex = 0;
 
     private boolean isRunning = false;
-    private GameController gameController;
 
     /**
      * Метод инициализации view.
@@ -44,15 +44,21 @@ public class GameView {
     @FXML
     public void initialize() {
         this.game = new Game();
+        this.game.addObserver(this);
         this.levels = List.of(
             new Level(1, 15, 15, 5, 200_000_000L, 1),
             new Level(2, 15, 15, 10, 150_000_000L, 2),
             new Level(3, 15, 15, 15, 100_000_000L, 3)
         );
 
-        this.gameController = new GameController(game, canvas, this::updateUi);
+        GameController gameController = new GameController(game, canvas);
 
         javafx.application.Platform.runLater(this::draw);
+    }
+
+    @Override
+    public void onGameStateChanged() {
+        javafx.application.Platform.runLater(this::updateUi);
     }
 
     /**
@@ -75,7 +81,7 @@ public class GameView {
         }
         isRunning = true;
         actionBtn.setText("Restart");
-        gameController.start();
+        game.start();
         updateUi();
     }
 
@@ -94,19 +100,19 @@ public class GameView {
             statusLabel.setTextFill(Color.GREEN);
             actionBtn.setText("Play Again");
             isRunning = false;
-            gameController.stop();
+            game.stop();
         } else if (game.isGameOver()) {
             statusLabel.setText("Game Over!");
             statusLabel.setTextFill(Color.RED);
             actionBtn.setText("Try Again");
             isRunning = false;
-            gameController.stop();
+            game.stop();
         } else if (game.isLevelCompleted()) {
             statusLabel.setText("Level Passed!");
             statusLabel.setTextFill(Color.ORANGE);
             actionBtn.setText("Next Level");
             isRunning = false;
-            gameController.stop();
+            game.stop();
         } else {
             if (isRunning) {
                 statusLabel.setText("Playing...");
@@ -135,7 +141,7 @@ public class GameView {
             if (item instanceof Apple) {
                 gc.setFill(Color.RED);
             } else {
-                gc.setFill(Color.YELLOW); // на случай новых предметов
+                gc.setFill(Color.YELLOW);
             }
             Point p = item.position();
             gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
