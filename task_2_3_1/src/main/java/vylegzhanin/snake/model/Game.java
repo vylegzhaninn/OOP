@@ -3,6 +3,9 @@ package vylegzhanin.snake.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import vylegzhanin.snake.model.items.Apple;
+import vylegzhanin.snake.model.items.Item;
+import vylegzhanin.snake.model.items.Snake;
 
 /**
  * Главный класс игровой логики (Движок).
@@ -34,13 +37,13 @@ public class Game {
      */
     public void loadLevel(Level level) {
         this.currentLevel = level;
-        this.snake = new Snake(new Point(level.getWidth() / 2, level.getHeight() / 2));
+        this.snake = new Snake(new Point(level.width() / 2, level.height() / 2));
         this.items.clear();
         this.isGameOver = false;
         this.isWon = false;
         this.levelCompleted = false;
 
-        for (int i = 0; i < level.getInitialApples(); i++) {
+        for (int i = 0; i < level.initialApples(); i++) {
             Point p = findFreeSpot();
             if (p != null) {
                 items.add(new Apple(p));
@@ -53,10 +56,10 @@ public class Game {
      *
      * @return свободная точка (Point) или null, если за 100 попыток свободное место не найдено.
      */
-    public Point findFreeSpot() {
+    public Point findFreeSpot() throws IllegalStateException {
         for (int attempt = 0; attempt < 100; attempt++) {
-            int x = random.nextInt(currentLevel.getWidth());
-            int y = random.nextInt(currentLevel.getHeight());
+            int x = random.nextInt(currentLevel.width());
+            int y = random.nextInt(currentLevel.height());
             Point p = new Point(x, y);
 
             boolean collision = false;
@@ -67,7 +70,7 @@ public class Game {
                 }
             }
             for (Item item : items) {
-                if (item.getPosition().equals(p)) {
+                if (item.position().equals(p)) {
                     collision = true;
                     break;
                 }
@@ -76,7 +79,8 @@ public class Game {
                 return p;
             }
         }
-        return null;
+
+        throw new IllegalStateException("findFreeSpot: Не получилось найти свободное место");
     }
 
     /**
@@ -85,7 +89,7 @@ public class Game {
      * @param item предмет, реализующий интерфейс Item.
      */
     public void spawnItem(Item item) {
-        if (item.getPosition() != null) {
+        if (item.position() != null) {
             items.add(item);
         }
     }
@@ -94,7 +98,7 @@ public class Game {
      * Проверяет, достигла ли змейка длины, необходимой для завершения текущего уровня.
      */
     public void checkWinCondition() {
-        if (snake.getBody().size() >= currentLevel.getWinLength()) {
+        if (snake.getBody().size() >= currentLevel.winLength()) {
             levelCompleted = true;
         }
     }
@@ -112,9 +116,9 @@ public class Game {
         Point head = snake.getHead();
 
         if (head.x() < 0
-            || head.x() >= currentLevel.getWidth()
+            || head.x() >= currentLevel.width()
             || head.y() < 0
-            || head.y() >= currentLevel.getHeight()) {
+            || head.y() >= currentLevel.height()) {
             isGameOver = true;
             return;
         }
@@ -126,7 +130,7 @@ public class Game {
 
         Item eatenItem = null;
         for (Item item : items) {
-            if (item.getPosition().equals(head)) {
+            if (item.position().equals(head)) {
                 eatenItem = item;
                 break;
             }
@@ -137,6 +141,7 @@ public class Game {
             eatenItem.onConsumed(this);
         }
     }
+
 
     public Snake getSnake() {
         return snake;

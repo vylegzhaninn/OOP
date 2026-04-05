@@ -1,25 +1,20 @@
-package vylegzhanin.snake.model;
+package vylegzhanin.snake.model.items;
+
+import vylegzhanin.snake.model.Game;
+import vylegzhanin.snake.model.Point;
 
 /**
  * Класс, представляющий классическое яблоко в игре.
  * Реализует интерфейс {@link Item}.
  * При съедании увеличивает длину змейки, проверяет условие победы и спавнит новое яблоко.
  */
-public class Apple implements Item {
-    private final Point position;
-
+public record Apple(Point position) implements Item {
     /**
      * Создает новое яблоко в указанных координатах.
      *
      * @param position позиция яблока на поле.
      */
-    public Apple(Point position) {
-        this.position = position;
-    }
-
-    @Override
-    public Point getPosition() {
-        return position;
+    public Apple {
     }
 
     @Override

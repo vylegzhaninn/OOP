@@ -1,7 +1,9 @@
-package vylegzhanin.snake.model;
+package vylegzhanin.snake.model.items;
 
 import java.util.LinkedList;
 import java.util.List;
+import vylegzhanin.snake.model.Direction;
+import vylegzhanin.snake.model.Point;
 
 /**
  * Класс, представляющий змейку на игровом поле.

@@ -31,12 +31,6 @@ test {
     useJUnitPlatform()
 }
 
-jacocoTestReport {
-    reports {
-        xml.required = true
-    }
-}
-
 application {
-    mainClass = 'vylegzhanin.snake.Main'
+    mainClass = 'vylegzhanin.snake.Launcher'
 }

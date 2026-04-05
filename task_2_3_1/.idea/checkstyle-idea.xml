@@ -4,7 +4,9 @@
     <checkstyleVersion>13.3.0</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
     <option name="thirdPartyClasspath" />
-    <option name="activeLocationIds" />
+    <option name="activeLocationIds">
+      <option value="4094d2a0-66ab-47fc-9020-1990027a44bf" />
+    </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>

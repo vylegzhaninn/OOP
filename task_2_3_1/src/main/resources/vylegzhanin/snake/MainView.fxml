@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="vylegzhanin.snake.controller.GameController">
+            fx:controller="vylegzhanin.snake.view.GameView">
     <top>
         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10;">
             <Label fx:id="levelLabel" text="Level: 1" style="-fx-font-size: 16px;"/>

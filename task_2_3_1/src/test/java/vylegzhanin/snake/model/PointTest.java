@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-/** Тесты для класса Point. */
+/**
+ * Тесты для класса Point.
+ */
 public class PointTest {
 
     @Test

@@ -1,4 +1,7 @@
-package vylegzhanin.snake.model;
+package vylegzhanin.snake.model.items;
+
+import vylegzhanin.snake.model.Game;
+import vylegzhanin.snake.model.Point;
 
 /**
  * Описывает объект (предмет) на игровом поле, с которым может взаимодействовать змейка.
@@ -11,7 +14,7 @@ public interface Item {
      *
      * @return объект Point с координатами (x, y).
      */
-    Point getPosition();
+    Point position();
 
     /**
      * Метод, который вызывается в момент, когда голова змейки занимает ту же клетку, что и предмет.
