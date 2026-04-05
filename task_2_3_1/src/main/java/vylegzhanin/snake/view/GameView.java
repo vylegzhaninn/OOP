@@ -1,6 +1,7 @@
 package vylegzhanin.snake.view;
 
 import java.util.List;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -37,6 +38,7 @@ public class GameView implements GameObserver {
     private int currentLevelIndex = 0;
 
     private boolean isRunning = false;
+    private AnimationTimer timer;
 
     /**
      * Метод инициализации view.
@@ -52,6 +54,24 @@ public class GameView implements GameObserver {
         );
 
         GameController gameController = new GameController(game, canvas);
+
+        this.timer = new AnimationTimer() {
+            private long lastUpdate = 0;
+
+            @Override
+            public void handle(long now) {
+                if (!isRunning || game.getCurrentLevel() == null) {
+                    return;
+                }
+
+                long tickDelay = game.getCurrentLevel().tickDelayMs();
+                if (now - lastUpdate >= tickDelay) {
+                    game.update();
+                    game.notifyObservers();
+                    lastUpdate = now;
+                }
+            }
+        };
 
         javafx.application.Platform.runLater(this::draw);
     }
@@ -82,6 +102,7 @@ public class GameView implements GameObserver {
         isRunning = true;
         actionBtn.setText("Restart");
         game.start();
+        timer.start();
         updateUi();
     }
 
@@ -101,18 +122,21 @@ public class GameView implements GameObserver {
             actionBtn.setText("Play Again");
             isRunning = false;
             game.stop();
+            timer.stop();
         } else if (game.isGameOver()) {
             statusLabel.setText("Game Over!");
             statusLabel.setTextFill(Color.RED);
             actionBtn.setText("Try Again");
             isRunning = false;
             game.stop();
+            timer.stop();
         } else if (game.isLevelCompleted()) {
             statusLabel.setText("Level Passed!");
             statusLabel.setTextFill(Color.ORANGE);
             actionBtn.setText("Next Level");
             isRunning = false;
             game.stop();
+            timer.stop();
         } else {
             if (isRunning) {
                 statusLabel.setText("Playing...");
