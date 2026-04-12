@@ -44,8 +44,9 @@ public class Game {
     }
 
     public void notifyObservers() {
+        GameDTO dto = new GameDTO(currentLevel, snake, new ArrayList<>(items), isGameOver, isWon, levelCompleted, isRunning);
         for (GameObserver observer : observers) {
-            observer.onGameStateChanged();
+            observer.onGameStateChanged(dto);
         }
     }
 

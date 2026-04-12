@@ -8,5 +8,5 @@ public interface GameObserver {
     /**
      * Вызывается, когда состояние игры обновилось (тик таймера или счет).
      */
-    void onGameStateChanged();
+    void onGameStateChanged(GameDTO gameDto);
 }

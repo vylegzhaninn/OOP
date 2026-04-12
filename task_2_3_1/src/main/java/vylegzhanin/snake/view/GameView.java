@@ -1,17 +1,13 @@
 package vylegzhanin.snake.view;
 
-import java.util.List;
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import vylegzhanin.snake.controller.GameController;
-import vylegzhanin.snake.model.Game;
+import vylegzhanin.snake.model.GameDTO;
 import vylegzhanin.snake.model.GameObserver;
-import vylegzhanin.snake.model.Level;
 import vylegzhanin.snake.model.Point;
 import vylegzhanin.snake.model.items.Apple;
 import vylegzhanin.snake.model.items.Item;
@@ -33,52 +29,23 @@ public class GameView implements GameObserver {
     @FXML
     private Canvas canvas;
 
-    private Game game;
-    private List<Level> levels;
-    private int currentLevelIndex = 0;
-
-    private boolean isRunning = false;
-    private AnimationTimer timer;
+    private Runnable actionHandler;
 
     /**
      * Метод инициализации view.
      */
     @FXML
     public void initialize() {
-        this.game = new Game();
-        this.game.addObserver(this);
-        this.levels = List.of(
-            new Level(1, 15, 15, 5, 200_000_000L, 1),
-            new Level(2, 15, 15, 10, 150_000_000L, 2),
-            new Level(3, 15, 15, 15, 100_000_000L, 3)
-        );
+        new vylegzhanin.snake.controller.GameController(canvas, this);
+    }
 
-        GameController gameController = new GameController(game, canvas);
-
-        this.timer = new AnimationTimer() {
-            private long lastUpdate = 0;
-
-            @Override
-            public void handle(long now) {
-                if (!isRunning || game.getCurrentLevel() == null) {
-                    return;
-                }
-
-                long tickDelay = game.getCurrentLevel().tickDelayMs();
-                if (now - lastUpdate >= tickDelay) {
-                    game.update();
-                    game.notifyObservers();
-                    lastUpdate = now;
-                }
-            }
-        };
-
-        javafx.application.Platform.runLater(this::draw);
+    public void setActionHandler(Runnable actionHandler) {
+        this.actionHandler = actionHandler;
     }
 
     @Override
-    public void onGameStateChanged() {
-        javafx.application.Platform.runLater(this::updateUi);
+    public void onGameStateChanged(GameDTO gameDTO) {
+        javafx.application.Platform.runLater(() -> updateUi(gameDTO));
     }
 
     /**
@@ -86,74 +53,52 @@ public class GameView implements GameObserver {
      */
     @FXML
     private void handleAction() {
-        if (game.getCurrentLevel() == null) {
-            loadCurrentLevel();
-        } else if (isRunning || game.isGameOver() || game.isWon() || game.isLevelCompleted()) {
-            if (game.isGameOver() || game.isWon()) {
-                currentLevelIndex = 0;
-                loadCurrentLevel();
-            } else if (game.isLevelCompleted()) {
-                currentLevelIndex++;
-                loadCurrentLevel();
-            } else {
-                game.loadLevel(levels.get(currentLevelIndex)); // Обычный рестарт
-            }
+        if (actionHandler != null) {
+            actionHandler.run();
         }
-        isRunning = true;
-        actionBtn.setText("Restart");
-        game.start();
-        timer.start();
-        updateUi();
     }
 
     /**
      * Обновляет элементы UI и перерисовывает сцену.
      */
-    private void updateUi() {
-        if (game.getCurrentLevel() != null) {
-            levelLabel.setText("Level: " + game.getCurrentLevel().levelNumber());
+    private void updateUi(GameDTO gameDTO) {
+        if (gameDTO.currentLevel() != null) {
+            levelLabel.setText("Level: " + gameDTO.currentLevel().levelNumber());
         }
-        scoreLabel.setText("Score: " + (game.getSnake() == null ? 0 : game.getScore())
-            + "/" + (game.getCurrentLevel() == null ? "-" : game.getCurrentLevel().winLength()));
+        scoreLabel.setText("Score: " + (gameDTO.snake() == null)
+            + "/" + (gameDTO.currentLevel() == null ? "-" : gameDTO.currentLevel().winLength()));
 
-        if (game.isWon()) {
+        if (gameDTO.isWon()) {
             statusLabel.setText("You Beat The Game!");
             statusLabel.setTextFill(Color.GREEN);
             actionBtn.setText("Play Again");
-            isRunning = false;
-            game.stop();
-            timer.stop();
-        } else if (game.isGameOver()) {
+        } else if (gameDTO.isGameOver()) {
             statusLabel.setText("Game Over!");
             statusLabel.setTextFill(Color.RED);
             actionBtn.setText("Try Again");
-            isRunning = false;
-            game.stop();
-            timer.stop();
-        } else if (game.isLevelCompleted()) {
+        } else if (gameDTO.levelCompleted()) {
             statusLabel.setText("Level Passed!");
             statusLabel.setTextFill(Color.ORANGE);
             actionBtn.setText("Next Level");
-            isRunning = false;
-            game.stop();
-            timer.stop();
         } else {
-            if (isRunning) {
+            if (gameDTO.isRunning()) {
                 statusLabel.setText("Playing...");
                 statusLabel.setTextFill(Color.BLACK);
+                actionBtn.setText("Restart");
             } else {
                 statusLabel.setText("Ready to start");
                 statusLabel.setTextFill(Color.BLUE);
+                actionBtn.setText("Start");
             }
         }
-        draw();
+        draw(gameDTO);
     }
 
     /**
      * Перерисовывает игровое поле.
      */
-    private void draw() {
-        if (game.getCurrentLevel() == null) {
+    private void draw(GameDTO gameDTO) {
+        if (gameDTO == null || gameDTO.currentLevel() == null) {
             return;
         }
 
@@ -161,7 +106,7 @@ public class GameView implements GameObserver {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        for (Item item : game.getItems()) {
+        for (Item item : gameDTO.items()) {
             if (item instanceof Apple) {
                 gc.setFill(Color.RED);
             } else {
@@ -172,23 +117,10 @@ public class GameView implements GameObserver {
         }
 
         gc.setFill(Color.GREEN);
-        if (game.getSnake() != null) {
-            for (Point p : game.getSnake().getBody()) {
+        if (gameDTO.snake() != null) {
+            for (Point p : gameDTO.snake().getBody()) {
                 gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
-    }
-
-    /**
-     * Загружает текущий уровень или отмечает победу при отсутствии уровней.
-     */
-    private void loadCurrentLevel() {
-        if (currentLevelIndex < levels.size()) {
-            game.loadLevel(levels.get(currentLevelIndex));
-        } else {
-            game.setWon(true);
-        }
-        updateUi();
-        draw();
     }
 }

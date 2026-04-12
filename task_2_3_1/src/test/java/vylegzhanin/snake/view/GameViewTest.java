@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -12,6 +13,9 @@ import javafx.scene.control.Label;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import vylegzhanin.snake.model.Game;
+import vylegzhanin.snake.model.GameDTO;
+import vylegzhanin.snake.model.items.Snake;
+import vylegzhanin.snake.model.Point;
 
 class GameViewTest {
 
@@ -37,37 +41,17 @@ class GameViewTest {
 
         assertDoesNotThrow(gameView::initialize);
 
-        Field gameField = GameView.class.getDeclaredField("game");
-        gameField.setAccessible(true);
-        Game game = (Game) gameField.get(gameView);
-        assertNotNull(game);
+        GameDTO fakeDto = new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, false, false, false);
 
-        assertDoesNotThrow(gameView::onGameStateChanged);
+        assertDoesNotThrow(() -> gameView.onGameStateChanged(fakeDto));
 
         Method handleAction = GameView.class.getDeclaredMethod("handleAction");
         handleAction.setAccessible(true);
 
         assertDoesNotThrow(() -> handleAction.invoke(gameView));
-
-        game.getSnake().grow();
-        game.getSnake().grow();
-        game.getSnake().grow();
-        game.getSnake().grow();
-        game.checkWinCondition();
-
+        
+        GameDTO wonDto = new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, true, false, false);
         assertDoesNotThrow(() -> handleAction.invoke(gameView));
-
-        game.update();
-        for (int i = 0; i < 20; i++) {
-            game.update();
-        }
-
-        assertDoesNotThrow(() -> handleAction.invoke(gameView));
-
-        for (int i = 0; i < 10; i++) {
-            game.setWon(true);
-            assertDoesNotThrow(() -> handleAction.invoke(gameView));
-        }
     }
 
     private void injectField(Object target, String name, Object value) throws Exception {

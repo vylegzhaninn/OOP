@@ -44,7 +44,7 @@ class GameTest {
     @Test
     void observerPatternShouldWork() {
         final boolean[] notified = {false};
-        GameObserver observer = () -> notified[0] = true;
+        GameObserver observer = (dto) -> notified[0] = true;
 
         game.addObserver(observer);
         game.stop();

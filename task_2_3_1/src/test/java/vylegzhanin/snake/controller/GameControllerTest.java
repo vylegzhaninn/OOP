@@ -25,9 +25,12 @@ class GameControllerTest {
 
     @Test
     void testControllerHandlesInput() throws Exception {
-        Game game = new Game();
         Canvas canvas = new Canvas();
-        GameController controller = new GameController(game, canvas);
+        GameController controller = new GameController(canvas, new vylegzhanin.snake.view.GameView());
+
+        java.lang.reflect.Field gameField = GameController.class.getDeclaredField("game");
+        gameField.setAccessible(true);
+        Game game = (Game) gameField.get(controller);
 
         Method handleKeyMethod =
             GameController.class.getDeclaredMethod("handleKeyPressed", KeyEvent.class);
