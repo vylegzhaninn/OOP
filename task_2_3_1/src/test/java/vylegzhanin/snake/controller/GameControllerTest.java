@@ -26,7 +26,8 @@ class GameControllerTest {
     @Test
     void testControllerHandlesInput() throws Exception {
         Canvas canvas = new Canvas();
-        GameController controller = new GameController(canvas, new vylegzhanin.snake.view.GameView());
+        GameController controller =
+            new GameController(canvas, new vylegzhanin.snake.view.GameView());
 
         java.lang.reflect.Field gameField = GameController.class.getDeclaredField("game");
         gameField.setAccessible(true);

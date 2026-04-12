@@ -1,7 +1,6 @@
 package vylegzhanin.snake.view;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,10 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import vylegzhanin.snake.model.Game;
 import vylegzhanin.snake.model.GameDTO;
-import vylegzhanin.snake.model.items.Snake;
 import vylegzhanin.snake.model.Point;
+import vylegzhanin.snake.model.items.Snake;
 
 class GameViewTest {
 
@@ -41,7 +39,9 @@ class GameViewTest {
 
         assertDoesNotThrow(gameView::initialize);
 
-        GameDTO fakeDto = new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, false, false, false);
+        GameDTO fakeDto =
+            new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, false, false,
+                false);
 
         assertDoesNotThrow(() -> gameView.onGameStateChanged(fakeDto));
 
@@ -49,8 +49,10 @@ class GameViewTest {
         handleAction.setAccessible(true);
 
         assertDoesNotThrow(() -> handleAction.invoke(gameView));
-        
-        GameDTO wonDto = new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, true, false, false);
+
+        GameDTO wonDto =
+            new GameDTO(null, new Snake(new Point(5, 5)), new ArrayList<>(), false, true, false,
+                false);
         assertDoesNotThrow(() -> handleAction.invoke(gameView));
     }
 

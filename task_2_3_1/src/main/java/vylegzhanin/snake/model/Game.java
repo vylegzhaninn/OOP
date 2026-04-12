@@ -44,7 +44,8 @@ public class Game {
     }
 
     public void notifyObservers() {
-        GameDTO dto = new GameDTO(currentLevel, snake, new ArrayList<>(items), isGameOver, isWon, levelCompleted, isRunning);
+        GameDTO dto = new GameDTO(currentLevel, snake, new ArrayList<>(items), isGameOver, isWon,
+            levelCompleted, isRunning);
         for (GameObserver observer : observers) {
             observer.onGameStateChanged(dto);
         }
@@ -55,6 +56,7 @@ public class Game {
      */
     public void start() {
         isRunning = true;
+        notifyObservers();
     }
 
     /**
@@ -89,6 +91,8 @@ public class Game {
                 items.add(new Apple(p));
             }
         }
+        
+        notifyObservers();
     }
 
     /**
@@ -131,6 +135,7 @@ public class Game {
     public void spawnItem(Item item) {
         if (item.position() != null) {
             items.add(item);
+            notifyObservers();
         }
     }
 
@@ -140,6 +145,7 @@ public class Game {
     public void checkWinCondition() {
         if (snake.getBody().size() >= currentLevel.winLength()) {
             levelCompleted = true;
+            notifyObservers();
         }
     }
 
@@ -160,11 +166,13 @@ public class Game {
             || head.y() < 0
             || head.y() >= currentLevel.height()) {
             isGameOver = true;
+            notifyObservers();
             return;
         }
 
         if (snake.checkSelfCollision()) {
             isGameOver = true;
+            notifyObservers();
             return;
         }
 
@@ -180,6 +188,8 @@ public class Game {
             items.remove(eatenItem);
             eatenItem.onConsumed(this);
         }
+        
+        notifyObservers();
     }
 
 
@@ -201,6 +211,7 @@ public class Game {
 
     public void setWon(boolean won) {
         this.isWon = won;
+        notifyObservers();
     }
 
     public boolean isWon() {

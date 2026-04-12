@@ -65,7 +65,8 @@ public class GameView implements GameObserver {
         if (gameDTO.currentLevel() != null) {
             levelLabel.setText("Level: " + gameDTO.currentLevel().levelNumber());
         }
-        scoreLabel.setText("Score: " + (gameDTO.snake() == null)
+        int score = gameDTO.snake() == null ? 0 : gameDTO.snake().getBody().size();
+        scoreLabel.setText("Score: " + score
             + "/" + (gameDTO.currentLevel() == null ? "-" : gameDTO.currentLevel().winLength()));
 
         if (gameDTO.isWon()) {

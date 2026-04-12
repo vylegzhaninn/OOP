@@ -1,10 +1,10 @@
 package vylegzhanin.snake.controller;
 
+import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
-import java.util.List;
 import vylegzhanin.snake.model.Direction;
 import vylegzhanin.snake.model.Game;
 import vylegzhanin.snake.model.Level;
@@ -44,7 +44,6 @@ public class GameController {
                 long tickDelay = game.getCurrentLevel().tickDelayMs();
                 if (now - lastUpdate >= tickDelay) {
                     game.update();
-                    game.notifyObservers();
                     lastUpdate = now;
                 }
             }
@@ -57,7 +56,7 @@ public class GameController {
                 canvas.getScene().setOnKeyPressed(this::handleKeyPressed);
             }
         });
-        
+
         // Отправляем первоначальное состояние
         game.notifyObservers();
     }
@@ -65,7 +64,8 @@ public class GameController {
     private void handleAction() {
         if (game.getCurrentLevel() == null) {
             loadCurrentLevel();
-        } else if (game.isRunning() || game.isGameOver() || game.isWon() || game.isLevelCompleted()) {
+        } else if (game.isRunning() || game.isGameOver() || game.isWon() ||
+            game.isLevelCompleted()) {
             if (game.isGameOver() || game.isWon()) {
                 currentLevelIndex = 0;
                 loadCurrentLevel();
@@ -76,10 +76,9 @@ public class GameController {
                 game.loadLevel(levels.get(currentLevelIndex));
             }
         }
-        
+
         game.start();
         timer.start();
-        game.notifyObservers();
     }
 
     private void loadCurrentLevel() {
