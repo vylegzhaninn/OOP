@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="vylegzhanin.snake.view.GameView">
     <top>
@@ -16,7 +17,8 @@
         </HBox>
     </top>
     <center>
-        <Canvas fx:id="canvas" width="450" height="450"/>
+        <Pane fx:id="canvasPane">
+            <Canvas fx:id="canvas" width="450" height="450"/>
+        </Pane>
     </center>
 </BorderPane>
-

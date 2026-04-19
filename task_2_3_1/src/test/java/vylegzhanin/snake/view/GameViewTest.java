@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import vylegzhanin.snake.model.GameDTO;
@@ -36,6 +37,7 @@ class GameViewTest {
         injectField(gameView, "actionBtn", new Button());
         Canvas mockCanvas = new Canvas(100, 100);
         injectField(gameView, "canvas", mockCanvas);
+        injectField(gameView, "canvasPane", new Pane(mockCanvas));
 
         assertDoesNotThrow(gameView::initialize);
 

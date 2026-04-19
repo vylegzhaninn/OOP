@@ -13,6 +13,8 @@ import javafx.stage.Stage;
  * Точка входа JavaFX приложения. Отвечает за загрузку FXML и показ окна игры.
  */
 public class Main extends Application {
+    private static final double INITIAL_WINDOW_WIDTH = 500;
+    private static final double INITIAL_WINDOW_HEIGHT = 500;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,8 +22,8 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/vylegzhanin/snake/MainView.fxml")));
             primaryStage.setTitle("Snake Game OOP - Levels & Items");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.setResizable(false);
+            primaryStage.setScene(new Scene(root, INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT));
+            primaryStage.setResizable(true);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

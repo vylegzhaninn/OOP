@@ -1,10 +1,12 @@
 package vylegzhanin.snake.view;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import vylegzhanin.snake.model.GameDTO;
 import vylegzhanin.snake.model.GameObserver;
@@ -17,6 +19,8 @@ import vylegzhanin.snake.model.items.Item;
  */
 public class GameView implements GameObserver {
     private static final int TILE_SIZE = 30;
+    private static final int TARGET_FPS = 120;
+    private static final long FRAME_INTERVAL_NS = 1_000_000_000L / TARGET_FPS;
 
     @FXML
     private Label levelLabel;
@@ -27,16 +31,51 @@ public class GameView implements GameObserver {
     @FXML
     private Button actionBtn;
     @FXML
+    private Pane canvasPane;
+    @FXML
     private Canvas canvas;
 
     private Runnable actionHandler;
+
+    private double tileWidth = TILE_SIZE;
+    private double tileHeight = TILE_SIZE;
+    private GameDTO lastDto;
+    private final AnimationTimer renderTimer = new AnimationTimer() {
+        private long lastRenderNs;
+
+        @Override
+        public void handle(long now) {
+            if (now - lastRenderNs < FRAME_INTERVAL_NS) {
+                return;
+            }
+            lastRenderNs = now;
+            if (lastDto != null) {
+                draw(lastDto);
+            }
+        }
+    };
 
     /**
      * Метод инициализации view.
      */
     @FXML
     public void initialize() {
+        canvas.widthProperty().bind(canvasPane.widthProperty());
+        canvas.heightProperty().bind(canvasPane.heightProperty());
+
+        canvas.widthProperty().addListener((obs, oldVal, newVal) -> redrawOnResize());
+        canvas.heightProperty().addListener((obs, oldVal, newVal) -> redrawOnResize());
+
         new vylegzhanin.snake.controller.GameController(canvas, this);
+        javafx.application.Platform.runLater(renderTimer::start);
+    }
+
+    private void redrawOnResize() {
+        if (lastDto != null && lastDto.currentLevel() != null) {
+            tileWidth = canvas.getWidth() / lastDto.currentLevel().width();
+            tileHeight = canvas.getHeight() / lastDto.currentLevel().height();
+            draw(lastDto);
+        }
     }
 
     public void setActionHandler(Runnable actionHandler) {
@@ -45,7 +84,11 @@ public class GameView implements GameObserver {
 
     @Override
     public void onGameStateChanged(GameDTO gameDTO) {
-        javafx.application.Platform.runLater(() -> updateUi(gameDTO));
+        javafx.application.Platform.runLater(() -> {
+            lastDto = gameDTO;
+            redrawOnResize();
+            updateUi(gameDTO);
+        });
     }
 
     /**
@@ -106,7 +149,6 @@ public class GameView implements GameObserver {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
         for (Item item : gameDTO.items()) {
             if (item instanceof Apple) {
                 gc.setFill(Color.RED);
@@ -114,13 +156,13 @@ public class GameView implements GameObserver {
                 gc.setFill(Color.YELLOW);
             }
             Point p = item.position();
-            gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            gc.fillRect(p.x() * tileWidth, p.y() * tileHeight, tileWidth, tileHeight);
         }
 
         gc.setFill(Color.GREEN);
         if (gameDTO.snake() != null) {
             for (Point p : gameDTO.snake().getBody()) {
-                gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                gc.fillRect(p.x() * tileWidth, p.y() * tileHeight, tileWidth, tileHeight);
             }
         }
     }
