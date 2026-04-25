@@ -1,0 +1,19 @@
+importConfig 'oop-check.base.gradle'
+
+course {
+    group('228') {
+        student('student-github') {
+            fullName 'Lox'
+            repo 'https://github.com/vylegzhaninn/OOP'
+        }
+    }
+
+    check('student-github', 'task_2_3_1') {
+        submittedAt '2026-04-22'
+        bonus 0.0
+    }
+
+    checkpoint 'Checkpoint 1', '2026-04-25'
+    checkpoint 'Final', '2026-05-30'
+}
+

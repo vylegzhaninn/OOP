@@ -1,0 +1,23 @@
+course {
+    task('task_2_3_1') {
+        title 'DSL auto-checker'
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    settings {
+        workspace '.oop-checker-work'
+        timeoutSeconds 600
+        mainBranch 'main'
+        fallbackBranch 'master'
+        hardLateMultiplier 0.1
+        clearGrades()
+        grade 'A', 85
+        grade 'B', 70
+        grade 'C', 55
+        grade 'D', 40
+        grade 'F', 0
+    }
+}
+
