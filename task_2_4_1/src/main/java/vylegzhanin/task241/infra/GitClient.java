@@ -52,7 +52,8 @@ public final class GitClient {
                 env);
         if (!accessCheck.isSuccess()) {
             return new CommandResult(accessCheck.exitCode(),
-                "Cannot access repository without prompt: " + repoUrl + "\n" +
+                "Cannot access repository without prompt: " + repoUrl + "\n"
+                    +
                     accessCheck.output());
         }
 

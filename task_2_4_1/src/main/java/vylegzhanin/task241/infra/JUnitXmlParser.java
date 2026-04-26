@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import vylegzhanin.task241.domain.TestStats;
 
 /**
  * Парсер отчетов о тестировании в формате JUnit XML.
@@ -77,15 +78,5 @@ public final class JUnitXmlParser {
         } catch (Exception ignored) {
             // Skip malformed report file and continue parsing others.
         }
-    }
-
-    /**
-     * Структура для хранения статистики прохождения тестов.
-     *
-     * @param passed  количество пройденных тестов
-     * @param failed  количество упавших тестов
-     * @param skipped количество пропущенных тестов
-     */
-    public record TestStats(int passed, int failed, int skipped) {
     }
 }

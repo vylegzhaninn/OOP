@@ -1,6 +1,6 @@
 course {
-    task('task_2_3_1') {
-        title 'DSL auto-checker'
+    task('task_1_2_2') {
+        title 'Task 1.2.2'
         maxPoints 10
         softDeadline '2026-04-20'
         hardDeadline '2026-04-27'
@@ -9,7 +9,7 @@ course {
     settings {
         workspace '.oop-checker-work'
         timeoutSeconds 600
-        mainBranch 'main'
+        mainBranch 'task_1_2_2'
         fallbackBranch 'master'
         hardLateMultiplier 0.1
         clearGrades()
@@ -21,8 +21,8 @@ course {
     }
 
     group('228') {
-        student('student-github') {
-            fullName 'Lox'
+        student('Толик') {
+            fullName 'Толян'
             repo 'https://github.com/vylegzhaninn/OOP'
         }
     }

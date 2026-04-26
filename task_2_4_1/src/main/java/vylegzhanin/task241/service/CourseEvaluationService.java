@@ -14,11 +14,13 @@ import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.domain.StudentSpec;
 import vylegzhanin.task241.domain.SubmissionSpec;
 import vylegzhanin.task241.domain.TaskSpec;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Основной сервис - координатор оценки учебного курса.
  * Запускает цикл проверок каждого студента и формирует агрегированные отчеты об успеваемости.
  */
+@Slf4j
 public final class CourseEvaluationService {
     private final RepositoryEvaluationService repositoryEvaluationService;
     private final ScoreCalculator scoreCalculator;
@@ -65,6 +67,9 @@ public final class CourseEvaluationService {
         for (StudentSpec student : students) {
             List<SubmissionSpec> studentSubmissions =
                 submissionsByStudent.getOrDefault(student.github(), List.of());
+
+            log.info("Начало проверки репозитория участника: [{}] (Группа: {})", student.github(), student.groupName());
+
             RepoRunResult runResult = repoCache.computeIfAbsent(
                 student.github(),
                 key -> repositoryEvaluationService.runForStudent(
@@ -75,10 +80,15 @@ public final class CourseEvaluationService {
                 )
             );
 
+            log.info("Проверка репозитория участника [{}] завершена. Статус - Клонирование Git: {}, Компиляция: {}, Успешность тестов: {}",
+                     student.github(), runResult.gitOk(), runResult.compileOk(), runResult.testsOk());
+
             List<TaskScoreResult> taskResults = new ArrayList<>();
             for (SubmissionSpec submission : studentSubmissions) {
                 TaskSpec task = config.tasks().get(submission.taskId());
                 if (task == null) {
+                    log.warn("Конфигурационная ошибка. У участника [{}] зафиксирована сдача неучтенного задания (ID: {}). Пропуск...",
+                             student.github(), submission.taskId());
                     taskResults.add(new TaskScoreResult(
                         submission.taskId(),
                         "",
@@ -98,6 +108,8 @@ public final class CourseEvaluationService {
                 }
                 taskResults.add(scoreCalculator.calculate(task, submission, runResult, settings));
             }
+
+            log.debug("Количество оцененных заданий для участника {}: {}", student.github(), taskResults.size());
 
             double total = taskResults.stream().mapToDouble(TaskScoreResult::points).sum();
             double max = taskResults.stream().mapToDouble(TaskScoreResult::maxPoints).sum();

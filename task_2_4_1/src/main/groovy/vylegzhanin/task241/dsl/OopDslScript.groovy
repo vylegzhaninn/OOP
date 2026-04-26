@@ -4,7 +4,6 @@ import groovy.transform.PackageScope
 import vylegzhanin.task241.domain.CourseConfig
 
 abstract class OopDslScript extends Script {
-    @PackageScope
     final CourseDsl dsl = new CourseDsl()
 
     CourseConfig resultConfig = CourseConfig.empty()

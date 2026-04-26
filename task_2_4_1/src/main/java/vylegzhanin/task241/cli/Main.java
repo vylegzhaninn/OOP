@@ -14,10 +14,12 @@ import vylegzhanin.task241.service.GradeService;
 import vylegzhanin.task241.service.RepositoryEvaluationService;
 import vylegzhanin.task241.service.ScoreCalculator;
 import vylegzhanin.task241.service.StudentScoreReport;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Главный класс приложения. Является точкой входа.
  */
+@Slf4j
 public final class Main {
     /**
      * Закрытый конструктор, предотвращающий создание экземпляров утилитного класса.
@@ -36,16 +38,24 @@ public final class Main {
             Path launchDir = Path.of("").toAbsolutePath();
             Path configPath = resolveConfig(args, launchDir);
 
+            log.info("Инициализация системы автоматического тестирования. Рабочая директория: [{}], путь к файлу конфигурации: [{}]",
+                     launchDir, configPath);
+
             ConfigLoader configLoader = new ConfigLoader();
             CourseConfig config = configLoader.load(configPath);
+
+            log.info("Файл конфигурации успешно загружен и проанализирован. Запуск процесса оценки репозиториев студентов...");
 
             CourseEvaluationService evaluationService =
                 getCourseEvaluationService(config);
             List<StudentScoreReport> reports = evaluationService.evaluate(config, launchDir);
 
+            log.info("Процесс автоматического оценивания завершен. Количество сгенерированных отчетов студентов: {}", reports.size());
+
             String html = new HtmlReportRenderer().render(reports);
             System.out.println(html);
         } catch (Exception e) {
+            log.error("Критическая ошибка во время выполнения программы проверки: {}", e.getMessage(), e);
             System.err.println("Task_2_4_1 failed: " + e.getMessage());
         }
     }

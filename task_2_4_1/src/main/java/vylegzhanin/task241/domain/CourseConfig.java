@@ -14,4 +14,12 @@ public record CourseConfig(
     List<CheckpointSpec> checkpoints,
     SettingsSpec settings
 ) {
+    /**
+     * Создает пустую конфигурацию курса с настройками по умолчанию.
+     *
+     * @return пустая конфигурация {@link CourseConfig}
+     */
+    public static CourseConfig empty() {
+        return new CourseConfig(Map.of(), Map.of(), List.of(), List.of(), SettingsSpec.defaults());
+    }
 }
