@@ -15,12 +15,5 @@ abstract class OopDslScript extends Script {
         closure.call()
         resultConfig = dsl.build()
     }
-
-    def importConfig(String path) {
-        def loader = binding.getVariable("__loader") as ConfigLoader
-        def imported = loader.loadImported(path)
-        dsl.merge(imported)
-        resultConfig = dsl.build()
-    }
 }
 

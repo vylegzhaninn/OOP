@@ -8,5 +8,8 @@ import java.time.LocalDate;
  * @param name название контрольной точки
  * @param date дата, когда проходит или заканчивается контрольная точка
  */
-public record CheckpointSpec(String name, LocalDate date) {
+public record CheckpointSpec(
+    String name,
+    LocalDate date
+) {
 }
