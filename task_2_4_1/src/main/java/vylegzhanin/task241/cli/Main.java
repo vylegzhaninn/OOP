@@ -16,10 +16,22 @@ import vylegzhanin.task241.service.StudentScoreReport;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Главный класс приложения. Является точкой входа.
+ */
 public final class Main {
+    /**
+     * Закрытый конструктор, предотвращающий создание экземпляров утилитного класса.
+     */
     private Main() {
     }
 
+    /**
+     * Точка входа в приложение.
+     * Загружает конфигурацию, анализирует репозитории студентов и выводит HTML-отчет в стандартный вывод.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
         try {
             Path launchDir = Path.of("").toAbsolutePath();
@@ -36,10 +48,15 @@ public final class Main {
             System.out.println(html);
         } catch (Exception e) {
             System.err.println("Task_2_4_1 failed: " + e.getMessage());
-            System.exit(1);
         }
     }
 
+    /**
+     * Инициализирует и возвращает сервис для оценки курса.
+     *
+     * @param config конфигурация курса
+     * @return готовый к использованию {@link CourseEvaluationService}
+     */
     private static CourseEvaluationService getCourseEvaluationService(CourseConfig config) {
         CommandExecutor commandExecutor = new CommandExecutor();
         GitClient gitClient = new GitClient(commandExecutor, config.settings().commandTimeout());
@@ -58,6 +75,13 @@ public final class Main {
         return evaluationService;
     }
 
+    /**
+     * Определяет путь к файлу конфигурации курса на основе аргументов командной строки.
+     *
+     * @param args аргументы командной строки
+     * @param launchDir директория запуска приложения
+     * @return путь к файлу конфигурации
+     */
     private static Path resolveConfig(String[] args, Path launchDir) {
         if (args.length >= 2 && "--config".equals(args[0])) {
             return launchDir.resolve(args[1]).normalize();
@@ -65,4 +89,3 @@ public final class Main {
         return launchDir.resolve("oop-check.gradle");
     }
 }
-

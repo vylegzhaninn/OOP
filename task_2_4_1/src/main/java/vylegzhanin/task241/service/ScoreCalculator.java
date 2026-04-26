@@ -6,7 +6,20 @@ import vylegzhanin.task241.domain.TaskSpec;
 
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Калькулятор итоговых баллов. Содержит бизнес-логику подсчета баллов,
+ * применения штрафов за дедлайны и бонусных баллов.
+ */
 public final class ScoreCalculator {
+    /**
+     * Вычисляет баллы за задачу на основе результатов выполнения.
+     *
+     * @param task описание задания
+     * @param submission информация о сданном решении
+     * @param runResult сырой результат запуска репозитория студента
+     * @param settings настройки оценки курса (в том числе штрафной множитель)
+     * @return готовый детальный результат {@link TaskScoreResult} для отчета
+     */
     public TaskScoreResult calculate(TaskSpec task, SubmissionSpec submission, RepoRunResult runResult, SettingsSpec settings) {
         if (!runResult.gitOk()) {
             return new TaskScoreResult(
@@ -98,6 +111,14 @@ public final class ScoreCalculator {
         );
     }
 
+    /**
+     * Вычисляет множитель за просроченные дедлайны.
+     *
+     * @param task описание задания с мягким и жестким дедлайнами
+     * @param submission информация о дате сдачи
+     * @param hardLateMultiplier множитель баллов при жестком опоздании
+     * @return коэффициент от hardLateMultiplier до 1.0
+     */
     private static double latenessFactor(TaskSpec task, SubmissionSpec submission, double hardLateMultiplier) {
         if (submission.submittedAt() == null || task.softDeadline() == null || task.hardDeadline() == null) {
             return 1.0;
@@ -115,6 +136,12 @@ public final class ScoreCalculator {
         return 1.0 - progress * (1.0 - hardLateMultiplier);
     }
 
+    /**
+     * Компактифицирует длинный текст ошибок (удаляет переносы строк, ограничивает длину).
+     *
+     * @param text исходный текст ошибки
+     * @return однострочная компактная строка
+     */
     private static String compact(String text) {
         if (text == null) {
             return "";
@@ -123,6 +150,12 @@ public final class ScoreCalculator {
         return singleLine.length() > 220 ? singleLine.substring(0, 220) + "..." : singleLine;
     }
 
+    /**
+     * Округляет значение до двух знаков после запятой.
+     *
+     * @param value исходное значение
+     * @return округленное значение
+     */
     private static double round(double value) {
         return Math.round(value * 100.0) / 100.0;
     }

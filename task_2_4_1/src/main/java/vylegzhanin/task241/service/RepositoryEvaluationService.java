@@ -8,17 +8,37 @@ import vylegzhanin.task241.infra.JUnitXmlParser;
 
 import java.nio.file.Path;
 
+/**
+ * Сервис для оценки репозитория студента.
+ * Выполняет клонирование, сборку, генерацию документации, проверку стиля кода и запуск тестов.
+ */
 public final class RepositoryEvaluationService {
     private final GitClient gitClient;
     private final GradleRunner gradleRunner;
     private final JUnitXmlParser xmlParser;
 
+    /**
+     * Создает экземпляр сервиса.
+     *
+     * @param gitClient клиент для работы с Git
+     * @param gradleRunner компонент для запуска задач Gradle
+     * @param xmlParser парсер XML-отчетов о тестировании
+     */
     public RepositoryEvaluationService(GitClient gitClient, GradleRunner gradleRunner, JUnitXmlParser xmlParser) {
         this.gitClient = gitClient;
         this.gradleRunner = gradleRunner;
         this.xmlParser = xmlParser;
     }
 
+    /**
+     * Запускает полный цикл проверки (подготовка, компиляция, javadoc, checkstyle, тесты) для репозитория.
+     *
+     * @param github логин студента (название директории для клонирования)
+     * @param repoUrl URL репозитория
+     * @param settings настройки проверки курса
+     * @param absoluteWorkspace абсолютный путь к рабочей папке
+     * @return сырой результат выполнения проверок {@link RepoRunResult}
+     */
     public RepoRunResult runForStudent(String github, String repoUrl, SettingsSpec settings, Path absoluteWorkspace) {
         CommandResult git = gitClient.prepareRepository(
                 absoluteWorkspace,
@@ -62,4 +82,3 @@ public final class RepositoryEvaluationService {
         );
     }
 }
-

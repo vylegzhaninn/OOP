@@ -9,7 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Рендерер HTML-отчета.
+ * Генерирует итоговую сводку по оценкам студентов в формате HTML на основе вычисленной статистики.
+ */
 public final class HtmlReportRenderer {
+    /**
+     * Создает HTML-документ с результатами автоматической проверки.
+     *
+     * @param reports список отчетов по студентам
+     * @return строка, содержащая готовый HTML-код
+     */
     public String render(List<StudentScoreReport> reports) {
         StringBuilder html = new StringBuilder();
         html.append("<!doctype html><html><head><meta charset=\"UTF-8\">")
@@ -112,6 +122,13 @@ public final class HtmlReportRenderer {
         return html.toString();
     }
 
+    /**
+     * Ищет результат по конкретному заданию в списке результатов студента.
+     *
+     * @param results список результатов
+     * @param taskId идентификатор задания
+     * @return {@link TaskScoreResult} для указанного задания или null, если не найдено
+     */
     private static TaskScoreResult findTaskResult(List<TaskScoreResult> results, String taskId) {
         for (TaskScoreResult result : results) {
             if (taskId.equals(result.taskId())) {
@@ -121,10 +138,22 @@ public final class HtmlReportRenderer {
         return null;
     }
 
+    /**
+     * Возвращает текстовую метку (плюс/минус) на основе логического значения.
+     *
+     * @param ok флаг успеха (true/false)
+     * @return "+" если true, "-" если false
+     */
     private static String mark(boolean ok) {
         return ok ? "+" : "-";
     }
 
+    /**
+     * Форматирует число баллов для вывода (оставляет только целую часть, если дробная равна нулю).
+     *
+     * @param value числовое значение баллов
+     * @return отформатированная строка
+     */
     private static String formatNumber(double value) {
         if (Math.abs(value - Math.rint(value)) < 1e-9) {
             return Long.toString(Math.round(value));
@@ -132,6 +161,12 @@ public final class HtmlReportRenderer {
         return String.format(java.util.Locale.US, "%.2f", value);
     }
 
+    /**
+     * Экранирует спецсимволы HTML для безопасного вывода в документ.
+     *
+     * @param value исходная строка
+     * @return строка с экранированными символами
+     */
     private static String escape(String value) {
         if (value == null) {
             return "";

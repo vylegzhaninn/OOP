@@ -8,7 +8,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Парсер отчетов о тестировании в формате JUnit XML.
+ */
 public final class JUnitXmlParser {
+    /**
+     * Парсит директорию с результатами тестов и возвращает агрегированную статистику.
+     *
+     * @param testResultDir директория, в которой лежат .xml файлы отчетов (например, build/test-results/test)
+     * @return объект {@link TestStats} с результатами парсинга
+     */
     public TestStats parse(Path testResultDir) {
         AtomicInteger passed = new AtomicInteger();
         AtomicInteger failed = new AtomicInteger();
@@ -29,6 +38,14 @@ public final class JUnitXmlParser {
         return new TestStats(passed.get(), failed.get(), skipped.get());
     }
 
+    /**
+     * Анализирует конкретный XML-файл отчета и обновляет счетчики пройденных, упавших и пропущенных тестов.
+     *
+     * @param xmlFile путь к XML-файлу
+     * @param passed счетчик успешно пройденных тестов
+     * @param failed счетчик упавших тестов
+     * @param skipped счетчик пропущенных тестов
+     */
     private static void parseFile(Path xmlFile, AtomicInteger passed, AtomicInteger failed, AtomicInteger skipped) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile.toFile());
@@ -61,7 +78,13 @@ public final class JUnitXmlParser {
         }
     }
 
+    /**
+     * Структура для хранения статистики прохождения тестов.
+     *
+     * @param passed количество пройденных тестов
+     * @param failed количество упавших тестов
+     * @param skipped количество пропущенных тестов
+     */
     public record TestStats(int passed, int failed, int skipped) {
     }
 }
-

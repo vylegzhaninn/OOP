@@ -16,11 +16,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Основной сервис - координатор оценки учебного курса.
+ * Запускает цикл проверок каждого студента и формирует агрегированные отчеты об успеваемости.
+ */
 public final class CourseEvaluationService {
     private final RepositoryEvaluationService repositoryEvaluationService;
     private final ScoreCalculator scoreCalculator;
     private final GradeService gradeService;
 
+    /**
+     * Создает экземпляр сервиса.
+     *
+     * @param repositoryEvaluationService сервис для проверки отдельных репозиториев
+     * @param scoreCalculator калькулятор баллов
+     * @param gradeService сервис выставления итоговых оценок
+     */
     public CourseEvaluationService(
             RepositoryEvaluationService repositoryEvaluationService,
             ScoreCalculator scoreCalculator,
@@ -31,6 +42,13 @@ public final class CourseEvaluationService {
         this.gradeService = gradeService;
     }
 
+    /**
+     * Оценивает работы всех студентов, перечисленных в конфигурации, и формирует итоговые отчеты.
+     *
+     * @param config конфигурация курса, загруженная из DSL
+     * @param launchDirectory базовая директория запуска
+     * @return список отчетов по студентам (по одному на каждого) {@link StudentScoreReport}
+     */
     public List<StudentScoreReport> evaluate(CourseConfig config, Path launchDirectory) {
         SettingsSpec settings = config.settings();
         Path workspace = launchDirectory.resolve(settings.workspace()).normalize();
@@ -100,6 +118,15 @@ public final class CourseEvaluationService {
         return reports;
     }
 
+    /**
+     * Оценивает контрольные точки (checkpoints) для студента и вычисляет набранные баллы до определенной даты.
+     *
+     * @param checkpoints список контрольных точек курса
+     * @param tasks карта всех заданий
+     * @param submissions решения, отправленные студентом
+     * @param taskResults список вычисленных результатов по заданиям для студента
+     * @return карта (название контрольной точки -> сумма баллов на этот момент)
+     */
     private Map<String, Double> evaluateCheckpoints(
             List<CheckpointSpec> checkpoints,
             Map<String, TaskSpec> tasks,
@@ -127,6 +154,12 @@ public final class CourseEvaluationService {
         return points;
     }
 
+    /**
+     * Округляет значение до двух знаков после запятой.
+     *
+     * @param value исходное значение
+     * @return округленное значение
+     */
     private static double round(double value) {
         return Math.round(value * 100.0) / 100.0;
     }

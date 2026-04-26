@@ -10,7 +10,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Исполнитель команд операционной системы.
+ * Отвечает за запуск внешних процессов с заданными параметрами, окружением и таймаутом.
+ */
 public final class CommandExecutor {
+    /**
+     * Выполняет указанную команду.
+     *
+     * @param workingDirectory рабочая директория (откуда будет запущена команда)
+     * @param timeout максимальное время выполнения (таймаут)
+     * @param command список аргументов команды (например, ["git", "status"])
+     * @param extraEnv дополнительные переменные окружения, которые будут добавлены к процессу
+     * @return результат выполнения команды (включает код возврата и текст вывода)
+     */
     public CommandResult run(Path workingDirectory, Duration timeout, List<String> command, Map<String, String> extraEnv) {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(workingDirectory.toFile());
@@ -43,5 +56,3 @@ public final class CommandExecutor {
         }
     }
 }
-
-
