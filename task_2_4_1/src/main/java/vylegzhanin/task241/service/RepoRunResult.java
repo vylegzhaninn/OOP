@@ -3,26 +3,26 @@ package vylegzhanin.task241.service;
 /**
  * Сырой результат запуска проверки одной задачи для студента (git clone, build, javadoc, checkstyle, test).
  *
- * @param gitOk успешно ли скачан/обновлен репозиторий
- * @param compileOk успешно ли откомпилирован проект
- * @param javadocOk успешно ли прошла генерация (или проверка) javadoc
+ * @param gitOk        успешно ли скачан/обновлен репозиторий
+ * @param compileOk    успешно ли откомпилирован проект
+ * @param javadocOk    успешно ли прошла генерация (или проверка) javadoc
  * @param checkstyleOk успешно ли пройдена проверка на стандарты кодирования (styleguide)
- * @param testsOk успешно ли выполнилась задача тестирования
- * @param passed кол-во пройденных тестов
- * @param failed кол-во упавших тестов
- * @param skipped кол-во пропущенных тестов
- * @param details текстовое описание ошибки(детали из вывода командной строки) в случае падения
+ * @param testsOk      успешно ли выполнилась задача тестирования
+ * @param passed       кол-во пройденных тестов
+ * @param failed       кол-во упавших тестов
+ * @param skipped      кол-во пропущенных тестов
+ * @param details      текстовое описание ошибки(детали из вывода командной строки) в случае падения
  */
 public record RepoRunResult(
-        boolean gitOk,
-        boolean compileOk,
-        boolean javadocOk,
-        boolean checkstyleOk,
-        boolean testsOk,
-        int passed,
-        int failed,
-        int skipped,
-        String details
+    boolean gitOk,
+    boolean compileOk,
+    boolean javadocOk,
+    boolean checkstyleOk,
+    boolean testsOk,
+    int passed,
+    int failed,
+    int skipped,
+    String details
 ) {
     /**
      * Создает результат запуска, скомпонованный как полностью проваленный с указанием причины.

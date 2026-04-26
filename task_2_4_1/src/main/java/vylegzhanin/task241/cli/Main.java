@@ -1,5 +1,7 @@
 package vylegzhanin.task241.cli;
 
+import java.nio.file.Path;
+import java.util.List;
 import vylegzhanin.task241.domain.CourseConfig;
 import vylegzhanin.task241.dsl.ConfigLoader;
 import vylegzhanin.task241.infra.CommandExecutor;
@@ -12,9 +14,6 @@ import vylegzhanin.task241.service.GradeService;
 import vylegzhanin.task241.service.RepositoryEvaluationService;
 import vylegzhanin.task241.service.ScoreCalculator;
 import vylegzhanin.task241.service.StudentScoreReport;
-
-import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Главный класс приложения. Является точкой входа.
@@ -60,17 +59,18 @@ public final class Main {
     private static CourseEvaluationService getCourseEvaluationService(CourseConfig config) {
         CommandExecutor commandExecutor = new CommandExecutor();
         GitClient gitClient = new GitClient(commandExecutor, config.settings().commandTimeout());
-        GradleRunner gradleRunner = new GradleRunner(commandExecutor, config.settings().commandTimeout());
+        GradleRunner gradleRunner =
+            new GradleRunner(commandExecutor, config.settings().commandTimeout());
         RepositoryEvaluationService repositoryEvaluationService = new RepositoryEvaluationService(
-                gitClient,
-                gradleRunner,
-                new JUnitXmlParser()
+            gitClient,
+            gradleRunner,
+            new JUnitXmlParser()
         );
 
         CourseEvaluationService evaluationService = new CourseEvaluationService(
-                repositoryEvaluationService,
-                new ScoreCalculator(),
-                new GradeService()
+            repositoryEvaluationService,
+            new ScoreCalculator(),
+            new GradeService()
         );
         return evaluationService;
     }
@@ -78,7 +78,7 @@ public final class Main {
     /**
      * Определяет путь к файлу конфигурации курса на основе аргументов командной строки.
      *
-     * @param args аргументы командной строки
+     * @param args      аргументы командной строки
      * @param launchDir директория запуска приложения
      * @return путь к файлу конфигурации
      */

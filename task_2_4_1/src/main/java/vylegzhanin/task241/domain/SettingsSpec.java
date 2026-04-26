@@ -20,20 +20,20 @@ public final class SettingsSpec {
     /**
      * Создает настройки курса.
      *
-     * @param workspace путь до локальной директории для клонирования и работы с репозиториями
-     * @param commandTimeout таймаут на выполнение внешних команд (git, gradle и т.д.)
-     * @param primaryBranch основная ветка (main)
-     * @param fallbackBranch резервная ветка (master)
+     * @param workspace          путь до локальной директории для клонирования и работы с репозиториями
+     * @param commandTimeout     таймаут на выполнение внешних команд (git, gradle и т.д.)
+     * @param primaryBranch      основная ветка (main)
+     * @param fallbackBranch     резервная ветка (master)
      * @param hardLateMultiplier множитель баллов при жестком опоздании сдачи
-     * @param gradeBounds список границ для выставления оценок
+     * @param gradeBounds        список границ для выставления оценок
      */
     public SettingsSpec(
-            Path workspace,
-            Duration commandTimeout,
-            String primaryBranch,
-            String fallbackBranch,
-            double hardLateMultiplier,
-            List<GradeBound> gradeBounds
+        Path workspace,
+        Duration commandTimeout,
+        String primaryBranch,
+        String fallbackBranch,
+        double hardLateMultiplier,
+        List<GradeBound> gradeBounds
     ) {
         this.workspace = workspace;
         this.commandTimeout = commandTimeout;
@@ -52,18 +52,18 @@ public final class SettingsSpec {
      */
     public static SettingsSpec defaults() {
         return new SettingsSpec(
-                Path.of(".oop-checker-work"),
-                Duration.ofMinutes(10),
-                "main",
-                "master",
-                0.0,
-                List.of(
-                        new GradeBound("A", 85),
-                        new GradeBound("B", 70),
-                        new GradeBound("C", 55),
-                        new GradeBound("D", 40),
-                        new GradeBound("F", 0)
-                )
+            Path.of(".oop-checker-work"),
+            Duration.ofMinutes(10),
+            "main",
+            "master",
+            0.0,
+            List.of(
+                new GradeBound("A", 85),
+                new GradeBound("B", 70),
+                new GradeBound("C", 55),
+                new GradeBound("D", 40),
+                new GradeBound("F", 0)
+            )
         );
     }
 

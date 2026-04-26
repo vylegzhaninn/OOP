@@ -1,12 +1,6 @@
 package vylegzhanin.task241.dsl
 
-import vylegzhanin.task241.domain.CheckpointSpec
-import vylegzhanin.task241.domain.CourseConfig
-import vylegzhanin.task241.domain.GradeBound
-import vylegzhanin.task241.domain.SettingsSpec
-import vylegzhanin.task241.domain.StudentSpec
-import vylegzhanin.task241.domain.SubmissionSpec
-import vylegzhanin.task241.domain.TaskSpec
+import vylegzhanin.task241.domain.*
 
 import java.nio.file.Path
 import java.time.Duration

@@ -17,7 +17,7 @@ public final class GradleRunner {
      * Конструктор GradleRunner.
      *
      * @param commandExecutor сервис запуска консольных команд
-     * @param timeout максимальное время выполнения задачи
+     * @param timeout         максимальное время выполнения задачи
      */
     public GradleRunner(CommandExecutor commandExecutor, Duration timeout) {
         this.commandExecutor = commandExecutor;
@@ -29,7 +29,7 @@ public final class GradleRunner {
      * Автоматически определяет, использовать ли локальный gradlew или глобальный gradle.
      *
      * @param projectDir директория проекта
-     * @param taskName имя выполняемой задачи (например, "build" или "test")
+     * @param taskName   имя выполняемой задачи (например, "build" или "test")
      * @return результат запуска команды
      */
     public CommandResult runTask(Path projectDir, String taskName) {

@@ -48,7 +48,8 @@ public final class ConfigLoader {
             }
             return config;
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to load DSL config " + absolute + ": " + e.getMessage(), e);
+            throw new IllegalStateException(
+                "Failed to load DSL config " + absolute + ": " + e.getMessage(), e);
         } finally {
             stack.pop();
             active.remove(absolute);
@@ -65,7 +66,8 @@ public final class ConfigLoader {
     public CourseConfig loadImported(String relativePath) {
         Path current = stack.peek();
         if (current == null) {
-            throw new IllegalStateException("importConfig can only be called while loading a config script");
+            throw new IllegalStateException(
+                "importConfig can only be called while loading a config script");
         }
         Path imported = current.getParent().resolve(relativePath).normalize();
         return load(imported);

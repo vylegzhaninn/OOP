@@ -1,13 +1,12 @@
 package vylegzhanin.task241.dsl;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import vylegzhanin.task241.domain.CourseConfig;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import vylegzhanin.task241.domain.CourseConfig;
 
 class ConfigLoaderTest {
     @Test
@@ -16,28 +15,28 @@ class ConfigLoaderTest {
         Path root = tempDir.resolve("oop-check.gradle");
 
         Files.writeString(base, """
-                course {
-                    task('t1') {
-                        title 'Task 1'
-                        maxPoints 10
-                        softDeadline '2026-04-10'
-                        hardDeadline '2026-04-20'
-                    }
+            course {
+                task('t1') {
+                    title 'Task 1'
+                    maxPoints 10
+                    softDeadline '2026-04-10'
+                    hardDeadline '2026-04-20'
                 }
-                """);
+            }
+            """);
 
         Files.writeString(root, """
-                importConfig 'base.gradle'
-                course {
-                    group('G1') {
-                        student('octo') {
-                            fullName 'Octo Cat'
-                            repo 'https://example.com/repo.git'
-                        }
+            importConfig 'base.gradle'
+            course {
+                group('G1') {
+                    student('octo') {
+                        fullName 'Octo Cat'
+                        repo 'https://example.com/repo.git'
                     }
-                    check('octo', 't1')
                 }
-                """);
+                check('octo', 't1')
+            }
+            """);
 
         CourseConfig config = new ConfigLoader().load(root);
         assertEquals(1, config.tasks().size());

@@ -1,12 +1,11 @@
 package vylegzhanin.task241.infra;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  * Парсер отчетов о тестировании в формате JUnit XML.
@@ -29,8 +28,8 @@ public final class JUnitXmlParser {
 
         try {
             Files.walk(testResultDir)
-                    .filter(path -> path.getFileName().toString().endsWith(".xml"))
-                    .forEach(path -> parseFile(path, passed, failed, skipped));
+                .filter(path -> path.getFileName().toString().endsWith(".xml"))
+                .forEach(path -> parseFile(path, passed, failed, skipped));
         } catch (Exception ignored) {
             return new TestStats(0, 0, 0);
         }
@@ -42,13 +41,15 @@ public final class JUnitXmlParser {
      * Анализирует конкретный XML-файл отчета и обновляет счетчики пройденных, упавших и пропущенных тестов.
      *
      * @param xmlFile путь к XML-файлу
-     * @param passed счетчик успешно пройденных тестов
-     * @param failed счетчик упавших тестов
+     * @param passed  счетчик успешно пройденных тестов
+     * @param failed  счетчик упавших тестов
      * @param skipped счетчик пропущенных тестов
      */
-    private static void parseFile(Path xmlFile, AtomicInteger passed, AtomicInteger failed, AtomicInteger skipped) {
+    private static void parseFile(Path xmlFile, AtomicInteger passed, AtomicInteger failed,
+                                  AtomicInteger skipped) {
         try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile.toFile());
+            Document doc =
+                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile.toFile());
             NodeList tests = doc.getElementsByTagName("testcase");
             for (int i = 0; i < tests.getLength(); i++) {
                 org.w3c.dom.Node test = tests.item(i);
@@ -81,8 +82,8 @@ public final class JUnitXmlParser {
     /**
      * Структура для хранения статистики прохождения тестов.
      *
-     * @param passed количество пройденных тестов
-     * @param failed количество упавших тестов
+     * @param passed  количество пройденных тестов
+     * @param failed  количество упавших тестов
      * @param skipped количество пропущенных тестов
      */
     public record TestStats(int passed, int failed, int skipped) {

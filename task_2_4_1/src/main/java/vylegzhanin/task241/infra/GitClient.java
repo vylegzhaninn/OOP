@@ -36,35 +36,46 @@ public final class GitClient {
      * @param fallbackBranch резервная ветка, если основной нет (например, "master")
      * @return результат выполнения операций (успех/ошибка с выводом)
      */
-    public CommandResult prepareRepository(Path workspace, String repoUrl, String dirName, String mainBranch, String fallbackBranch) {
+    public CommandResult prepareRepository(Path workspace, String repoUrl, String dirName,
+                                           String mainBranch, String fallbackBranch) {
         Path repoDir = workspace.resolve(dirName);
         Map<String, String> env = gitNoPromptEnv();
         try {
             Files.createDirectories(workspace);
         } catch (Exception e) {
-            return new CommandResult(1, "Cannot create workspace directory: " + workspace + " (" + e.getMessage() + ")");
+            return new CommandResult(1,
+                "Cannot create workspace directory: " + workspace + " (" + e.getMessage() + ")");
         }
 
-        CommandResult accessCheck = commandExecutor.run(workspace, timeout, List.of("git", "ls-remote", repoUrl, "HEAD"), env);
+        CommandResult accessCheck =
+            commandExecutor.run(workspace, timeout, List.of("git", "ls-remote", repoUrl, "HEAD"),
+                env);
         if (!accessCheck.isSuccess()) {
-            return new CommandResult(accessCheck.exitCode(), "Cannot access repository without prompt: " + repoUrl + "\n" + accessCheck.output());
+            return new CommandResult(accessCheck.exitCode(),
+                "Cannot access repository without prompt: " + repoUrl + "\n" +
+                    accessCheck.output());
         }
 
         CommandResult cloneOrPull;
         if (Files.exists(repoDir.resolve(".git"))) {
-            cloneOrPull = commandExecutor.run(repoDir, timeout, List.of("git", "pull", "--ff-only"), env);
+            cloneOrPull =
+                commandExecutor.run(repoDir, timeout, List.of("git", "pull", "--ff-only"), env);
         } else {
-            cloneOrPull = commandExecutor.run(workspace, timeout, List.of("git", "clone", repoUrl, dirName), env);
+            cloneOrPull =
+                commandExecutor.run(workspace, timeout, List.of("git", "clone", repoUrl, dirName),
+                    env);
         }
         if (!cloneOrPull.isSuccess()) {
             return cloneOrPull;
         }
 
-        CommandResult checkoutPrimary = commandExecutor.run(repoDir, timeout, List.of("git", "checkout", mainBranch), env);
+        CommandResult checkoutPrimary =
+            commandExecutor.run(repoDir, timeout, List.of("git", "checkout", mainBranch), env);
         if (checkoutPrimary.isSuccess()) {
             return checkoutPrimary;
         }
-        return commandExecutor.run(repoDir, timeout, List.of("git", "checkout", fallbackBranch), env);
+        return commandExecutor.run(repoDir, timeout, List.of("git", "checkout", fallbackBranch),
+            env);
     }
 
     /**

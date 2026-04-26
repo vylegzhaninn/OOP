@@ -1,12 +1,11 @@
 package vylegzhanin.task241.service;
 
+import java.nio.file.Path;
 import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.infra.CommandResult;
 import vylegzhanin.task241.infra.GitClient;
 import vylegzhanin.task241.infra.GradleRunner;
 import vylegzhanin.task241.infra.JUnitXmlParser;
-
-import java.nio.file.Path;
 
 /**
  * Сервис для оценки репозитория студента.
@@ -20,11 +19,12 @@ public final class RepositoryEvaluationService {
     /**
      * Создает экземпляр сервиса.
      *
-     * @param gitClient клиент для работы с Git
+     * @param gitClient    клиент для работы с Git
      * @param gradleRunner компонент для запуска задач Gradle
-     * @param xmlParser парсер XML-отчетов о тестировании
+     * @param xmlParser    парсер XML-отчетов о тестировании
      */
-    public RepositoryEvaluationService(GitClient gitClient, GradleRunner gradleRunner, JUnitXmlParser xmlParser) {
+    public RepositoryEvaluationService(GitClient gitClient, GradleRunner gradleRunner,
+                                       JUnitXmlParser xmlParser) {
         this.gitClient = gitClient;
         this.gradleRunner = gradleRunner;
         this.xmlParser = xmlParser;
@@ -33,19 +33,20 @@ public final class RepositoryEvaluationService {
     /**
      * Запускает полный цикл проверки (подготовка, компиляция, javadoc, checkstyle, тесты) для репозитория.
      *
-     * @param github логин студента (название директории для клонирования)
-     * @param repoUrl URL репозитория
-     * @param settings настройки проверки курса
+     * @param github            логин студента (название директории для клонирования)
+     * @param repoUrl           URL репозитория
+     * @param settings          настройки проверки курса
      * @param absoluteWorkspace абсолютный путь к рабочей папке
      * @return сырой результат выполнения проверок {@link RepoRunResult}
      */
-    public RepoRunResult runForStudent(String github, String repoUrl, SettingsSpec settings, Path absoluteWorkspace) {
+    public RepoRunResult runForStudent(String github, String repoUrl, SettingsSpec settings,
+                                       Path absoluteWorkspace) {
         CommandResult git = gitClient.prepareRepository(
-                absoluteWorkspace,
-                repoUrl,
-                github,
-                settings.primaryBranch(),
-                settings.fallbackBranch()
+            absoluteWorkspace,
+            repoUrl,
+            github,
+            settings.primaryBranch(),
+            settings.fallbackBranch()
         );
         if (!git.isSuccess()) {
             return RepoRunResult.failed(git.output());
@@ -68,17 +69,18 @@ public final class RepositoryEvaluationService {
         }
 
         CommandResult test = gradleRunner.runTask(repoDir, "test");
-        JUnitXmlParser.TestStats stats = xmlParser.parse(repoDir.resolve("build/test-results/test"));
+        JUnitXmlParser.TestStats stats =
+            xmlParser.parse(repoDir.resolve("build/test-results/test"));
         return new RepoRunResult(
-                true,
-                true,
-                true,
-                true,
-                test.isSuccess(),
-                stats.passed(),
-                stats.failed(),
-                stats.skipped(),
-                test.output()
+            true,
+            true,
+            true,
+            true,
+            test.isSuccess(),
+            stats.passed(),
+            stats.failed(),
+            stats.skipped(),
+            test.output()
         );
     }
 }

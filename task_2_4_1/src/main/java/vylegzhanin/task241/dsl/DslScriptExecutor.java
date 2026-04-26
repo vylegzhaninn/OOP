@@ -16,7 +16,7 @@ class DslScriptExecutor {
      * Парсит и запускает конфигурационный файл Groovy DSL.
      *
      * @param configFile файл скрипта, который нужно выполнить
-     * @param loader загрузчик конфигурации, передаваемый внутрь скрипта
+     * @param loader     загрузчик конфигурации, передаваемый внутрь скрипта
      * @return результат (как правило объект {@link vylegzhanin.task241.domain.CourseConfig}), который скрипт вернул через `resultConfig`
      * @throws IllegalStateException если не удалось прочитать или спарсить файл
      */

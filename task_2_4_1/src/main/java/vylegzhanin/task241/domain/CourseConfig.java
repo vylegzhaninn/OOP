@@ -19,18 +19,18 @@ public final class CourseConfig {
     /**
      * Конструктор для создания объекта конфигурации курса.
      *
-     * @param tasks карта заданий
-     * @param students карта студентов
+     * @param tasks       карта заданий
+     * @param students    карта студентов
      * @param submissions список отправленных студентами решений
      * @param checkpoints список контрольных точек (checkpoints)
-     * @param settings настройки курса
+     * @param settings    настройки курса
      */
     public CourseConfig(
-            Map<String, TaskSpec> tasks,
-            Map<String, StudentSpec> students,
-            List<SubmissionSpec> submissions,
-            List<CheckpointSpec> checkpoints,
-            SettingsSpec settings
+        Map<String, TaskSpec> tasks,
+        Map<String, StudentSpec> students,
+        List<SubmissionSpec> submissions,
+        List<CheckpointSpec> checkpoints,
+        SettingsSpec settings
     ) {
         this.tasks = Map.copyOf(tasks);
         this.students = Map.copyOf(students);
@@ -69,11 +69,11 @@ public final class CourseConfig {
         mergedCheckpoints.addAll(overlay.checkpoints);
 
         return new CourseConfig(
-                mergedTasks,
-                mergedStudents,
-                mergedSubmissions,
-                mergedCheckpoints,
-                overlay.settings
+            mergedTasks,
+            mergedStudents,
+            mergedSubmissions,
+            mergedCheckpoints,
+            overlay.settings
         );
     }
 
