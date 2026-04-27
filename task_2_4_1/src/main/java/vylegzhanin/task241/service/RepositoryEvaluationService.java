@@ -1,5 +1,6 @@
 package vylegzhanin.task241.service;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.domain.TestStats;
@@ -61,39 +62,45 @@ public final class RepositoryEvaluationService {
 
         Path repoDir = absoluteWorkspace.resolve(github);
 
+        // Определяем рабочую папку Gradle: если в репозитории есть папка с именем ветки/задачи, то заходим в неё
+        Path gradleWorkDir = repoDir.resolve(settings.primaryBranch());
+        if (!Files.exists(gradleWorkDir)) {
+            gradleWorkDir = repoDir;
+        }
+
         log.info("Запуск задачи компиляции (compileJava) для участника [{}]...", github);
-        CommandResult compile = gradleRunner.runTask(repoDir, "compileJava");
+        CommandResult compile = gradleRunner.runTask(gradleWorkDir, "compileJava");
         if (!compile.isSuccess()) {
             log.warn("Этап компиляции завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, compile.output());
             return new RepoRunResult(true, false, false, false, false, 0, 0, 0, compile.output());
         }
 
         log.info("Запуск задачи генерации документации (javadoc) для участника [{}]...", github);
-        CommandResult javadoc = gradleRunner.runTask(repoDir, "javadoc");
-        if (!javadoc.isSuccess()) {
+        CommandResult javadoc = gradleRunner.runTask(gradleWorkDir, "javadoc");
+        boolean docsOk = javadoc.isSuccess();
+        if (!docsOk) {
             log.warn("Этап генерации Javadoc завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, javadoc.output());
-            return new RepoRunResult(true, true, false, false, false, 0, 0, 0, javadoc.output());
         }
 
         log.info("Запуск задачи анализа стиля кода (checkstyleMain) для участника [{}]...", github);
-        CommandResult checkstyle = gradleRunner.runTask(repoDir, "checkstyleMain");
-        if (!checkstyle.isSuccess()) {
+        CommandResult checkstyle = gradleRunner.runTask(gradleWorkDir, "checkstyleMain");
+        boolean styleOk = checkstyle.isSuccess();
+        if (!styleOk) {
             log.warn("Этап проверки Checkstyle завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, checkstyle.output());
-            return new RepoRunResult(true, true, true, false, false, 0, 0, 0, checkstyle.output());
         }
 
         log.info("Запуск набора автоматических тестов (test) для участника [{}]...", github);
-        CommandResult test = gradleRunner.runTask(repoDir, "test");
+        CommandResult test = gradleRunner.runTask(gradleWorkDir, "test");
         if (!test.isSuccess()) {
             log.warn("Тесты завершились с ошибками для участника [{}]. Результат выполнения: {}", github, test.output());
         }
         TestStats stats =
-            xmlParser.parse(repoDir.resolve("build/test-results/test"));
+            xmlParser.parse(gradleWorkDir.resolve("build/test-results/test"));
         return new RepoRunResult(
             true,
             true,
-            true,
-            true,
+            docsOk,
+            styleOk,
             test.isSuccess(),
             stats.passed(),
             stats.failed(),

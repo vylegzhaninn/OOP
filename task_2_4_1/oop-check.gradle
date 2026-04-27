@@ -6,11 +6,25 @@ course {
         hardDeadline '2026-04-27'
     }
 
+    task('task_1_3_1') {
+        title 'Task 1.2.2'
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_5_1') {
+        title 'Task 1.2.2'
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
     settings {
         workspace '.oop-checker-work'
         timeoutSeconds 600
         mainBranch 'task_1_2_2'
-        fallbackBranch 'master'
+        fallbackBranch 'main'
         hardLateMultiplier 0.1
         clearGrades()
         grade 'A', 85
@@ -21,18 +35,61 @@ course {
     }
 
     group('228') {
-        student('Толик') {
+        student('tolik') {
             fullName 'Толян'
             repo 'https://github.com/vylegzhaninn/OOP'
         }
     }
 
-    check('student-github', 'task_2_3_1') {
-        submittedAt '2026-04-22'
+    group('228') {
+        student('igor') {
+            fullName 'Игарь'
+            repo 'https://github.com/vylegzhaninn/OOP'
+        }
+    }
+
+    group('snus69') {
+        student('Sanya') {
+            fullName 'Саня Снюс'
+            repo 'https://github.com/zxcolder159/OOP'
+        }
+    }
+
+    check('tolik', 'task_1_2_2') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('tolik', 'task_1_3_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('tolik', 'task_1_5_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('igor', 'task_1_2_2') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('igor', 'task_1_3_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('igor', 'task_1_5_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('Sanya', 'task_1_5_1') {
+        submittedAt '2026-04-19'
         bonus 0.0
     }
 
     checkpoint 'Checkpoint 1', '2026-04-25'
     checkpoint 'Final', '2026-05-30'
 }
-

@@ -57,25 +57,25 @@ public final class GitClient {
                     accessCheck.output());
         }
 
-        CommandResult cloneOrPull;
+        CommandResult cloneOrFetch;
         if (Files.exists(repoDir.resolve(".git"))) {
-            cloneOrPull =
-                commandExecutor.run(repoDir, timeout, List.of("git", "pull", "--ff-only"), env);
+            cloneOrFetch =
+                commandExecutor.run(repoDir, timeout, List.of("git", "fetch", "origin"), env);
         } else {
-            cloneOrPull =
+            cloneOrFetch =
                 commandExecutor.run(workspace, timeout, List.of("git", "clone", repoUrl, dirName),
                     env);
         }
-        if (!cloneOrPull.isSuccess()) {
-            return cloneOrPull;
+        if (!cloneOrFetch.isSuccess()) {
+            return cloneOrFetch;
         }
 
         CommandResult checkoutPrimary =
-            commandExecutor.run(repoDir, timeout, List.of("git", "checkout", mainBranch), env);
+            commandExecutor.run(repoDir, timeout, List.of("git", "reset", "--hard", "origin/" + mainBranch), env);
         if (checkoutPrimary.isSuccess()) {
             return checkoutPrimary;
         }
-        return commandExecutor.run(repoDir, timeout, List.of("git", "checkout", fallbackBranch),
+        return commandExecutor.run(repoDir, timeout, List.of("git", "reset", "--hard", "origin/" + fallbackBranch),
             env);
     }
 
