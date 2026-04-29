@@ -12,7 +12,21 @@ import vylegzhanin.task241.service.TaskScoreResult;
  * Рендерер HTML-отчета.
  * Генерирует итоговую сводку по оценкам студентов в формате HTML на основе вычисленной статистики.
  */
-public final class HtmlReportRenderer {
+public class HtmlReportRenderer {
+    private static final String HEAD = """
+        <!doctype html><html><head><meta charset="UTF-8">\
+        <title>oop-checker test</title>\
+        <style>\
+        body{font-family:'Courier New',monospace;margin:16px}\
+        h1,h2,h3{margin:12px 0}\
+        table{border-collapse:collapse;width:100%;margin:10px 0 18px}\
+        th,td{border:1px solid #333;padding:6px 8px;vertical-align:top}\
+        th{font-weight:700;background:#f7f7f7}\
+        .center{text-align:center}\
+        </style></head><body>\
+        """;
+    private static final String FOOT = "</body></html>";
+
     /**
      * Создает HTML-документ с результатами автоматической проверки.
      *
@@ -21,17 +35,7 @@ public final class HtmlReportRenderer {
      */
     public String render(List<StudentScoreReport> reports) {
         StringBuilder html = new StringBuilder();
-        html.append("<!doctype html><html><head><meta charset=\"UTF-8\">")
-            .append("<title>oop-checker test</title>")
-            .append("<style>")
-            .append("body{font-family:'Courier New',monospace;margin:16px}")
-            .append("h1,h2,h3{margin:12px 0}")
-            .append("table{border-collapse:collapse;width:100%;margin:10px 0 18px}")
-            .append("th,td{border:1px solid #333;padding:6px 8px;vertical-align:top}")
-            .append("th{font-weight:700;background:#f7f7f7}")
-            .append(".center{text-align:center}")
-            .append("</style></head><body>");
-
+        html.append(HEAD);
         html.append("<h1>oop-checker test</h1>");
 
         Map<String, List<StudentScoreReport>> groups = reports.stream()
@@ -131,7 +135,7 @@ public final class HtmlReportRenderer {
             html.append("</tbody></table>");
         }
 
-        html.append("</body></html>");
+        html.append(FOOT);
         return html.toString();
     }
 

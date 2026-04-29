@@ -23,6 +23,7 @@ class DslScriptExecutor {
     Object execute(Path configFile, ConfigLoader loader) {
         Binding binding = new Binding();
         binding.setVariable("__loader", loader);
+        binding.setVariable("__configFile", configFile);
 
         CompilerConfiguration cc = new CompilerConfiguration();
         cc.setScriptBaseClass("vylegzhanin.task241.dsl.OopDslScript");

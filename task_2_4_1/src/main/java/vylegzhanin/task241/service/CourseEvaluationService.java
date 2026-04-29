@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  * Запускает цикл проверок каждого студента и формирует агрегированные отчеты об успеваемости.
  */
 @Slf4j
-public final class CourseEvaluationService {
+public class CourseEvaluationService {
     private final RepositoryEvaluationService repositoryEvaluationService;
     private final ScoreCalculator scoreCalculator;
     private final GradeService gradeService;
@@ -123,8 +123,8 @@ public final class CourseEvaluationService {
                 student.fullName(),
                 student.groupName(),
                 List.copyOf(taskResults),
-                round(total),
-                round(max),
+                Numbers.round2(total),
+                Numbers.round2(max),
                 checkpoints,
                 grade
             ));
@@ -164,18 +164,9 @@ public final class CourseEvaluationService {
                     cpTotal += result.points();
                 }
             }
-            points.put(checkpoint.name(), round(cpTotal));
+            points.put(checkpoint.name(), Numbers.round2(cpTotal));
         }
         return points;
     }
 
-    /**
-     * Округляет значение до двух знаков после запятой.
-     *
-     * @param value исходное значение
-     * @return округленное значение
-     */
-    private static double round(double value) {
-        return Math.round(value * 100.0) / 100.0;
-    }
 }

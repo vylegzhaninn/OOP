@@ -9,7 +9,8 @@ import vylegzhanin.task241.domain.TaskSpec;
  * Калькулятор итоговых баллов. Содержит бизнес-логику подсчета баллов,
  * применения штрафов за дедлайны и бонусных баллов.
  */
-public final class ScoreCalculator {
+public class ScoreCalculator {
+    private static final int MAX_DETAIL_LENGTH = 220;
     /**
      * Вычисляет баллы за задачу на основе результатов выполнения.
      *
@@ -93,7 +94,7 @@ public final class ScoreCalculator {
         double testRatio = runResult.successRatio();
         double latenessFactor = latenessFactor(task, submission, settings.hardLateMultiplier());
         double rawPoints = task.maxPoints() * testRatio * latenessFactor + submission.bonusPoints();
-        double points = round(Math.max(0, rawPoints));
+        double points = Numbers.round2(Math.max(0, rawPoints));
         return new TaskScoreResult(
             task.id(),
             task.title(),
@@ -151,16 +152,7 @@ public final class ScoreCalculator {
             return "";
         }
         String singleLine = text.replace('\n', ' ').replace('\r', ' ').trim();
-        return singleLine.length() > 220 ? singleLine.substring(0, 220) + "..." : singleLine;
+        return singleLine.length() > MAX_DETAIL_LENGTH ? singleLine.substring(0, MAX_DETAIL_LENGTH) + "..." : singleLine;
     }
 
-    /**
-     * Округляет значение до двух знаков после запятой.
-     *
-     * @param value исходное значение
-     * @return округленное значение
-     */
-    private static double round(double value) {
-        return Math.round(value * 100.0) / 100.0;
-    }
 }

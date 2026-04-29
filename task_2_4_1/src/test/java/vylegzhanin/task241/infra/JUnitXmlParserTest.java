@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import vylegzhanin.task241.domain.TestStats;
 
 class JUnitXmlParserTest {
     @Test
@@ -19,7 +20,7 @@ class JUnitXmlParserTest {
             </testsuite>
             """);
 
-        JUnitXmlParser.TestStats stats = new JUnitXmlParser().parse(tempDir);
+        TestStats stats = new JUnitXmlParser().parse(tempDir);
         assertEquals(1, stats.passed());
         assertEquals(1, stats.failed());
         assertEquals(1, stats.skipped());
