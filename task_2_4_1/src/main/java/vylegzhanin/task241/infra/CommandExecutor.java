@@ -1,13 +1,17 @@
 package vylegzhanin.task241.infra;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import vylegzhanin.task241.domain.CommandResult;
@@ -34,9 +38,12 @@ public final class CommandExecutor {
         processBuilder.redirectErrorStream(true);
         processBuilder.environment().putAll(extraEnv);
 
+        ExecutorService drainer = Executors.newSingleThreadExecutor();
         try {
             log.info("Процеес {} начал работу", command);
             Process process = processBuilder.start();
+            Future<String> outputFuture = drainer.submit(() -> drainStream(process.getInputStream()));
+
             boolean finished = process.waitFor(timeout.toSeconds(), TimeUnit.SECONDS);
             if (!finished) {
                 process.descendants().forEach(ProcessHandle::destroyForcibly);
@@ -45,23 +52,26 @@ public final class CommandExecutor {
                 return new CommandResult(124, "Command timed out: " + String.join(" ", command));
             }
 
-            String output;
-            try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append(System.lineSeparator());
-                }
-                output = sb.toString();
-            }
+            String output = outputFuture.get();
             return new CommandResult(process.exitValue(), output);
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return new CommandResult(1, "Command failed: " + e.getMessage());
-        } catch (IOException e) {
+        } catch (IOException | ExecutionException e) {
             return new CommandResult(1, "Command failed: " + e.getMessage());
+        } finally {
+            drainer.shutdownNow();
         }
+    }
+
+    private static String drainStream(InputStream stream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] chunk = new byte[8192];
+        int read;
+        while ((read = stream.read(chunk)) != -1) {
+            buffer.write(chunk, 0, read);
+        }
+        return buffer.toString(StandardCharsets.UTF_8);
     }
 }
