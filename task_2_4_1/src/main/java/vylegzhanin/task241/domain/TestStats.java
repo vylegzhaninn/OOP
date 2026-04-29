@@ -11,4 +11,20 @@ public record TestStats(
     int passed,
     int failed,
     int skipped
-) {}
+) {
+    public static final TestStats EMPTY = new TestStats(0, 0, 0);
+
+    /**
+     * Возвращает новую статистику, в которой счетчики поэлементно сложены с переданной.
+     *
+     * @param other другая статистика
+     * @return сумма двух статистик
+     */
+    public TestStats add(TestStats other) {
+        return new TestStats(
+            passed + other.passed,
+            failed + other.failed,
+            skipped + other.skipped
+        );
+    }
+}

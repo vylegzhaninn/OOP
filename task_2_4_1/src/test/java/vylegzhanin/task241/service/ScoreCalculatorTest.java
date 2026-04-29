@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import vylegzhanin.task241.domain.RepoRunResult;
-import vylegzhanin.task241.domain.SettingsSpec;
-import vylegzhanin.task241.domain.SubmissionSpec;
-import vylegzhanin.task241.domain.TaskScoreResult;
-import vylegzhanin.task241.domain.TaskSpec;
+import vylegzhanin.task241.domain.config.SettingsSpec;
+import vylegzhanin.task241.domain.config.SubmissionSpec;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
+import vylegzhanin.task241.domain.config.TaskSpec;
 
 class ScoreCalculatorTest {
     @Test

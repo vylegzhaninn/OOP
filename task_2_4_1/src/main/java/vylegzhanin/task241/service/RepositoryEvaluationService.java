@@ -3,7 +3,7 @@ package vylegzhanin.task241.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import vylegzhanin.task241.domain.RepoRunResult;
-import vylegzhanin.task241.domain.SettingsSpec;
+import vylegzhanin.task241.domain.config.SettingsSpec;
 import vylegzhanin.task241.domain.TestStats;
 import vylegzhanin.task241.domain.CommandResult;
 import vylegzhanin.task241.infra.GitClient;

@@ -2,7 +2,7 @@ package vylegzhanin.task241.cli;
 
 import java.nio.file.Path;
 import java.util.List;
-import vylegzhanin.task241.domain.CourseConfig;
+import vylegzhanin.task241.domain.config.CourseConfig;
 import vylegzhanin.task241.dsl.ConfigLoader;
 import vylegzhanin.task241.infra.CommandExecutor;
 import vylegzhanin.task241.infra.GitClient;
@@ -13,7 +13,7 @@ import vylegzhanin.task241.service.CourseEvaluationService;
 import vylegzhanin.task241.service.GradeService;
 import vylegzhanin.task241.service.RepositoryEvaluationService;
 import vylegzhanin.task241.service.ScoreCalculator;
-import vylegzhanin.task241.domain.StudentScoreReport;
+import vylegzhanin.task241.domain.report.StudentScoreReport;
 import lombok.extern.slf4j.Slf4j;
 
 /**

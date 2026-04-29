@@ -2,7 +2,7 @@ package vylegzhanin.task241.service;
 
 import java.util.Comparator;
 import java.util.List;
-import vylegzhanin.task241.domain.GradeBound;
+import vylegzhanin.task241.domain.config.GradeBound;
 
 /**
  * Сервис вычисления итоговой оценки. Конвертирует баллы в буквенную оценку в соответствии с заданными границами.
@@ -21,14 +21,11 @@ public class GradeService {
             return "N/A";
         }
         double percent = points * 100.0 / maxPoints;
-        List<GradeBound> sorted = bounds.stream()
-            .sorted(Comparator.comparingDouble(GradeBound::minPercent).reversed())
-            .toList();
-        for (GradeBound bound : sorted) {
-            if (percent >= bound.minPercent()) {
-                return bound.grade();
-            }
-        }
-        return "N/A";
+
+        return bounds.stream()
+            .filter(b -> percent >= b.minPercent())
+            .max(Comparator.comparingDouble(GradeBound::minPercent))
+            .map(GradeBound::grade)
+            .orElse("N/A");
     }
 }

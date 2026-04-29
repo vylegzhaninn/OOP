@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import vylegzhanin.task241.domain.CourseConfig;
+import vylegzhanin.task241.domain.config.CourseConfig;
 
 class ConfigLoaderTest {
     @Test

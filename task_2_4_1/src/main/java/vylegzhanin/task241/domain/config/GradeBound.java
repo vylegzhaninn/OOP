@@ -1,4 +1,4 @@
-package vylegzhanin.task241.domain;
+package vylegzhanin.task241.domain.config;
 
 /**
  * Ограничение (граница) для конвертации процентов в оценку.

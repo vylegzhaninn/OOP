@@ -1,4 +1,4 @@
-package vylegzhanin.task241.domain;
+package vylegzhanin.task241.domain.report;
 
 import java.util.List;
 import java.util.Map;

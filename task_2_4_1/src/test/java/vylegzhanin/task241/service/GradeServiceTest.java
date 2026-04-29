@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import vylegzhanin.task241.domain.GradeBound;
+import vylegzhanin.task241.domain.config.GradeBound;
 
 class GradeServiceTest {
     private final GradeService service = new GradeService();

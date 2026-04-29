@@ -8,15 +8,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import vylegzhanin.task241.domain.CheckpointSpec;
-import vylegzhanin.task241.domain.CourseConfig;
+import vylegzhanin.task241.domain.config.CheckpointSpec;
+import vylegzhanin.task241.domain.config.CourseConfig;
 import vylegzhanin.task241.domain.RepoRunResult;
-import vylegzhanin.task241.domain.SettingsSpec;
-import vylegzhanin.task241.domain.StudentScoreReport;
-import vylegzhanin.task241.domain.StudentSpec;
-import vylegzhanin.task241.domain.SubmissionSpec;
-import vylegzhanin.task241.domain.TaskScoreResult;
-import vylegzhanin.task241.domain.TaskSpec;
+import vylegzhanin.task241.domain.config.SettingsSpec;
+import vylegzhanin.task241.domain.report.StudentScoreReport;
+import vylegzhanin.task241.domain.config.StudentSpec;
+import vylegzhanin.task241.domain.config.SubmissionSpec;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
+import vylegzhanin.task241.domain.config.TaskSpec;
 import lombok.extern.slf4j.Slf4j;
 
 /**

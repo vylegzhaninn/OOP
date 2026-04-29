@@ -1,4 +1,8 @@
-package vylegzhanin.task241.domain;
+package vylegzhanin.task241.domain.report;
+
+import vylegzhanin.task241.domain.RepoRunResult;
+import vylegzhanin.task241.domain.config.SubmissionSpec;
+import vylegzhanin.task241.domain.config.TaskSpec;
 
 /**
  * Детальные результаты проверки одного конкретного задания (таски).

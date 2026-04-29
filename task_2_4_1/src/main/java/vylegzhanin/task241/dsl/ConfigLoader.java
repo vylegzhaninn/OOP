@@ -3,7 +3,7 @@ package vylegzhanin.task241.dsl;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
-import vylegzhanin.task241.domain.CourseConfig;
+import vylegzhanin.task241.domain.config.CourseConfig;
 
 /**
  * Загрузчик конфигурации курса. Считывает настройки из DSL-скриптов.

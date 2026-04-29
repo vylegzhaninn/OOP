@@ -1,6 +1,6 @@
 package vylegzhanin.task241.dsl
 
-import vylegzhanin.task241.domain.CourseConfig
+import vylegzhanin.task241.domain.config.CourseConfig
 
 import java.nio.file.Path
 

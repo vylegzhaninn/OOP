@@ -2,10 +2,10 @@ package vylegzhanin.task241.service;
 
 import java.time.temporal.ChronoUnit;
 import vylegzhanin.task241.domain.RepoRunResult;
-import vylegzhanin.task241.domain.SettingsSpec;
-import vylegzhanin.task241.domain.SubmissionSpec;
-import vylegzhanin.task241.domain.TaskScoreResult;
-import vylegzhanin.task241.domain.TaskSpec;
+import vylegzhanin.task241.domain.config.SettingsSpec;
+import vylegzhanin.task241.domain.config.SubmissionSpec;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
+import vylegzhanin.task241.domain.config.TaskSpec;
 
 /**
  * Калькулятор итоговых баллов. Содержит бизнес-логику подсчета баллов,

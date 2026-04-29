@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import vylegzhanin.task241.domain.StudentScoreReport;
-import vylegzhanin.task241.domain.TaskScoreResult;
+import vylegzhanin.task241.domain.report.StudentScoreReport;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
 
 /**
  * Рендерер HTML-отчета.
