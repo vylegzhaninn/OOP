@@ -11,7 +11,7 @@ import vylegzhanin.task241.domain.TestStats;
 /**
  * Парсер отчетов о тестировании в формате JUnit XML.
  */
-public final class JUnitXmlParser {
+public class JUnitXmlParser {
     /**
      * Парсит директорию с результатами тестов и возвращает агрегированную статистику.
      *

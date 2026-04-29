@@ -12,7 +12,7 @@ import vylegzhanin.task241.domain.CommandResult;
  * Клиент для работы с системой контроля версий (Git).
  * Обеспечивает клонирование репозиториев, переключение веток и обновление кода.
  */
-public final class GitClient {
+public class GitClient {
     private final CommandExecutor commandExecutor;
     private final Duration timeout;
 

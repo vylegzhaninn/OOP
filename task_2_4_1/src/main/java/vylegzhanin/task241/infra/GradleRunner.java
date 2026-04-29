@@ -10,7 +10,7 @@ import vylegzhanin.task241.domain.CommandResult;
 /**
  * Раннер (runner) для запуска задач билдера Gradle.
  */
-public final class GradleRunner {
+public class GradleRunner {
     private final CommandExecutor commandExecutor;
     private final Duration timeout;
 

@@ -16,7 +16,7 @@ import vylegzhanin.task241.domain.CommandResult;
  * Отвечает за запуск внешних процессов с заданными параметрами, окружением и таймаутом.
  */
 @Slf4j
-public final class CommandExecutor {
+public class CommandExecutor {
     /**
      * Выполняет указанную команду.
      *

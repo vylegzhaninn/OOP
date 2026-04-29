@@ -41,13 +41,6 @@ course {
         }
     }
 
-    group('228') {
-        student('igor') {
-            fullName 'Игарь'
-            repo 'https://github.com/vylegzhaninn/OOP'
-        }
-    }
-
     group('snus69') {
         student('Sanya') {
             fullName 'Саня Снюс'
@@ -61,26 +54,6 @@ course {
     }
 
     check('tolik', 'task_1_3_1') {
-        submittedAt '2026-04-19'
-        bonus 0.0
-    }
-
-    check('tolik', 'task_1_5_1') {
-        submittedAt '2026-04-19'
-        bonus 0.0
-    }
-
-    check('igor', 'task_1_2_2') {
-        submittedAt '2026-04-19'
-        bonus 0.0
-    }
-
-    check('igor', 'task_1_3_1') {
-        submittedAt '2026-04-19'
-        bonus 0.0
-    }
-
-    check('igor', 'task_1_5_1') {
         submittedAt '2026-04-19'
         bonus 0.0
     }
