@@ -89,21 +89,7 @@ public class CourseEvaluationService {
                 if (task == null) {
                     log.warn("Конфигурационная ошибка. У участника [{}] зафиксирована сдача неучтенного задания (ID: {}). Пропуск...",
                              student.github(), submission.taskId());
-                    taskResults.add(new TaskScoreResult(
-                        submission.taskId(),
-                        "",
-                        0,
-                        0,
-                        submission.bonusPoints(),
-                        false,
-                        false,
-                        false,
-                        0,
-                        0,
-                        0,
-                        "UNKNOWN_TASK",
-                        "Task is not defined in DSL"
-                    ));
+                    taskResults.add(TaskScoreResult.unknownTask(submission));
                     continue;
                 }
                 taskResults.add(scoreCalculator.calculate(task, submission, runResult, settings));

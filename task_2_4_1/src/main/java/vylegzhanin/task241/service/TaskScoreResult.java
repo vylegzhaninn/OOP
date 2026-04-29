@@ -1,5 +1,8 @@
 package vylegzhanin.task241.service;
 
+import vylegzhanin.task241.domain.SubmissionSpec;
+import vylegzhanin.task241.domain.TaskSpec;
+
 /**
  * Детальные результаты проверки одного конкретного задания (таски).
  *
@@ -32,4 +35,27 @@ public record TaskScoreResult(
     String status,
     String note
 ) {
+    public static TaskScoreResult failed(TaskSpec task, SubmissionSpec sub,
+                                         boolean buildOk, boolean docsOk, boolean styleOk,
+                                         String status, String note) {
+        return new TaskScoreResult(
+            task.id(), task.title(), 0, task.maxPoints(), sub.bonusPoints(),
+            buildOk, docsOk, styleOk, 0, 0, 0, status, note
+        );
+    }
+
+    public static TaskScoreResult unknownTask(SubmissionSpec sub) {
+        return new TaskScoreResult(
+            sub.taskId(), "", 0, 0, sub.bonusPoints(),
+            false, false, false, 0, 0, 0, "UNKNOWN_TASK", "Task is not defined in DSL"
+        );
+    }
+
+    public static TaskScoreResult success(TaskSpec task, SubmissionSpec sub,
+                                          double points, RepoRunResult run, String status) {
+        return new TaskScoreResult(
+            task.id(), task.title(), points, task.maxPoints(), sub.bonusPoints(),
+            true, true, true, run.passed(), run.failed(), run.skipped(), status, ""
+        );
+    }
 }

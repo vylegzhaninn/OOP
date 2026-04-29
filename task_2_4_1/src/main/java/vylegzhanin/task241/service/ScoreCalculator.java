@@ -22,94 +22,17 @@ public class ScoreCalculator {
      */
     public TaskScoreResult calculate(TaskSpec task, SubmissionSpec submission,
                                      RepoRunResult runResult, SettingsSpec settings) {
-        if (!runResult.gitOk()) {
-            return new TaskScoreResult(
-                task.id(),
-                task.title(),
-                0,
-                task.maxPoints(),
-                submission.bonusPoints(),
-                false,
-                false,
-                false,
-                0,
-                0,
-                0,
-                "GIT_FAILED",
-                compact(runResult.details())
-            );
-        }
-        if (!runResult.compileOk()) {
-            return new TaskScoreResult(
-                task.id(),
-                task.title(),
-                0,
-                task.maxPoints(),
-                submission.bonusPoints(),
-                false,
-                false,
-                false,
-                0,
-                0,
-                0,
-                "COMPILE_FAILED",
-                compact(runResult.details())
-            );
-        }
-        if (!runResult.javadocOk()) {
-            return new TaskScoreResult(
-                task.id(),
-                task.title(),
-                0,
-                task.maxPoints(),
-                submission.bonusPoints(),
-                true,
-                false,
-                false,
-                0,
-                0,
-                0,
-                "JAVADOC_FAILED",
-                compact(runResult.details())
-            );
-        }
-        if (!runResult.checkstyleOk()) {
-            return new TaskScoreResult(
-                task.id(),
-                task.title(),
-                0,
-                task.maxPoints(),
-                submission.bonusPoints(),
-                true,
-                true,
-                false,
-                0,
-                0,
-                0,
-                "CHECKSTYLE_FAILED",
-                compact(runResult.details())
-            );
-        }
+        String details = compact(runResult.details());
+        if (!runResult.gitOk())        return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",        details);
+        if (!runResult.compileOk())    return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED",    details);
+        if (!runResult.javadocOk())    return TaskScoreResult.failed(task, submission, true,  false, false, "JAVADOC_FAILED",    details);
+        if (!runResult.checkstyleOk()) return TaskScoreResult.failed(task, submission, true,  true,  false, "CHECKSTYLE_FAILED", details);
 
         double testRatio = runResult.successRatio();
         double latenessFactor = latenessFactor(task, submission, settings.hardLateMultiplier());
-        double rawPoints = task.maxPoints() * testRatio * latenessFactor + submission.bonusPoints();
-        double points = Numbers.round2(Math.max(0, rawPoints));
-        return new TaskScoreResult(
-            task.id(),
-            task.title(),
-            points,
-            task.maxPoints(),
-            submission.bonusPoints(),
-            true,
-            true,
-            true,
-            runResult.passed(),
-            runResult.failed(),
-            runResult.skipped(),
-            runResult.testsOk() ? "OK" : "TESTS_FAILED",
-            compact(runResult.details())
-        );
+        double points = Numbers.round2(Math.max(0, task.maxPoints() * testRatio * latenessFactor + submission.bonusPoints()));
+        String status = runResult.testsOk() ? "OK" : "TESTS_FAILED";
+        return TaskScoreResult.success(task, submission, points, runResult, status);
     }
 
     /**
