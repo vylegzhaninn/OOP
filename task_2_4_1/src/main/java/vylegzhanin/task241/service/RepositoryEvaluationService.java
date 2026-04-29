@@ -2,6 +2,7 @@ package vylegzhanin.task241.service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.domain.TestStats;
 import vylegzhanin.task241.domain.CommandResult;
@@ -30,8 +31,11 @@ public class RepositoryEvaluationService {
      * @param gradleRunner компонент для запуска задач Gradle
      * @param xmlParser    парсер XML-отчетов о тестировании
      */
-    public RepositoryEvaluationService(GitClient gitClient, GradleRunner gradleRunner,
-                                       JUnitXmlParser xmlParser) {
+    public RepositoryEvaluationService(
+        GitClient gitClient,
+        GradleRunner gradleRunner,
+        JUnitXmlParser xmlParser
+    ) {
         this.gitClient = gitClient;
         this.gradleRunner = gradleRunner;
         this.xmlParser = xmlParser;
@@ -46,8 +50,12 @@ public class RepositoryEvaluationService {
      * @param absoluteWorkspace абсолютный путь к рабочей папке
      * @return сырой результат выполнения проверок {@link RepoRunResult}
      */
-    public RepoRunResult runForStudent(String github, String repoUrl, SettingsSpec settings,
-                                       Path absoluteWorkspace) {
+    public RepoRunResult runForStudent(
+        String github,
+        String repoUrl,
+        SettingsSpec settings,
+        Path absoluteWorkspace
+    ) {
         log.info("Инициализация рабочей директории и клонирование репозитория учетной записи: [{}] (URL: [{}])", github, repoUrl);
         CommandResult git = gitClient.prepareRepository(
             absoluteWorkspace,
@@ -56,6 +64,7 @@ public class RepositoryEvaluationService {
             settings.primaryBranch(),
             settings.fallbackBranch()
         );
+
         if (!git.isSuccess()) {
             log.warn("Операция Git завершилась с ошибкой для участника [{}]. Детали выполнения: {}", github, git.output());
             return RepoRunResult.failed(git.output());

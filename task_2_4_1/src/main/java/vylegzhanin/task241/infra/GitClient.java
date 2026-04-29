@@ -37,22 +37,40 @@ public class GitClient {
      * @param fallbackBranch резервная ветка, если основной нет (например, "master")
      * @return результат выполнения операций (успех/ошибка с выводом)
      */
-    public CommandResult prepareRepository(Path workspace, String repoUrl, String dirName,
-                                           String mainBranch, String fallbackBranch) {
+    public CommandResult prepareRepository(
+        Path workspace,
+        String repoUrl,
+        String dirName,
+        String mainBranch,
+        String fallbackBranch
+    ) {
         Path repoDir = workspace.resolve(dirName);
-        Map<String, String> env = gitNoPromptEnv();
+        Map<String, String> env = Map.of(
+            "GIT_TERMINAL_PROMPT",
+            "0", "GCM_INTERACTIVE",
+            "Never"
+        );
+
         try {
             Files.createDirectories(workspace);
         } catch (Exception e) {
-            return new CommandResult(1,
-                "Cannot create workspace directory: " + workspace + " (" + e.getMessage() + ")");
+            return new CommandResult(
+                1,
+                "Cannot create workspace directory: " + workspace
+                    +
+                    " (" + e.getMessage() + ")");
         }
 
-        CommandResult accessCheck =
-            commandExecutor.run(workspace, timeout, List.of("git", "ls-remote", repoUrl, "HEAD"),
-                env);
+        CommandResult accessCheck = commandExecutor.run(
+            workspace,
+            timeout,
+            List.of("git", "ls-remote", repoUrl, "HEAD"),
+            env
+        );
+
         if (!accessCheck.isSuccess()) {
-            return new CommandResult(accessCheck.exitCode(),
+            return new CommandResult(
+                accessCheck.exitCode(),
                 "Cannot access repository without prompt: " + repoUrl + "\n"
                     +
                     accessCheck.output());
@@ -78,17 +96,5 @@ public class GitClient {
         }
         return commandExecutor.run(repoDir, timeout, List.of("git", "reset", "--hard", "origin/" + fallbackBranch),
             env);
-    }
-
-    /**
-     * Создает необходимые переменные окружения для предотвращения интерактивных запросов от Git.
-     *
-     * @return карта (Map) переменных окружения
-     */
-    private static Map<String, String> gitNoPromptEnv() {
-        Map<String, String> env = new HashMap<>();
-        env.put("GIT_TERMINAL_PROMPT", "0");
-        env.put("GCM_INTERACTIVE", "Never");
-        return env;
     }
 }

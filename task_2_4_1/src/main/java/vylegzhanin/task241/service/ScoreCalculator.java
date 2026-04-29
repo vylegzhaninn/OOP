@@ -1,8 +1,10 @@
 package vylegzhanin.task241.service;
 
 import java.time.temporal.ChronoUnit;
+import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.domain.SubmissionSpec;
+import vylegzhanin.task241.domain.TaskScoreResult;
 import vylegzhanin.task241.domain.TaskSpec;
 
 /**
@@ -77,5 +79,4 @@ public class ScoreCalculator {
         String singleLine = text.replace('\n', ' ').replace('\r', ' ').trim();
         return singleLine.length() > MAX_DETAIL_LENGTH ? singleLine.substring(0, MAX_DETAIL_LENGTH) + "..." : singleLine;
     }
-
 }

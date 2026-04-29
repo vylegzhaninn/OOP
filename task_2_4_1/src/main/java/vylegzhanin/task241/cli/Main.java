@@ -13,7 +13,7 @@ import vylegzhanin.task241.service.CourseEvaluationService;
 import vylegzhanin.task241.service.GradeService;
 import vylegzhanin.task241.service.RepositoryEvaluationService;
 import vylegzhanin.task241.service.ScoreCalculator;
-import vylegzhanin.task241.service.StudentScoreReport;
+import vylegzhanin.task241.domain.StudentScoreReport;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,4 +1,4 @@
-package vylegzhanin.task241.service;
+package vylegzhanin.task241.domain;
 
 /**
  * Сырой результат запуска проверки одной задачи для студента (git clone, build, javadoc, checkstyle, test).

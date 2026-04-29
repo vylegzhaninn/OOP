@@ -1,4 +1,4 @@
-package vylegzhanin.task241.service;
+package vylegzhanin.task241.domain;
 
 import java.util.List;
 import java.util.Map;

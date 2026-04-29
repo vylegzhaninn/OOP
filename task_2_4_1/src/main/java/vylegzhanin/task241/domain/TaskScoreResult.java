@@ -1,7 +1,4 @@
-package vylegzhanin.task241.service;
-
-import vylegzhanin.task241.domain.SubmissionSpec;
-import vylegzhanin.task241.domain.TaskSpec;
+package vylegzhanin.task241.domain;
 
 /**
  * Детальные результаты проверки одного конкретного задания (таски).

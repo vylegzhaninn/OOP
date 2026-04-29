@@ -10,9 +10,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import vylegzhanin.task241.domain.CheckpointSpec;
 import vylegzhanin.task241.domain.CourseConfig;
+import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.SettingsSpec;
+import vylegzhanin.task241.domain.StudentScoreReport;
 import vylegzhanin.task241.domain.StudentSpec;
 import vylegzhanin.task241.domain.SubmissionSpec;
+import vylegzhanin.task241.domain.TaskScoreResult;
 import vylegzhanin.task241.domain.TaskSpec;
 import lombok.extern.slf4j.Slf4j;
 

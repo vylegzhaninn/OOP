@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import vylegzhanin.task241.service.StudentScoreReport;
-import vylegzhanin.task241.service.TaskScoreResult;
+import vylegzhanin.task241.domain.StudentScoreReport;
+import vylegzhanin.task241.domain.TaskScoreResult;
 
 /**
  * Рендерер HTML-отчета.
@@ -147,12 +147,9 @@ public class HtmlReportRenderer {
      * @return {@link TaskScoreResult} для указанного задания или null, если не найдено
      */
     private static TaskScoreResult findTaskResult(List<TaskScoreResult> results, String taskId) {
-        for (TaskScoreResult result : results) {
-            if (taskId.equals(result.taskId())) {
-                return result;
-            }
-        }
-        return null;
+        return results.stream()
+            .filter(r -> taskId.equals(r.taskId()))
+            .findFirst().orElse(null);
     }
 
     /**
