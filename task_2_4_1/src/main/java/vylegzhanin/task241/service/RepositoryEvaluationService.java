@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import vylegzhanin.task241.domain.SettingsSpec;
 import vylegzhanin.task241.domain.TestStats;
-import vylegzhanin.task241.infra.CommandResult;
+import vylegzhanin.task241.domain.CommandResult;
 import vylegzhanin.task241.infra.GitClient;
 import vylegzhanin.task241.infra.GradleRunner;
 import vylegzhanin.task241.infra.JUnitXmlParser;

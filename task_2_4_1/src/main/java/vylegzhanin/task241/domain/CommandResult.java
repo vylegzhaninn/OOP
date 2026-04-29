@@ -1,4 +1,4 @@
-package vylegzhanin.task241.infra;
+package vylegzhanin.task241.domain;
 
 /**
  * Результат выполнения терминальной команды.

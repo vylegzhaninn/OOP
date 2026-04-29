@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import vylegzhanin.task241.domain.CommandResult;
 
 /**
  * Клиент для работы с системой контроля версий (Git).

@@ -9,11 +9,14 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import vylegzhanin.task241.domain.CommandResult;
 
 /**
  * Исполнитель команд операционной системы.
  * Отвечает за запуск внешних процессов с заданными параметрами, окружением и таймаутом.
  */
+@Slf4j
 public final class CommandExecutor {
     /**
      * Выполняет указанную команду.
@@ -32,10 +35,13 @@ public final class CommandExecutor {
         processBuilder.environment().putAll(extraEnv);
 
         try {
+            log.info("Процеес {} начал работу", command);
             Process process = processBuilder.start();
             boolean finished = process.waitFor(timeout.toSeconds(), TimeUnit.SECONDS);
             if (!finished) {
+                process.descendants().forEach(ProcessHandle::destroyForcibly);
                 process.destroyForcibly();
+                log.warn("Процесс {} завершился неудачно", command);
                 return new CommandResult(124, "Command timed out: " + String.join(" ", command));
             }
 
@@ -50,6 +56,7 @@ public final class CommandExecutor {
                 output = sb.toString();
             }
             return new CommandResult(process.exitValue(), output);
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return new CommandResult(1, "Command failed: " + e.getMessage());
