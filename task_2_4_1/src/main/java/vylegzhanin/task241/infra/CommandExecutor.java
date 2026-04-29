@@ -2,7 +2,6 @@ package vylegzhanin.task241.infra;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -41,8 +40,9 @@ public final class CommandExecutor {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             Thread drainer = new Thread(() -> {
                 try {
-                    drainStream(process.getInputStream(), buffer);
-                } catch (IOException ignored) {
+                    process.getInputStream().transferTo(buffer);
+                } catch (IOException e) {
+                    log.debug("Поток вывода процесса закрыт досрочно: {}", e.getMessage());
                 }
             });
             drainer.start();
@@ -67,11 +67,5 @@ public final class CommandExecutor {
         }
     }
 
-    private static void drainStream(InputStream stream, ByteArrayOutputStream buffer) throws IOException {
-        byte[] chunk = new byte[8192];
-        int read;
-        while ((read = stream.read(chunk)) != -1) {
-            buffer.write(chunk, 0, read);
-        }
-    }
 }
+
