@@ -1,78 +1,178 @@
-# Task_2_4_1: OOP Auto Checker with Groovy DSL
+# OOP Auto Checker
 
-Консольное приложение для преподавателя ООП:
-- читает конфигурацию из DSL (`oop-check.gradle`),
-- поддерживает импорт долгоживущих конфигов (`importConfig`),
-- клонирует/обновляет репозитории студентов,
-- для ветки `main`/`master` запускает `compileJava -> javadoc -> checkstyleMain -> test`,
-- парсит JUnit XML и считает passed/failed/skipped,
-- вычисляет баллы, контрольные точки, итоговую оценку,
-- печатает HTML-отчет в `stdout`.
+Консольный инструмент для автоматической проверки Java-заданий студентов.
 
-## Структура DSL
+Для каждой сданной работы инструмент:
+1. Клонирует или обновляет репозиторий студента
+2. Переключается на ветку, совпадающую с идентификатором задания
+3. Запускает `compileJava → javadoc → checkstyleMain → test`
+4. Парсит JUnit XML и считает passed / failed / skipped
+5. Вычисляет баллы, контрольные точки, итоговую оценку
+6. Выводит HTML-отчёт в `stdout`
+
+## Быстрый старт
+
+```bash
+./gradlew run                                  # читает oop-check.gradle из текущей папки
+./gradlew run --args="--config my.gradle"      # явный путь к конфигу
+./gradlew run > report.html                    # сохранить отчёт в файл
+```
+
+## Структура конфигурации
+
+Конфигурация описывается на Groovy DSL. По умолчанию читается файл `oop-check.gradle`.
 
 ```groovy
-importConfig 'oop-check.base.gradle'
+importConfig 'base.gradle'   // необязательный импорт общей части (без циклов)
 
 course {
-    task('task_2_4_1') {
-        title 'DSL auto-checker'
+
+    // Задания
+    task('task_1_2_1') {
         maxPoints 10
         softDeadline '2026-04-20'
         hardDeadline '2026-04-27'
     }
 
-    group('M3101') {
-        student('student-github') {
-            fullName 'Student Name'
-            repo 'https://github.com/student/repository.git'
+    task('task_1_3_1') {
+        maxPoints 10
+        softDeadline '2026-04-27'
+        hardDeadline '2026-05-04'
+    }
+
+    // Группы и студенты
+    group('М3101') {
+        student('github-login') {
+            fullName 'Фамилия Имя'
+            repo 'https://github.com/github-login/OOP'
         }
     }
 
-    check('student-github', 'task_2_4_1') {
-        submittedAt '2026-04-22'
-        bonus 0.0
+    // Сданные работы
+    check('github-login', 'task_1_2_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0          // дополнительный балл (вручную)
     }
 
-    checkpoint 'Checkpoint 1', '2026-04-25'
+    // Контрольные точки
+    checkpoint 'Контрольная 1', '2026-04-25'
+    checkpoint 'Финал',         '2026-05-30'
 
+    // Глобальные настройки
     settings {
-        workspace '.oop-checker-work'
-        timeoutSeconds 600
-        mainBranch 'main'
-        fallbackBranch 'master'
-        hardLateMultiplier 0.1
+        workspace        '.oop-checker-work'   // папка для клонов
+        timeoutSeconds   600                   // таймаут каждой команды
+        fallbackBranch   'main'                // ветка-запасной вариант
+        hardLateMultiplier 0.1                 // множитель за жёсткое опоздание
+
         clearGrades()
-        grade 'A', 85
-        grade 'B', 70
-        grade 'C', 55
-        grade 'D', 40
-        grade 'F', 0
+        grade '5', 85
+        grade '4', 70
+        grade '3', 55
+        grade '2', 0
     }
 }
 ```
 
-## Запуск
+### Ключевые правила DSL
 
-```bash
-cd /Users/maksimvylegzanin/IdeaProjects/Java_OOP/task_2_4_1
-./gradlew run
+| Директива | Описание |
+|-----------|----------|
+| `task(id)` | Объявляет задание. `id` должен совпадать с именем ветки в репозитории студента |
+| `group(name)` | Группирует студентов — влияет только на отображение в отчёте |
+| `student(github)` | Логин на GitHub = имя папки для клонирования |
+| `check(github, taskId)` | Регистрирует сдачу задания. Один студент может сдать одно задание один раз |
+| `checkpoint(name, date)` | Контрольная точка: считает сумму баллов за задания с `softDeadline <= date` |
+| `importConfig(path)` | Подгружает внешний конфиг относительно текущего файла. Циклы не допускаются |
+
+## Ветки и задания
+
+Каждое задание проверяется на **отдельной ветке**, имя которой совпадает с `taskId`:
+
+```
+task('task_1_2_1')  →  git checkout task_1_2_1
+task('task_1_3_1')  →  git checkout task_1_3_1
 ```
 
-Или с явным файлом:
+Если ветка с таким именем отсутствует, используется `fallbackBranch`.
 
-```bash
-./gradlew run --args="--config oop-check.gradle"
+Рабочая директория Gradle определяется так:
+- если внутри клона есть подпапка с именем ветки — Gradle запускается из неё
+- иначе — из корня репозитория
+
+## Система оценивания
+
+### Критические ошибки (баллы = 0)
+
+| Этап | Условие |
+|------|---------|
+| Git | репозиторий недоступен или ветка не существует |
+| Компиляция | `compileJava` завершился с ошибкой |
+
+### Мягкие штрафы (баллы снижаются)
+
+| Этап | Множитель |
+|------|-----------|
+| Javadoc упал | × 0.7 |
+| Checkstyle упал | × 0.7 |
+| Оба упали | × 0.49 |
+
+### Формула баллов
+
+```
+баллы = maxPoints × testRatio × latenessFactor × docsFactor × styleFactor + bonus
 ```
 
-## Тесты
+- `testRatio` = passed / (passed + failed + skipped), при отсутствии тестов = 0
+- `latenessFactor` — линейно убывает от 1.0 до `hardLateMultiplier` между `softDeadline` и `hardDeadline`; после `hardDeadline` = `hardLateMultiplier`
+- `docsFactor` = 1.0 если javadoc прошёл, иначе 0.7
+- `styleFactor` = 1.0 если checkstyle прошёл, иначе 0.7
+
+### Итоговая оценка
+
+| Оценка | Минимум баллов от максимума |
+|--------|-----------------------------|
+| 5 | 85% |
+| 4 | 70% |
+| 3 | 55% |
+| 2 | 0% |
+
+Пороги и оценки настраиваются через `clearGrades()` + `grade` в `settings`.
+
+## HTML-отчёт
+
+Отчёт выводится в `stdout`. Содержит:
+
+- **Таблицу по каждому заданию** для группы: студент, сборка, документация, style guide, тесты (passed/failed/skipped), бонус, балл
+- **Сводную таблицу группы**: баллы по всем заданиям, сумма, активность (% сданных заданий), итоговая оценка
+- Контрольные точки считаются отдельно и могут быть добавлены в отчёт при необходимости
+
+Сохранить отчёт:
+```bash
+./gradlew run > report.html 2>/dev/null
+```
+
+## Рабочая директория
+
+Клоны репозиториев хранятся в `workspace` (по умолчанию `.oop-checker-work/`):
+
+```
+.oop-checker-work/
+  github-login1/        ← клон репозитория студента
+    task_1_2_1/         ← (если есть подпапка с именем ветки)
+  github-login2/
+```
+
+При повторном запуске репозитории обновляются через `git fetch` + `git reset --hard`.
+
+## Запуск тестов
 
 ```bash
 ./gradlew test
 ```
 
-## Важно
+## Ограничения
 
-Git-команды выполняются с отключенными интерактивными запросами (`GIT_TERMINAL_PROMPT=0`, `GCM_INTERACTIVE=Never`).
-Если у пользователя нет доступа к репозиторию, это отражается в HTML-отчете как ошибка этапа git.
-
+- Git-команды выполняются с отключёнными интерактивными запросами (`GIT_TERMINAL_PROMPT=0`, `GCM_INTERACTIVE=Never`). Репозитории с password-prompt недоступны — используйте SSH-ключи или HTTPS-токены.
+- Один студент в конфигурации = один репозиторий. Несколько `check` для одного студента — это разные задания из одного репо.
+- Таймаут на каждую команду задаётся в `timeoutSeconds`. Процесс, превысивший таймаут, завершается принудительно с кодом 124.

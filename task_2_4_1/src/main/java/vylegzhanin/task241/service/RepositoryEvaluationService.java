@@ -2,15 +2,15 @@ package vylegzhanin.task241.service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import vylegzhanin.task241.domain.RepoRunResult;
-import vylegzhanin.task241.domain.config.SettingsSpec;
-import vylegzhanin.task241.domain.TestStats;
-import vylegzhanin.task241.domain.CommandResult;
-import vylegzhanin.task241.infra.GitClient;
-import vylegzhanin.task241.infra.GradleTasks;
-import vylegzhanin.task241.infra.GradleRunner;
-import vylegzhanin.task241.infra.JUnitXmlParser;
 import lombok.extern.slf4j.Slf4j;
+import vylegzhanin.task241.domain.CommandResult;
+import vylegzhanin.task241.domain.RepoRunResult;
+import vylegzhanin.task241.domain.TestStats;
+import vylegzhanin.task241.domain.config.SettingsSpec;
+import vylegzhanin.task241.infra.GitClient;
+import vylegzhanin.task241.infra.GradleRunner;
+import vylegzhanin.task241.infra.GradleTasks;
+import vylegzhanin.task241.infra.JUnitXmlParser;
 
 /**
  * Сервис для оценки репозитория студента.
@@ -68,7 +68,8 @@ public class RepositoryEvaluationService {
         );
 
         if (!git.isSuccess()) {
-            log.warn("Операция Git завершилась с ошибкой для участника [{}] ветка [{}]. Детали: {}", github, branch, git.output());
+            log.warn("Операция Git завершилась с ошибкой для участника [{}] ветка [{}]. Детали: {}",
+                github, branch, git.output());
             return RepoRunResult.failed(git.output());
         }
 

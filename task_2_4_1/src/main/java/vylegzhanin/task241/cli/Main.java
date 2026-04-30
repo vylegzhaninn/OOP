@@ -2,7 +2,9 @@ package vylegzhanin.task241.cli;
 
 import java.nio.file.Path;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import vylegzhanin.task241.domain.config.CourseConfig;
+import vylegzhanin.task241.domain.report.StudentScoreReport;
 import vylegzhanin.task241.dsl.ConfigLoader;
 import vylegzhanin.task241.infra.CommandExecutor;
 import vylegzhanin.task241.infra.GitClient;
@@ -13,8 +15,6 @@ import vylegzhanin.task241.service.CourseEvaluationService;
 import vylegzhanin.task241.service.GradeService;
 import vylegzhanin.task241.service.RepositoryEvaluationService;
 import vylegzhanin.task241.service.ScoreCalculator;
-import vylegzhanin.task241.domain.report.StudentScoreReport;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Главный класс приложения. Является точкой входа.
@@ -34,24 +34,29 @@ public class Main {
             Path launchDir = Path.of("").toAbsolutePath();
             Path configPath = resolveConfig(args, launchDir);
 
-            log.info("Инициализация системы автоматического тестирования. Рабочая директория: [{}], путь к файлу конфигурации: [{}]",
-                     launchDir, configPath);
+            log.info(
+                "Инициализация системы автоматического тестирования. Рабочая директория: [{}], путь к файлу конфигурации: [{}]",
+                launchDir, configPath);
 
             ConfigLoader configLoader = new ConfigLoader();
             CourseConfig config = configLoader.load(configPath);
 
-            log.info("Файл конфигурации успешно загружен и проанализирован. Запуск процесса оценки репозиториев студентов...");
+            log.info(
+                "Файл конфигурации успешно загружен и проанализирован. Запуск процесса оценки репозиториев студентов...");
 
             CourseEvaluationService evaluationService =
                 getCourseEvaluationService(config);
             List<StudentScoreReport> reports = evaluationService.evaluate(config, launchDir);
 
-            log.info("Процесс автоматического оценивания завершен. Количество сгенерированных отчетов студентов: {}", reports.size());
+            log.info(
+                "Процесс автоматического оценивания завершен. Количество сгенерированных отчетов студентов: {}",
+                reports.size());
 
             String html = new HtmlReportRenderer().render(reports);
             System.out.println(html);
         } catch (Exception e) {
-            log.error("Критическая ошибка во время выполнения программы проверки: {}", e.getMessage(), e);
+            log.error("Критическая ошибка во время выполнения программы проверки: {}",
+                e.getMessage(), e);
         }
     }
 

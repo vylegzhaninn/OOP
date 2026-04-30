@@ -12,6 +12,7 @@ public record TestStats(
     int failed,
     int skipped
 ) {
+    /** Пустая статистика (все счётчики равны нулю). Используется как нейтральный элемент в {@link #add}. */
     public static final TestStats EMPTY = new TestStats(0, 0, 0);
 
     /**

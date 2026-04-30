@@ -8,16 +8,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.config.CheckpointSpec;
 import vylegzhanin.task241.domain.config.CourseConfig;
-import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.config.SettingsSpec;
-import vylegzhanin.task241.domain.report.StudentScoreReport;
 import vylegzhanin.task241.domain.config.StudentSpec;
 import vylegzhanin.task241.domain.config.SubmissionSpec;
-import vylegzhanin.task241.domain.report.TaskScoreResult;
 import vylegzhanin.task241.domain.config.TaskSpec;
-import lombok.extern.slf4j.Slf4j;
+import vylegzhanin.task241.domain.report.StudentScoreReport;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
 
 /**
  * Основной сервис - координатор оценки учебного курса.
@@ -72,14 +72,14 @@ public class CourseEvaluationService {
                 submissionsByStudent.getOrDefault(student.github(), List.of());
 
             log.info("Начало проверки участника: [{}] (Группа: {}, заданий: {})",
-                     student.github(), student.groupName(), studentSubmissions.size());
+                student.github(), student.groupName(), studentSubmissions.size());
 
             List<TaskScoreResult> taskResults = new ArrayList<>();
             for (SubmissionSpec submission : studentSubmissions) {
                 TaskSpec task = config.tasks().get(submission.taskId());
                 if (task == null) {
                     log.warn("Участник [{}]: неизвестное задание [{}], пропуск.",
-                             student.github(), submission.taskId());
+                        student.github(), submission.taskId());
                     taskResults.add(TaskScoreResult.unknownTask(submission));
                     continue;
                 }
@@ -94,7 +94,8 @@ public class CourseEvaluationService {
                 );
 
                 log.info("Участник [{}] задание [{}] — git:{} compile:{} tests:{}",
-                         student.github(), taskId, runResult.gitOk(), runResult.compileOk(), runResult.testsOk());
+                    student.github(), taskId, runResult.gitOk(), runResult.compileOk(),
+                    runResult.testsOk());
 
                 taskResults.add(scoreCalculator.calculate(task, submission, runResult, settings));
             }

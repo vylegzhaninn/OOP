@@ -4,8 +4,8 @@ import java.time.temporal.ChronoUnit;
 import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.config.SettingsSpec;
 import vylegzhanin.task241.domain.config.SubmissionSpec;
-import vylegzhanin.task241.domain.report.TaskScoreResult;
 import vylegzhanin.task241.domain.config.TaskSpec;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
 
 /**
  * Калькулятор итоговых баллов. Содержит бизнес-логику подсчета баллов,
@@ -13,7 +13,7 @@ import vylegzhanin.task241.domain.config.TaskSpec;
  */
 public class ScoreCalculator {
     private static final int MAX_DETAIL_LENGTH = 220;
-    private static final double JAVADOC_PENALTY    = 0.7;
+    private static final double JAVADOC_PENALTY = 0.7;
     private static final double CHECKSTYLE_PENALTY = 0.7;
 
     /**
@@ -29,25 +29,40 @@ public class ScoreCalculator {
     public TaskScoreResult calculate(TaskSpec task, SubmissionSpec submission,
                                      RepoRunResult runResult, SettingsSpec settings) {
         String details = compact(runResult.details());
-        if (!runResult.gitOk())     return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",     details);
-        if (!runResult.compileOk()) return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED", details);
+        if (!runResult.gitOk()) {
+            return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",
+                details);
+        }
+        if (!runResult.compileOk()) {
+            return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED",
+                details);
+        }
 
-        double docsFactor     = runResult.javadocOk()    ? 1.0 : JAVADOC_PENALTY;
-        double styleFactor    = runResult.checkstyleOk() ? 1.0 : CHECKSTYLE_PENALTY;
-        double testRatio      = runResult.successRatio();
+        double docsFactor = runResult.javadocOk() ? 1.0 : JAVADOC_PENALTY;
+        double styleFactor = runResult.checkstyleOk() ? 1.0 : CHECKSTYLE_PENALTY;
+        double testRatio = runResult.successRatio();
         double latenessFactor = latenessFactor(task, submission, settings.hardLateMultiplier());
         double points = Numbers.round2(Math.max(0,
             task.maxPoints() * testRatio * latenessFactor * docsFactor * styleFactor
-            + submission.bonusPoints()));
+                + submission.bonusPoints()));
 
-        return TaskScoreResult.success(task, submission, points, runResult, statusOf(runResult), details);
+        return TaskScoreResult.success(task, submission, points, runResult, statusOf(runResult),
+            details);
     }
 
     private static String statusOf(RepoRunResult run) {
-        if (!run.javadocOk() && !run.checkstyleOk()) return "DOCS_AND_STYLE_FAILED";
-        if (!run.javadocOk())                        return "JAVADOC_FAILED";
-        if (!run.checkstyleOk())                     return "CHECKSTYLE_FAILED";
-        if (!run.testsOk())                          return "TESTS_FAILED";
+        if (!run.javadocOk() && !run.checkstyleOk()) {
+            return "DOCS_AND_STYLE_FAILED";
+        }
+        if (!run.javadocOk()) {
+            return "JAVADOC_FAILED";
+        }
+        if (!run.checkstyleOk()) {
+            return "CHECKSTYLE_FAILED";
+        }
+        if (!run.testsOk()) {
+            return "TESTS_FAILED";
+        }
         return "OK";
     }
 
@@ -91,6 +106,7 @@ public class ScoreCalculator {
             return "";
         }
         String singleLine = text.replace('\n', ' ').replace('\r', ' ').trim();
-        return singleLine.length() > MAX_DETAIL_LENGTH ? singleLine.substring(0, MAX_DETAIL_LENGTH) + "..." : singleLine;
+        return singleLine.length() > MAX_DETAIL_LENGTH
+            ? singleLine.substring(0, MAX_DETAIL_LENGTH) + "..." : singleLine;
     }
 }

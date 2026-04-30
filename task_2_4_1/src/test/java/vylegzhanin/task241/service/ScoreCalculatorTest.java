@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import vylegzhanin.task241.domain.RepoRunResult;
 import vylegzhanin.task241.domain.config.SettingsSpec;
 import vylegzhanin.task241.domain.config.SubmissionSpec;
-import vylegzhanin.task241.domain.report.TaskScoreResult;
 import vylegzhanin.task241.domain.config.TaskSpec;
+import vylegzhanin.task241.domain.report.TaskScoreResult;
 
 class ScoreCalculatorTest {
     @Test

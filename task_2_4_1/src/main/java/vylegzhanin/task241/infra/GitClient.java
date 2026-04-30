@@ -3,7 +3,6 @@ package vylegzhanin.task241.infra;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import vylegzhanin.task241.domain.CommandResult;
@@ -90,11 +89,13 @@ public class GitClient {
         }
 
         CommandResult checkoutPrimary =
-            commandExecutor.run(repoDir, timeout, List.of("git", "reset", "--hard", "origin/" + mainBranch), env);
+            commandExecutor.run(repoDir, timeout,
+                List.of("git", "reset", "--hard", "origin/" + mainBranch), env);
         if (checkoutPrimary.isSuccess()) {
             return checkoutPrimary;
         }
-        return commandExecutor.run(repoDir, timeout, List.of("git", "reset", "--hard", "origin/" + fallbackBranch),
+        return commandExecutor.run(repoDir, timeout,
+            List.of("git", "reset", "--hard", "origin/" + fallbackBranch),
             env);
     }
 }

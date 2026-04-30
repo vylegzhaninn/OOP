@@ -30,11 +30,10 @@ course {
         fallbackBranch 'main'
         hardLateMultiplier 0.1
         clearGrades()
-        grade 'A', 85
-        grade 'B', 70
-        grade 'C', 55
-        grade 'D', 40
-        grade 'F', 0
+        grade '5', 85
+        grade '4', 70
+        grade '3', 55
+        grade '2', 0
     }
 
     group('228') {
