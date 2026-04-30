@@ -52,7 +52,6 @@ public class Main {
             System.out.println(html);
         } catch (Exception e) {
             log.error("Критическая ошибка во время выполнения программы проверки: {}", e.getMessage(), e);
-            System.err.println("Task_2_4_1 failed: " + e.getMessage());
         }
     }
 

@@ -13,8 +13,12 @@ import vylegzhanin.task241.domain.config.TaskSpec;
  */
 public class ScoreCalculator {
     private static final int MAX_DETAIL_LENGTH = 220;
+    private static final double JAVADOC_PENALTY    = 0.7;
+    private static final double CHECKSTYLE_PENALTY = 0.7;
+
     /**
      * Вычисляет баллы за задачу на основе результатов выполнения.
+     * Провал git или компиляции — ноль баллов. Провал javadoc/checkstyle — штраф 0.7 за каждый.
      *
      * @param task       описание задания
      * @param submission информация о сданном решении
@@ -25,16 +29,26 @@ public class ScoreCalculator {
     public TaskScoreResult calculate(TaskSpec task, SubmissionSpec submission,
                                      RepoRunResult runResult, SettingsSpec settings) {
         String details = compact(runResult.details());
-        if (!runResult.gitOk())        return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",        details);
-        if (!runResult.compileOk())    return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED",    details);
-        if (!runResult.javadocOk())    return TaskScoreResult.failed(task, submission, true,  false, false, "JAVADOC_FAILED",    details);
-        if (!runResult.checkstyleOk()) return TaskScoreResult.failed(task, submission, true,  true,  false, "CHECKSTYLE_FAILED", details);
+        if (!runResult.gitOk())     return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",     details);
+        if (!runResult.compileOk()) return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED", details);
 
-        double testRatio = runResult.successRatio();
+        double docsFactor     = runResult.javadocOk()    ? 1.0 : JAVADOC_PENALTY;
+        double styleFactor    = runResult.checkstyleOk() ? 1.0 : CHECKSTYLE_PENALTY;
+        double testRatio      = runResult.successRatio();
         double latenessFactor = latenessFactor(task, submission, settings.hardLateMultiplier());
-        double points = Numbers.round2(Math.max(0, task.maxPoints() * testRatio * latenessFactor + submission.bonusPoints()));
-        String status = runResult.testsOk() ? "OK" : "TESTS_FAILED";
-        return TaskScoreResult.success(task, submission, points, runResult, status);
+        double points = Numbers.round2(Math.max(0,
+            task.maxPoints() * testRatio * latenessFactor * docsFactor * styleFactor
+            + submission.bonusPoints()));
+
+        return TaskScoreResult.success(task, submission, points, runResult, statusOf(runResult), details);
+    }
+
+    private static String statusOf(RepoRunResult run) {
+        if (!run.javadocOk() && !run.checkstyleOk()) return "DOCS_AND_STYLE_FAILED";
+        if (!run.javadocOk())                        return "JAVADOC_FAILED";
+        if (!run.checkstyleOk())                     return "CHECKSTYLE_FAILED";
+        if (!run.testsOk())                          return "TESTS_FAILED";
+        return "OK";
     }
 
     /**

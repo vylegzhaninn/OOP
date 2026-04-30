@@ -48,63 +48,64 @@ public class RepositoryEvaluationService {
      * @param repoUrl           URL репозитория
      * @param settings          настройки проверки курса
      * @param absoluteWorkspace абсолютный путь к рабочей папке
+     * @param branch            ветка для проверки (обычно совпадает с taskId)
      * @return сырой результат выполнения проверок {@link RepoRunResult}
      */
     public RepoRunResult runForStudent(
         String github,
         String repoUrl,
         SettingsSpec settings,
-        Path absoluteWorkspace
+        Path absoluteWorkspace,
+        String branch
     ) {
-        log.info("Инициализация рабочей директории и клонирование репозитория учетной записи: [{}] (URL: [{}])", github, repoUrl);
+        log.info("Инициализация репозитория [{}] ветка [{}] (URL: [{}])", github, branch, repoUrl);
         CommandResult git = gitClient.prepareRepository(
             absoluteWorkspace,
             repoUrl,
             github,
-            settings.primaryBranch(),
+            branch,
             settings.fallbackBranch()
         );
 
         if (!git.isSuccess()) {
-            log.warn("Операция Git завершилась с ошибкой для участника [{}]. Детали выполнения: {}", github, git.output());
+            log.warn("Операция Git завершилась с ошибкой для участника [{}] ветка [{}]. Детали: {}", github, branch, git.output());
             return RepoRunResult.failed(git.output());
         }
 
-        log.debug("Этап получения исходного кода (Git) успешно завершен для [{}].", github);
+        log.debug("Git успешно завершен для [{}] ветка [{}].", github, branch);
 
         Path repoDir = absoluteWorkspace.resolve(github);
 
-        // Определяем рабочую папку Gradle: если в репозитории есть папка с именем ветки/задачи, то заходим в неё
-        Path gradleWorkDir = repoDir.resolve(settings.primaryBranch());
+        Path gradleWorkDir = repoDir.resolve(branch);
         if (!Files.exists(gradleWorkDir)) {
             gradleWorkDir = repoDir;
         }
 
-        log.info("Запуск задачи компиляции (compileJava) для участника [{}]...", github);
+        log.info("[{}][{}] compileJava...", github, branch);
         CommandResult compile = gradleRunner.runTask(gradleWorkDir, GradleTasks.COMPILE);
         if (!compile.isSuccess()) {
-            log.warn("Этап компиляции завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, compile.output());
+            log.warn("[{}][{}] Компиляция упала: {}", github, branch, compile.output());
             return new RepoRunResult(true, false, false, false, false, 0, 0, 0, compile.output());
         }
 
-        log.info("Запуск задачи генерации документации (javadoc) для участника [{}]...", github);
+        log.info("[{}][{}] javadoc...", github, branch);
         CommandResult javadoc = gradleRunner.runTask(gradleWorkDir, GradleTasks.JAVADOC);
         boolean docsOk = javadoc.isSuccess();
         if (!docsOk) {
-            log.warn("Этап генерации Javadoc завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, javadoc.output());
+            log.warn("[{}][{}] Javadoc упал: {}", github, branch, javadoc.output());
         }
 
-        log.info("Запуск задачи анализа стиля кода (checkstyleMain) для участника [{}]...", github);
+        log.info("[{}][{}] checkstyleMain...", github, branch);
         CommandResult checkstyle = gradleRunner.runTask(gradleWorkDir, GradleTasks.CHECKSTYLE);
         boolean styleOk = checkstyle.isSuccess();
         if (!styleOk) {
-            log.warn("Этап проверки Checkstyle завершился с ошибкой для участника [{}]. Вывод консоли: {}", github, checkstyle.output());
+            log.warn("[{}][{}] Checkstyle упал: {}", github, branch, checkstyle.output());
         }
 
-        log.info("Запуск набора автоматических тестов (test) для участника [{}]...", github);
+        log.info("[{}][{}] test...", github, branch);
         CommandResult test = gradleRunner.runTask(gradleWorkDir, GradleTasks.TEST);
         if (!test.isSuccess()) {
-            log.warn("Тесты завершились с ошибками для участника [{}]. Результат выполнения: {}", github, test.output());
+            log.warn("[{}][{}] Тесты упали: {}", github, branch, test.output());
         }
         TestStats stats = xmlParser.parse(gradleWorkDir.resolve(TEST_RESULTS_DIR));
         return new RepoRunResult(

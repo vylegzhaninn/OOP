@@ -17,7 +17,6 @@ class ConfigLoaderTest {
         Files.writeString(base, """
             course {
                 task('t1') {
-                    title 'Task 1'
                     maxPoints 10
                     softDeadline '2026-04-10'
                     hardDeadline '2026-04-20'

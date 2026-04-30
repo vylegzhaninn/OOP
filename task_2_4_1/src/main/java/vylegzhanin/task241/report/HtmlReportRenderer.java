@@ -2,8 +2,10 @@ package vylegzhanin.task241.report;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import vylegzhanin.task241.domain.report.StudentScoreReport;
 import vylegzhanin.task241.domain.report.TaskScoreResult;
@@ -49,24 +51,18 @@ public class HtmlReportRenderer {
 
             html.append("<h2>Группа ").append(escape(groupEntry.getKey())).append("</h2>");
 
-            Map<String, String> tasks = new LinkedHashMap<>();
+            Set<String> tasks = new LinkedHashSet<>();
             for (StudentScoreReport student : students) {
                 for (TaskScoreResult task : student.taskResults()) {
-                    tasks.putIfAbsent(task.taskId(), task.taskTitle());
+                    tasks.add(task.taskId());
                 }
             }
 
-            for (Map.Entry<String, String> taskEntry : tasks.entrySet()) {
-                String taskId = taskEntry.getKey();
-                String taskTitle = taskEntry.getValue();
-
+            for (String taskId : tasks) {
                 html.append("<table><thead>")
                     .append("<tr><th colspan=\"7\">Лабораторная ")
-                    .append(escape(taskId));
-                if (taskTitle != null && !taskTitle.isBlank()) {
-                    html.append(" (").append(escape(taskTitle)).append(")");
-                }
-                html.append("</th></tr>")
+                    .append(escape(taskId))
+                    .append("</th></tr>")
                     .append(
                         "<tr><th>Студент</th><th>Сборка</th><th>Документация</th><th>Style guide</th><th>Тесты</th><th>Доп. балл</th><th>Общий балл</th></tr>")
                     .append("</thead><tbody>");
@@ -104,7 +100,7 @@ public class HtmlReportRenderer {
                 .append(escape(groupEntry.getKey()))
                 .append("</th></tr><tr><th>Студент</th>");
 
-            for (String taskId : tasks.keySet()) {
+            for (String taskId : tasks) {
                 html.append("<th>").append(escape(taskId)).append("</th>");
             }
             html.append("<th>Сумма</th><th>Активность</th><th>Оценка</th></tr></thead><tbody>");
@@ -113,7 +109,7 @@ public class HtmlReportRenderer {
                 html.append("<tr><td>").append(escape(student.fullName())).append("</td>");
 
                 int nonZero = 0;
-                for (String taskId : tasks.keySet()) {
+                for (String taskId : tasks) {
                     TaskScoreResult result = findTaskResult(student.taskResults(), taskId);
                     double points = result == null ? 0 : result.points();
                     if (points > 0) {

@@ -71,34 +71,35 @@ public class CourseEvaluationService {
             List<SubmissionSpec> studentSubmissions =
                 submissionsByStudent.getOrDefault(student.github(), List.of());
 
-            log.info("Начало проверки репозитория участника: [{}] (Группа: {})", student.github(), student.groupName());
-
-            RepoRunResult runResult = repoCache.computeIfAbsent(
-                student.github(),
-                key -> repositoryEvaluationService.runForStudent(
-                    student.github(),
-                    student.repositoryUrl(),
-                    settings,
-                    workspace
-                )
-            );
-
-            log.info("Проверка репозитория участника [{}] завершена. Статус - Клонирование Git: {}, Компиляция: {}, Успешность тестов: {}",
-                     student.github(), runResult.gitOk(), runResult.compileOk(), runResult.testsOk());
+            log.info("Начало проверки участника: [{}] (Группа: {}, заданий: {})",
+                     student.github(), student.groupName(), studentSubmissions.size());
 
             List<TaskScoreResult> taskResults = new ArrayList<>();
             for (SubmissionSpec submission : studentSubmissions) {
                 TaskSpec task = config.tasks().get(submission.taskId());
                 if (task == null) {
-                    log.warn("Конфигурационная ошибка. У участника [{}] зафиксирована сдача неучтенного задания (ID: {}). Пропуск...",
+                    log.warn("Участник [{}]: неизвестное задание [{}], пропуск.",
                              student.github(), submission.taskId());
                     taskResults.add(TaskScoreResult.unknownTask(submission));
                     continue;
                 }
+
+                String taskId = submission.taskId();
+                String cacheKey = student.github() + ":" + taskId;
+                RepoRunResult runResult = repoCache.computeIfAbsent(
+                    cacheKey,
+                    key -> repositoryEvaluationService.runForStudent(
+                        student.github(), student.repositoryUrl(), settings, workspace, taskId
+                    )
+                );
+
+                log.info("Участник [{}] задание [{}] — git:{} compile:{} tests:{}",
+                         student.github(), taskId, runResult.gitOk(), runResult.compileOk(), runResult.testsOk());
+
                 taskResults.add(scoreCalculator.calculate(task, submission, runResult, settings));
             }
 
-            log.debug("Количество оцененных заданий для участника {}: {}", student.github(), taskResults.size());
+            log.debug("Оценено заданий для [{}]: {}", student.github(), taskResults.size());
 
             double total = taskResults.stream().mapToDouble(TaskScoreResult::points).sum();
             double max = taskResults.stream().mapToDouble(TaskScoreResult::maxPoints).sum();

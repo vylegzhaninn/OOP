@@ -100,7 +100,6 @@ class CourseDsl {
 
     static class TaskDsl {
         private final String id
-        private String title = ""
         private double maxPoints = 0
         private LocalDate softDeadline
         private LocalDate hardDeadline
@@ -109,8 +108,6 @@ class CourseDsl {
             this.id = id
         }
 
-        def title(String value) { title = value }
-
         def maxPoints(Number value) { maxPoints = value.doubleValue() }
 
         def softDeadline(String value) { softDeadline = LocalDate.parse(value) }
@@ -118,7 +115,7 @@ class CourseDsl {
         def hardDeadline(String value) { hardDeadline = LocalDate.parse(value) }
 
         TaskSpec build() {
-            new TaskSpec(id, title, maxPoints, softDeadline, hardDeadline)
+            new TaskSpec(id, maxPoints, softDeadline, hardDeadline)
         }
     }
 

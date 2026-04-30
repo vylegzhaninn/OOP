@@ -1,20 +1,23 @@
 course {
+    task('task_1_2_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
     task('task_1_2_2') {
-        title 'Task 1.2.2'
         maxPoints 10
         softDeadline '2026-04-20'
         hardDeadline '2026-04-27'
     }
 
     task('task_1_3_1') {
-        title 'Task 1.2.2'
         maxPoints 10
         softDeadline '2026-04-20'
         hardDeadline '2026-04-27'
     }
 
     task('task_1_5_1') {
-        title 'Task 1.2.2'
         maxPoints 10
         softDeadline '2026-04-20'
         hardDeadline '2026-04-27'
@@ -41,11 +44,9 @@ course {
         }
     }
 
-    group('snus69') {
-        student('Sanya') {
-            fullName 'Саня Снюс'
-            repo 'https://github.com/zxcolder159/OOP'
-        }
+    check('tolik', 'task_1_2_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
     }
 
     check('tolik', 'task_1_2_2') {
@@ -58,7 +59,7 @@ course {
         bonus 0.0
     }
 
-    check('Sanya', 'task_1_5_1') {
+    check('tolik', 'task_1_5_1') {
         submittedAt '2026-04-19'
         bonus 0.0
     }

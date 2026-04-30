@@ -14,7 +14,7 @@ class ScoreCalculatorTest {
     @Test
     void appliesLatePenaltyAndBonus() {
         TaskSpec task =
-            new TaskSpec("t1", "Task", 10, LocalDate.of(2026, 4, 10), LocalDate.of(2026, 4, 20));
+            new TaskSpec("t1", 10, LocalDate.of(2026, 4, 10), LocalDate.of(2026, 4, 20));
         SubmissionSpec submission =
             new SubmissionSpec("octo", "t1", LocalDate.of(2026, 4, 15), 1.0);
 

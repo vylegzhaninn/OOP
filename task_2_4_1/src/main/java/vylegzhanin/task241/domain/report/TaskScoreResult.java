@@ -7,8 +7,7 @@ import vylegzhanin.task241.domain.config.TaskSpec;
 /**
  * Детальные результаты проверки одного конкретного задания (таски).
  *
- * @param taskId      иденификатор задания (например, "Task_1_1_1")
- * @param taskTitle   название задания
+ * @param taskId      идентификатор задания (например, "task_1_1_1")
  * @param points      заработанные баллы за эту задачу
  * @param maxPoints   максимальный балл за неё
  * @param bonusPoints количество добавленных бонусных баллов
@@ -19,11 +18,10 @@ import vylegzhanin.task241.domain.config.TaskSpec;
  * @param failed      количество упавших тестов
  * @param skipped     количество пропущенных тестов
  * @param status      текстовый статус (например, "OK", "FAILED", "LATE")
- * @param note        дополнительные примечания/заметки (например, штраф за опоздание)
+ * @param note        дополнительные примечания/заметки
  */
 public record TaskScoreResult(
     String taskId,
-    String taskTitle,
     double points,
     double maxPoints,
     double bonusPoints,
@@ -40,23 +38,25 @@ public record TaskScoreResult(
                                          boolean buildOk, boolean docsOk, boolean styleOk,
                                          String status, String note) {
         return new TaskScoreResult(
-            task.id(), task.title(), 0, task.maxPoints(), sub.bonusPoints(),
+            task.id(), 0, task.maxPoints(), sub.bonusPoints(),
             buildOk, docsOk, styleOk, 0, 0, 0, status, note
         );
     }
 
     public static TaskScoreResult unknownTask(SubmissionSpec sub) {
         return new TaskScoreResult(
-            sub.taskId(), "", 0, 0, sub.bonusPoints(),
+            sub.taskId(), 0, 0, sub.bonusPoints(),
             false, false, false, 0, 0, 0, "UNKNOWN_TASK", "Task is not defined in DSL"
         );
     }
 
     public static TaskScoreResult success(TaskSpec task, SubmissionSpec sub,
-                                          double points, RepoRunResult run, String status) {
+                                          double points, RepoRunResult run,
+                                          String status, String note) {
         return new TaskScoreResult(
-            task.id(), task.title(), points, task.maxPoints(), sub.bonusPoints(),
-            true, true, true, run.passed(), run.failed(), run.skipped(), status, ""
+            task.id(), points, task.maxPoints(), sub.bonusPoints(),
+            run.compileOk(), run.javadocOk(), run.checkstyleOk(),
+            run.passed(), run.failed(), run.skipped(), status, note
         );
     }
 }
