@@ -1,0 +1,68 @@
+course {
+    task('task_1_2_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_2_2') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_3_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_5_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    settings {
+        workspace '.oop-checker-work'
+        timeoutSeconds 600
+        mainBranch 'task_1_2_2'
+        fallbackBranch 'main'
+        hardLateMultiplier 0.1
+        clearGrades()
+        grade '5', 85
+        grade '4', 70
+        grade '3', 55
+        grade '2', 0
+    }
+
+    group('228') {
+        student('tolik') {
+            fullName 'Толян'
+            repo 'https://github.com/vylegzhaninn/OOP'
+        }
+    }
+
+    check('tolik', 'task_1_2_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('tolik', 'task_1_2_2') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('tolik', 'task_1_3_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    check('tolik', 'task_1_5_1') {
+        submittedAt '2026-04-19'
+        bonus 0.0
+    }
+
+    checkpoint 'Checkpoint 1', '2026-04-25'
+    checkpoint 'Final', '2026-05-30'
+}
