@@ -97,6 +97,8 @@ public class Main {
         if (args.length >= 2 && "--config".equals(args[0])) {
             return launchDir.resolve(args[1]).normalize();
         }
+
+        System.out.println("Не удалось найти --config, будет использован из корня oop-check.gradle");
         return launchDir.resolve("oop-check.gradle");
     }
 }

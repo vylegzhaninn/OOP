@@ -30,15 +30,15 @@ public class GradleRunner {
      * Автоматически определяет, использовать ли локальный gradlew или глобальный gradle.
      *
      * @param projectDir директория проекта
-     * @param taskName   имя выполняемой задачи (например, "build" или "test")
+     * @param task       выполняемая задача из перечисления GradleTasks
      * @return результат запуска команды
      */
-    public CommandResult runTask(Path projectDir, String taskName) {
+    public CommandResult runTask(Path projectDir, GradleTasks task) {
         List<String> command;
         if (Files.exists(projectDir.resolve("gradlew"))) {
-            command = List.of("./gradlew", "--no-daemon", taskName);
+            command = List.of("./gradlew", "--no-daemon", task.getTaskName());
         } else {
-            command = List.of("gradle", "--no-daemon", taskName);
+            command = List.of("gradle", "--no-daemon", task.getTaskName());
         }
         return commandExecutor.run(projectDir, timeout, command, Map.of());
     }

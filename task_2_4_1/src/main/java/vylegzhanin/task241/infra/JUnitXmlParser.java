@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -12,6 +13,7 @@ import vylegzhanin.task241.domain.TestStats;
 /**
  * Парсер отчетов о тестировании в формате JUnit XML.
  */
+@Slf4j
 public class JUnitXmlParser {
     private enum Status { PASSED, FAILED, SKIPPED }
 
@@ -53,6 +55,7 @@ public class JUnitXmlParser {
             }
             return new TestStats(passed, failed, skipped);
         } catch (Exception ignored) {
+            log.warn("Пустой отчет о тестировании. Exception message: {}", ignored.getMessage());
             return TestStats.EMPTY;
         }
     }

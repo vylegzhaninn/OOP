@@ -3,16 +3,26 @@ package vylegzhanin.task241.infra;
 /**
  * Имена задач Gradle, используемых при проверке студенческих репозиториев.
  */
-public class GradleTasks {
+public enum GradleTasks {
     /** Задача компиляции исходного кода. */
-    public static final String COMPILE = "compileJava";
+    COMPILE("compileJava"),
     /** Задача генерации Javadoc-документации. */
-    public static final String JAVADOC = "javadoc";
+    JAVADOC("javadoc"),
     /** Задача проверки стиля кода через Checkstyle. */
-    public static final String CHECKSTYLE = "checkstyleMain";
+    CHECKSTYLE("checkstyleMain"),
     /** Задача запуска автоматических тестов. */
-    public static final String TEST = "test";
+    TEST("test");
 
-    private GradleTasks() {
+    private final String taskName;
+
+    GradleTasks(String taskName) {
+        this.taskName = taskName;
+    }
+
+    /**
+     * @return строковое представление задачи Gradle
+     */
+    public String getTaskName() {
+        return taskName;
     }
 }

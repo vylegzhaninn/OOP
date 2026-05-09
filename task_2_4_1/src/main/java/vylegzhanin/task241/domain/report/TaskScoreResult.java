@@ -17,7 +17,7 @@ import vylegzhanin.task241.domain.config.TaskSpec;
  * @param passed      количество успешно пройденных тестов
  * @param failed      количество упавших тестов
  * @param skipped     количество пропущенных тестов
- * @param status      текстовый статус (например, "OK", "FAILED", "LATE")
+ * @param status      статус проверки из перечисления {@link TaskScoreResultStatus}
  * @param note        дополнительные примечания/заметки
  */
 public record TaskScoreResult(
@@ -31,9 +31,25 @@ public record TaskScoreResult(
     int passed,
     int failed,
     int skipped,
-    String status,
+    TaskScoreResultStatus status,
     String note
 ) {
+    /**
+     * Статусы результатов проверки.
+     */
+    public enum TaskScoreResultStatus {
+        OK,
+        FAILED,
+        LATE,
+        GIT_FAILED,
+        COMPILE_FAILED,
+        DOCS_AND_STYLE_FAILED,
+        JAVADOC_FAILED,
+        CHECKSTYLE_FAILED,
+        TESTS_FAILED,
+        UNKNOWN_TASK
+    }
+
     /**
      * Создаёт результат с нулевыми баллами для задания, завершившегося критической ошибкой.
      *
@@ -42,13 +58,13 @@ public record TaskScoreResult(
      * @param buildOk  прошла ли компиляция
      * @param docsOk   прошла ли документация
      * @param styleOk  прошёл ли checkstyle
-     * @param status   код ошибки (например, "GIT_FAILED", "COMPILE_FAILED")
+     * @param status   статус ошибки из перечисления
      * @param note     детали ошибки из вывода консоли
      * @return результат с points=0 и тестами 0/0/0
      */
     public static TaskScoreResult failed(TaskSpec task, SubmissionSpec sub,
                                          boolean buildOk, boolean docsOk, boolean styleOk,
-                                         String status, String note) {
+                                         TaskScoreResultStatus status, String note) {
         return new TaskScoreResult(
             task.id(), 0, task.maxPoints(), sub.bonusPoints(),
             buildOk, docsOk, styleOk, 0, 0, 0, status, note
@@ -64,7 +80,8 @@ public record TaskScoreResult(
     public static TaskScoreResult unknownTask(SubmissionSpec sub) {
         return new TaskScoreResult(
             sub.taskId(), 0, 0, sub.bonusPoints(),
-            false, false, false, 0, 0, 0, "UNKNOWN_TASK", "Task is not defined in DSL"
+            false, false, false, 0, 0, 0,
+            TaskScoreResultStatus.UNKNOWN_TASK, "Task is not defined in DSL"
         );
     }
 
@@ -75,13 +92,13 @@ public record TaskScoreResult(
      * @param sub    сданное решение
      * @param points итоговые баллы с учётом всех штрафов и бонусов
      * @param run    результаты прогона репозитория (флаги и счётчики тестов)
-     * @param status текстовый статус (например, "OK", "CHECKSTYLE_FAILED", "TESTS_FAILED")
+     * @param status статус результата из перечисления
      * @param note   дополнительные примечания
      * @return результат с реальными флагами и счётчиками тестов из {@link RepoRunResult}
      */
     public static TaskScoreResult success(TaskSpec task, SubmissionSpec sub,
                                           double points, RepoRunResult run,
-                                          String status, String note) {
+                                          TaskScoreResultStatus status, String note) {
         return new TaskScoreResult(
             task.id(), points, task.maxPoints(), sub.bonusPoints(),
             run.compileOk(), run.javadocOk(), run.checkstyleOk(),

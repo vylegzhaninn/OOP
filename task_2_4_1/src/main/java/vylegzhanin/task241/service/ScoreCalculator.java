@@ -6,6 +6,7 @@ import vylegzhanin.task241.domain.config.SettingsSpec;
 import vylegzhanin.task241.domain.config.SubmissionSpec;
 import vylegzhanin.task241.domain.config.TaskSpec;
 import vylegzhanin.task241.domain.report.TaskScoreResult;
+import vylegzhanin.task241.domain.report.TaskScoreResult.TaskScoreResultStatus;
 
 /**
  * Калькулятор итоговых баллов. Содержит бизнес-логику подсчета баллов,
@@ -30,12 +31,12 @@ public class ScoreCalculator {
                                      RepoRunResult runResult, SettingsSpec settings) {
         String details = compact(runResult.details());
         if (!runResult.gitOk()) {
-            return TaskScoreResult.failed(task, submission, false, false, false, "GIT_FAILED",
-                details);
+            return TaskScoreResult.failed(task, submission, false, false, false,
+                TaskScoreResultStatus.GIT_FAILED, details);
         }
         if (!runResult.compileOk()) {
-            return TaskScoreResult.failed(task, submission, false, false, false, "COMPILE_FAILED",
-                details);
+            return TaskScoreResult.failed(task, submission, false, false, false,
+                TaskScoreResultStatus.COMPILE_FAILED, details);
         }
 
         double docsFactor = runResult.javadocOk() ? 1.0 : JAVADOC_PENALTY;
@@ -50,20 +51,20 @@ public class ScoreCalculator {
             details);
     }
 
-    private static String statusOf(RepoRunResult run) {
+    private static TaskScoreResultStatus statusOf(RepoRunResult run) {
         if (!run.javadocOk() && !run.checkstyleOk()) {
-            return "DOCS_AND_STYLE_FAILED";
+            return TaskScoreResultStatus.DOCS_AND_STYLE_FAILED;
         }
         if (!run.javadocOk()) {
-            return "JAVADOC_FAILED";
+            return TaskScoreResultStatus.JAVADOC_FAILED;
         }
         if (!run.checkstyleOk()) {
-            return "CHECKSTYLE_FAILED";
+            return TaskScoreResultStatus.CHECKSTYLE_FAILED;
         }
         if (!run.testsOk()) {
-            return "TESTS_FAILED";
+            return TaskScoreResultStatus.TESTS_FAILED;
         }
-        return "OK";
+        return TaskScoreResultStatus.OK;
     }
 
     /**
