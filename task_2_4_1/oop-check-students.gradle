@@ -1,0 +1,23 @@
+course {
+    group('24216') {
+        student('tolik') {
+            fullName 'Толян'
+            repo 'https://github.com/vylegzhaninn/OOP'
+        }
+
+        student('lox') {
+            fullName 'Александр Ермаков'
+            repo 'https://github.com/zxcolder159/OOP'
+        }
+
+        student('cherni') {
+            fullName 'Егор Дашковский'
+            repo 'https://github.com/byy-rVtru3/OOP'
+        }
+
+        student('proeber') {
+            fullName 'Владимир Зябкин'
+            repo 'https://github.com/maket12/OOP'
+        }
+    }
+}
