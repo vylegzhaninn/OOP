@@ -49,6 +49,7 @@ public class CommandExecutor {
 
             boolean finished = process.waitFor(timeout.toSeconds(), TimeUnit.SECONDS);
             if (!finished) {
+                process.getInputStream().close();
                 process.descendants().forEach(ProcessHandle::destroyForcibly);
                 process.destroyForcibly();
                 drainer.interrupt();

@@ -33,7 +33,8 @@ public class JUnitXmlParser {
                 .filter(path -> path.getFileName().toString().endsWith(".xml"))
                 .map(JUnitXmlParser::parseFile)
                 .reduce(TestStats.EMPTY, TestStats::add);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            log.warn("Ошибка парсинга. Exception message: {}", e.getMessage());
             return TestStats.EMPTY;
         }
     }
@@ -54,8 +55,8 @@ public class JUnitXmlParser {
                 }
             }
             return new TestStats(passed, failed, skipped);
-        } catch (Exception ignored) {
-            log.warn("Пустой отчет о тестировании. Exception message: {}", ignored.getMessage());
+        } catch (Exception e) {
+            log.warn("Пустой отчет о тестировании. Exception message: {}", e.getMessage());
             return TestStats.EMPTY;
         }
     }
