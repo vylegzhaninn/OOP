@@ -1,5 +1,6 @@
 package vylegzhanin.task241.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.extern.slf4j.Slf4j;
@@ -58,28 +59,29 @@ public class RepositoryEvaluationService {
         Path absoluteWorkspace,
         String branch
     ) {
-        log.info("Инициализация репозитория [{}] ветка [{}] (URL: [{}])", github, branch, repoUrl);
+        log.info("Инициализация репозитория [{}] задание [{}] (URL: [{}])", github, branch, repoUrl);
         CommandResult git = gitClient.prepareRepository(
             absoluteWorkspace,
             repoUrl,
             github,
-            branch,
+            settings.primaryBranch(),
             settings.fallbackBranch()
         );
 
         if (!git.isSuccess()) {
-            log.warn("Операция Git завершилась с ошибкой для участника [{}] ветка [{}]. Детали: {}",
-                github, branch, git.output());
+            log.warn("Операция Git завершилась с ошибкой для участника [{}]. Детали: {}",
+                github, git.output());
             return RepoRunResult.failed(git.output());
         }
 
-        log.debug("Git успешно завершен для [{}] ветка [{}].", github, branch);
+        log.debug("Git успешно завершен для [{}].", github);
 
         Path repoDir = absoluteWorkspace.resolve(github);
 
-        Path gradleWorkDir = repoDir.resolve(branch);
-        if (!Files.exists(gradleWorkDir)) {
-            gradleWorkDir = repoDir;
+        Path gradleWorkDir = findTaskDirectory(repoDir, branch);
+        if (gradleWorkDir == null) {
+            log.warn("[{}][{}] Директория задания не найдена в {}", github, branch, repoDir);
+            return RepoRunResult.failed("Task directory not found: " + branch);
         }
 
         log.info("[{}][{}] compileJava...", github, branch);
@@ -120,5 +122,18 @@ public class RepositoryEvaluationService {
             stats.skipped(),
             test.output()
         );
+    }
+
+    private Path findTaskDirectory(Path repoDir, String taskId) {
+        try (var entries = Files.list(repoDir)) {
+            return entries
+                .filter(Files::isDirectory)
+                .filter(p -> p.getFileName().toString().equalsIgnoreCase(taskId))
+                .findFirst()
+                .orElse(null);
+        } catch (IOException e) {
+            log.warn("Ошибка при поиске директории задания {}: {}", taskId, e.getMessage());
+            return null;
+        }
     }
 }

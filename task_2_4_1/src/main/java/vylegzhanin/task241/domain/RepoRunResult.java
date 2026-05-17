@@ -40,10 +40,10 @@ public record RepoRunResult(
      * @return коэффициент успешности от 0.0 до 1.0
      */
     public double successRatio() {
-        int total = passed + failed + skipped;
-        if (!testsOk || total == 0) {
+        int denominator = passed + failed;
+        if (denominator == 0) {
             return 0.0;
         }
-        return (double) passed / total;
+        return (double) passed / denominator;
     }
 }
