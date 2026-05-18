@@ -19,5 +19,10 @@ course {
             fullName 'Владимир Зябкин'
             repo 'https://github.com/maket12/OOP'
         }
+
+        student('Anna') {
+            fullName 'Анна Нерлих'
+            repo 'https://github.com/ashemchuk/OOP'
+        }
     }
 }

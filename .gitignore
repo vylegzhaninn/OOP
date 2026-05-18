@@ -7,3 +7,9 @@ task_1_3_1/build/
 task_1_3_1/build/**
 task_1_3_1/.gradle/
 task_1_3_1/.gradle/**
+!task_2_1_2/
+!task_2_1_2/**
+task_2_1_2/build/
+task_2_1_2/build/**
+task_2_1_2/.gradle/
+task_2_1_2/.gradle/**
