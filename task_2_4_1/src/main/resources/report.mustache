@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>oop-checker test</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 16px;
+        }
+
+        h1, h2 {
+            margin: 12px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0 18px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: 700;
+            background: #f7f7f7;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>oop-checker test</h1>
+
+{{#groups}}
+<h2>Группа {{groupName}}</h2>
+
+{{#taskTables}}
+<table>
+    <thead>
+    <tr>
+        <th colspan="7">Лабораторная {{taskId}}</th>
+    </tr>
+    <tr>
+        <th>Студент</th>
+        <th>Сборка</th>
+        <th>Документация</th>
+        <th>Style guide</th>
+        <th>Тесты</th>
+        <th>Доп. балл</th>
+        <th>Общий балл</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#studentRows}}
+    <tr>
+        <td>{{studentName}}</td>
+        <td class="center">{{buildMark}}</td>
+        <td class="center">{{docsMark}}</td>
+        <td class="center">{{styleMark}}</td>
+        <td class="center">{{tests}}</td>
+        <td class="center">{{bonus}}</td>
+        <td class="center">{{points}}</td>
+    </tr>
+    {{/studentRows}}
+    </tbody>
+</table>
+{{/taskTables}}
+
+<table>
+    <thead>
+    <tr>
+        <th colspan="{{summaryColspan}}">Общая статистика группы {{groupName}}</th>
+    </tr>
+    <tr>
+        <th>Студент</th>
+        {{#taskIds}}<th>{{.}}</th>{{/taskIds}}
+        <th>Сумма</th>
+        <th>Активность</th>
+        <th>Оценка</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#summaryRows}}
+    <tr>
+        <td>{{studentName}}</td>
+        {{#taskPoints}}<td class="center">{{.}}</td>{{/taskPoints}}
+        <td class="center">{{total}}</td>
+        <td class="center">{{activity}}</td>
+        <td class="center">{{grade}}</td>
+    </tr>
+    {{/summaryRows}}
+    </tbody>
+</table>
+
+{{/groups}}
+</body>
+</html>

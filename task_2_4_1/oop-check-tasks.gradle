@@ -1,0 +1,25 @@
+course{
+    task('task_1_2_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_2_2') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_3_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+
+    task('task_1_5_1') {
+        maxPoints 10
+        softDeadline '2026-04-20'
+        hardDeadline '2026-04-27'
+    }
+}
