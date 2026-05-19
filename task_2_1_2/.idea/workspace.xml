@@ -4,29 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/task_2_1_2.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/config/Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/worker/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_2_4_1/oop-check-students.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../task_2_4_1/oop-check-students.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_2_4_1/oop-check.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../task_2_4_1/oop-check.gradle" afterDir="false" />
+    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="chore: добавил начальную настройку проекта с Gradle">
+      <change beforePath="$PROJECT_DIR$/src/main/java/config/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/WorkerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/worker/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/worker/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +66,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.task_2_1_2 [:server.Server.main()].executor": "Run",
+    "Gradle.task_2_1_2 [:worker.Worker.main()].executor": "Run",
     "Gradle.task_2_1_2 [:workers.Worker.main()].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
@@ -146,8 +129,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1779107499130</updated>
-      <workItem from="1779107500153" duration="5406000" />
+      <workItem from="1779107500153" duration="17151000" />
     </task>
+    <task id="LOCAL-00001" summary="chore: добавил начальную настройку проекта с Gradle">
+      <option name="closed" value="true" />
+      <created>1779117375984</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779117375984</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +155,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chore: добавил начальную настройку проекта с Gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: добавил начальную настройку проекта с Gradle" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
