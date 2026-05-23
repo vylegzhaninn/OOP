@@ -63,7 +63,7 @@ public class WorkerHandler implements Runnable {
 
             socket.setSoTimeout(Constants.ACK_TIMEOUT_MS);
             String ack = in.readLine();
-            if (ack == null || !ack.equals("ack " + task.id)) {
+            if (ack == null || !ack.equals("ack " + task.id())) {
                 requeue(task, "не получен ACK");
                 task = null;
                 return;
@@ -77,12 +77,12 @@ public class WorkerHandler implements Runnable {
                 return;
             }
 
-            if (response.equals("beep " + task.id)) {
-                System.out.println("Работник нашёл составное в задаче #" + task.id);
+            if (response.equals("beep " + task.id())) {
+                System.out.println("Работник нашёл составное в задаче #" + task.id());
                 compositeFound.set(true);
                 remainingTasks.decrementAndGet();
-            } else if (response.equals("ok " + task.id)) {
-                System.out.println("Задача #" + task.id + " завершена без находки");
+            } else if (response.equals("ok " + task.id())) {
+                System.out.println("Задача #" + task.id() + " завершена без находки");
                 remainingTasks.decrementAndGet();
             } else {
                 requeue(task, "неожиданный ответ: " + response);
@@ -106,7 +106,7 @@ public class WorkerHandler implements Runnable {
      * @param reason описание причины возврата (для лога)
      */
     private void requeue(Task t, String reason) {
-        System.out.println("Задача #" + t.id + " возвращена в очередь (" + reason + ")");
+        System.out.println("Задача #" + t.id() + " возвращена в очередь (" + reason + ")");
         pending.offer(t);
     }
 }

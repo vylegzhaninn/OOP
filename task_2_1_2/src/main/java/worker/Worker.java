@@ -29,12 +29,13 @@ public class Worker {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
         ) {
             Task task = (Task) in.readObject();
-            System.out.println("Получена задача #" + task.id + ": " + Arrays.toString(task.chunk));
+            System.out.println("Получена задача #" +
+                task.id() + ": " + Arrays.toString(task.chunk()));
 
-            out.println("ack " + task.id);
+            out.println("ack " + task.id());
 
             boolean found = false;
-            for (int el : task.chunk) {
+            for (int el : task.chunk()) {
                 if (isComposite(el)) {
                     found = true;
                     break;
@@ -42,10 +43,10 @@ public class Worker {
             }
 
             if (found) {
-                out.println("beep " + task.id);
+                out.println("beep " + task.id());
                 System.out.println("Составное число найдено");
             } else {
-                out.println("ok " + task.id);
+                out.println("ok " + task.id());
                 System.out.println("Составных чисел не найдено");
             }
         } catch (Exception e) {

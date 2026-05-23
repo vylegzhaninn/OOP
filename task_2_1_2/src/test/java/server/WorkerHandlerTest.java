@@ -66,7 +66,7 @@ class WorkerHandlerTest {
             PrintWriter out = new PrintWriter(workerSide.getOutputStream(), true)
         ) {
             Task received = (Task) in.readObject();
-            assertEquals(42, received.id);
+            assertEquals(42, received.id());
 
             out.println("ack 42");
             out.println("beep 42");
@@ -95,7 +95,7 @@ class WorkerHandlerTest {
             PrintWriter out = new PrintWriter(workerSide.getOutputStream(), true)
         ) {
             Task received = (Task) in.readObject();
-            assertEquals(7, received.id);
+            assertEquals(7, received.id());
 
             out.println("ack 7");
             out.println("ok 7");
@@ -122,7 +122,7 @@ class WorkerHandlerTest {
 
         try (ObjectInputStream in = new ObjectInputStream(workerSide.getInputStream())) {
             Task received = (Task) in.readObject();
-            assertEquals(99, received.id);
+            assertEquals(99, received.id());
             handler.join(10000);
         }
 
@@ -130,7 +130,7 @@ class WorkerHandlerTest {
         assertEquals(1, remaining.get(), "счётчик не должен меняться при сбое");
         Task requeued = queue.poll(1, TimeUnit.SECONDS);
         assertNotNull(requeued, "задача должна вернуться в очередь");
-        assertEquals(99, requeued.id);
+        assertEquals(99, requeued.id());
     }
 
     @Test
@@ -149,7 +149,7 @@ class WorkerHandlerTest {
             PrintWriter out = new PrintWriter(workerSide.getOutputStream(), true)
         ) {
             Task received = (Task) in.readObject();
-            assertEquals(5, received.id);
+            assertEquals(5, received.id());
 
             out.println("ack 5");
 
@@ -159,7 +159,7 @@ class WorkerHandlerTest {
         assertEquals(1, remaining.get());
         Task requeued = queue.poll(1, TimeUnit.SECONDS);
         assertNotNull(requeued);
-        assertEquals(5, requeued.id);
+        assertEquals(5, requeued.id());
     }
 
     @Test
@@ -185,7 +185,7 @@ class WorkerHandlerTest {
         assertEquals(1, remaining.get());
         Task requeued = queue.poll(1, TimeUnit.SECONDS);
         assertNotNull(requeued);
-        assertEquals(1, requeued.id);
+        assertEquals(1, requeued.id());
     }
 
     @Test
@@ -221,10 +221,10 @@ class WorkerHandlerTest {
             BufferedReader ignored = new BufferedReader(new InputStreamReader(workerSide.getInputStream()))
         ) {
             Task received = (Task) in.readObject();
-            assertEquals(123, received.id);
-            assertEquals(chunk.length, received.chunk.length);
+            assertEquals(123, received.id());
+            assertEquals(chunk.length, received.chunk().length);
             for (int i = 0; i < chunk.length; i++) {
-                assertEquals(chunk[i], received.chunk[i]);
+                assertEquals(chunk[i], received.chunk()[i]);
             }
 
             out.println("ack 123");

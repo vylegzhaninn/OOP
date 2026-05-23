@@ -6,22 +6,17 @@ import java.io.Serializable;
  * Единица работы, передаваемая от сервера воркеру.
  * Содержит уникальный идентификатор и кусок исходного массива.
  * ID позволяет серверу однозначно сопоставить ответ воркера с задачей.
+ *
+ * @param id    Уникальный идентификатор задачи в рамках текущего запуска сервера.
+ * @param chunk Подмассив чисел для проверки на составность.
  */
-public class Task implements Serializable {
+public record Task(int id, int[] chunk) implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /** Уникальный идентификатор задачи в рамках текущего запуска сервера. */
-    public final int id;
-
-    /** Подмассив чисел для проверки на составность. */
-    public final int[] chunk;
 
     /**
      * @param id    уникальный идентификатор задачи
      * @param chunk подмассив чисел для обработки
      */
-    public Task(int id, int[] chunk) {
-        this.id = id;
-        this.chunk = chunk;
+    public Task {
     }
 }
