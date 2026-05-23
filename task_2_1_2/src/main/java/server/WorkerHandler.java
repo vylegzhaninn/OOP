@@ -4,21 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WorkerHandler implements Runnable{
     private final Socket socket;
     private final int[] chunk;
-    private final AtomicBoolean found;
-    private final ServerSocket serverSocket;
+    private final boolean[] found;
+    private final int workerIdx;
+    private final boolean[] finish;
 
-    public WorkerHandler(Socket client, int[] chunk, AtomicBoolean found, ServerSocket serverSocket) {
+    public WorkerHandler(Socket client, int[] chunk, boolean[] found, int workerIdx, boolean[] finish) {
         this.socket = client;
         this.chunk = chunk;
         this.found = found;
-        this.serverSocket = serverSocket;
+        this.workerIdx = workerIdx;
+        this.finish = finish;
     }
 
     @Override
@@ -29,17 +29,23 @@ public class WorkerHandler implements Runnable{
         ) {
             out.writeObject(chunk);
             out.flush();
+            System.out.println("Работник" + workerIdx + "начал работу");
 
             while (true) {
                 String message = in.readLine();
                 if (message != null && message.equals("beep")) {
-                    found.set(true);
-                    serverSocket.close();
+                    System.out.println("Работник" + workerIdx + "нашел составное число");
+                    found[workerIdx] = true;
+                    finish[workerIdx] = true;
+                    break;
+                }else if(message != null && message.equals("finish")) {
+                    System.out.println("Работник" + workerIdx + "не нашел составное число");
+                    finish[workerIdx] = true;
                     break;
                 }
             }
         } catch (IOException e) {
-            System.out.println("Связь с клиентом " + socket.getInetAddress() + " прервана.");
+            System.out.println("Связь с работником " + workerIdx + " прервана.");
         }
     }
 }

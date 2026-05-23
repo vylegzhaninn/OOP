@@ -17,24 +17,32 @@ public class Worker {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         ){
             int[] chunk = (int[]) in.readObject();
-            System.out.println("получен масив" + Arrays.toString(chunk));
+            System.out.println("получен массив " + Arrays.toString(chunk));
+            boolean found = false;
             for (int el : chunk){
-                if (!isPrime(el)){
-                    out.println("beep");
-                    System.out.println("Составное число найдено");
+                if (isComposite(el)){
+                    found = true;
                     break;
                 }
+            }
+
+            if (found) {
+                out.println("beep");
+                System.out.println("Составное число найдено");
+            } else {
+                out.println("finish");
+                System.out.println("Составное число не найдено");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    static boolean isPrime(int n) {
-        if (n < 2) return false;
+    static boolean isComposite(int n) {
+        if (n < 4) return false;
         for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) return false;
+            if (n % i == 0) return true;
         }
-        return true;
+        return false;
     }
 }
