@@ -14,10 +14,25 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Координатор распределённого поиска составного числа.
+ * <p>
+ * Разбивает входной массив на {@link Constants#COUNT_OF_WORKERS} задач,
+ * помещает их в потокобезопасную очередь и раздаёт подключающимся воркерам.
+ * <p>
+ * Отказоустойчивость обеспечивается возвратом задачи в очередь при таймауте
+ * или ошибке связи: задачу подхватит следующий подключившийся воркер.
+ * Завершение работы происходит, когда либо найдено составное число,
+ * либо все задачи обработаны без находок.
+ */
 public class Server {
     private static final int[] arr1 = new int[]{6, 8, 7, 13, 5, 9, 4};
     private static final int[] arr2 = new int[]{20319251, 6997901, 6997927, 6997937, 17858849, 6997967, 6998009, 6998029, 6998039, 20165149, 6998051, 6998053};
 
+    /**
+     * Точка входа сервера. Поднимает {@link ServerSocket}, наполняет очередь задач
+     * и в цикле принимает подключения воркеров, передавая их в пул потоков.
+     */
     public static void main(String[] args) {
         int[] input = arr1;
         BlockingQueue<Task> pending = new LinkedBlockingQueue<>();
@@ -53,6 +68,16 @@ public class Server {
         }
     }
 
+    /**
+     * Выделяет подмассив, который достанется воркеру с заданным индексом.
+     * Остаток от деления распределяется по первым воркерам, чтобы куски были
+     * максимально равными по размеру.
+     *
+     * @param arr       исходный массив
+     * @param workerIdx индекс воркера (от 0 до total - 1)
+     * @param total     общее число воркеров
+     * @return подмассив для обработки этим воркером
+     */
     static int[] getChunk(int[] arr, int workerIdx, int total) {
         int base = arr.length / total;
         int remainder = arr.length % total;

@@ -8,7 +8,18 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
 
+/**
+ * Вычислительный узел распределённой системы.
+ * <p>
+ * Подключается к серверу, получает одну задачу, подтверждает её получение
+ * ответом {@code "ack <id>"}, выполняет поиск составного числа в своём куске
+ * и возвращает результат: {@code "beep <id>"} если составное найдено,
+ * иначе {@code "ok <id>"}.
+ */
 public class Worker {
+    /**
+     * Точка входа воркера. Один запуск обрабатывает одну задачу.
+     */
     public static void main(String[] args) {
         System.out.println("Работник запущен");
 
@@ -42,6 +53,13 @@ public class Worker {
         }
     }
 
+    /**
+     * Проверяет, является ли число составным (имеет делитель кроме 1 и самого себя).
+     * Числа 0, 1, 2, 3 не считаются составными.
+     *
+     * @param n проверяемое число
+     * @return true, если найден делитель в диапазоне [2, sqrt(n)]
+     */
     static boolean isComposite(int n) {
         if (n < 4) return false;
         for (int i = 2; i * i <= n; i++) {

@@ -14,12 +14,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Обработчик одного подключённого воркера на стороне сервера.
+ * <p>
+ * Берёт задачу из общей очереди, отправляет её воркеру, ждёт подтверждение
+ * получения (ACK), затем результат. При любом таймауте или ошибке связи
+ * задача возвращается в очередь для повторной обработки другим воркером.
+ */
 public class WorkerHandler implements Runnable {
     private final Socket socket;
     private final BlockingQueue<Task> pending;
     private final AtomicBoolean compositeFound;
     private final AtomicInteger remainingTasks;
 
+    /**
+     * @param socket          сокет подключённого воркера
+     * @param pending         общая очередь незавершённых задач
+     * @param compositeFound  флаг, выставляемый при нахождении составного числа
+     * @param remainingTasks  счётчик задач, ожидающих успешного завершения
+     */
     public WorkerHandler(Socket socket, BlockingQueue<Task> pending,
                          AtomicBoolean compositeFound, AtomicInteger remainingTasks) {
         this.socket = socket;
@@ -28,6 +41,11 @@ public class WorkerHandler implements Runnable {
         this.remainingTasks = remainingTasks;
     }
 
+    /**
+     * Выполняет полный цикл взаимодействия с одним воркером:
+     * получение задачи из очереди → отправка → ACK → результат.
+     * При сбое на любом этапе возвращает задачу в очередь.
+     */
     @Override
     public void run() {
         Task task = null;
@@ -81,6 +99,12 @@ public class WorkerHandler implements Runnable {
         }
     }
 
+    /**
+     * Возвращает задачу в очередь и логирует причину.
+     *
+     * @param t      задача для повторной обработки
+     * @param reason описание причины возврата (для лога)
+     */
     private void requeue(Task t, String reason) {
         System.out.println("Задача #" + t.id + " возвращена в очередь (" + reason + ")");
         pending.offer(t);
