@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="refactor: улучшил архитектуру сервера и обработку работников&#10;&#10;Изменения включают переработку класса Server для улучшения обработки подключений работников и распределения задач. Введены новые классы и методы для повышения читаемости и поддержки многопоточности.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/WorkerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/WorkerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/worker/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/worker/Worker.java" afterDir="false" />
+    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="автокомит перестал работать (((((">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +44,10 @@
     "accountId": "ee074a91-6d31-43f3-85b2-ff5416f7b5bd"
   }
 }]]></component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/jdks/eclipse_adoptium-21-aarch64-os_x.2/jdk-21.0.9+10/Contents/Home/lib/src.zip!/java.base/java/net/Socket.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.gradle/jdks/eclipse_adoptium-21-aarch64-os_x.2/jdk-21.0.9+10/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/ExecutorService.java" root0="SKIP_INSPECTION" />
+  </component>
   <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
   <component name="KubernetesApiProvider"><![CDATA[{
   "isMigrated": true
@@ -87,7 +89,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Worker">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Server" />
       <module name="task_2_1_2.main" />
@@ -128,7 +130,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1779107499130</updated>
-      <workItem from="1779107500153" duration="32647000" />
+      <workItem from="1779107500153" duration="38808000" />
     </task>
     <task id="LOCAL-00001" summary="chore: добавил начальную настройку проекта с Gradle">
       <option name="closed" value="true" />
@@ -146,7 +148,23 @@
       <option name="project" value="LOCAL" />
       <updated>1779190549388</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactor: улучшил архитектуру сервера и обработку работников&#10;&#10;Изменения включают переработку класса Server для улучшения обработки подключений работников и распределения задач. Введены новые классы и методы для повышения читаемости и поддержки многопоточности.">
+      <option name="closed" value="true" />
+      <created>1779530283486</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1779530283486</updated>
+    </task>
+    <task id="LOCAL-00004" summary="автокомит перестал работать (((((">
+      <option name="closed" value="true" />
+      <created>1779540394246</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1779540394246</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +184,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: добавил начальную настройку проекта с Gradle" />
     <MESSAGE value="refactor: улучшил архитектуру сервера и обработку работников&#10;&#10;Изменения включают переработку класса Server для улучшения обработки подключений работников и распределения задач. Введены новые классы и методы для повышения читаемости и поддержки многопоточности." />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: улучшил архитектуру сервера и обработку работников&#10;&#10;Изменения включают переработку класса Server для улучшения обработки подключений работников и распределения задач. Введены новые классы и методы для повышения читаемости и поддержки многопоточности." />
+    <MESSAGE value="автокомит перестал работать (((((" />
+    <option name="LAST_COMMIT_MESSAGE" value="автокомит перестал работать (((((" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
