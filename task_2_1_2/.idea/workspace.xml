@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="автокомит перестал работать (((((">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="45131d0d-68b0-46c9-81a0-0a8522ae213a" name="Changes" comment="добавил jacoco кароче">
+      <change beforePath="$PROJECT_DIR$/src/main/java/worker/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/worker/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,33 +32,33 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "vylegzhaninn"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;vylegzhaninn&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/vylegzhaninn/OOP.git",
-    "accountId": "ee074a91-6d31-43f3-85b2-ff5416f7b5bd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/vylegzhaninn/OOP.git&quot;,
+    &quot;accountId&quot;: &quot;ee074a91-6d31-43f3-85b2-ff5416f7b5bd&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/jdks/eclipse_adoptium-21-aarch64-os_x.2/jdk-21.0.9+10/Contents/Home/lib/src.zip!/java.base/java/net/Socket.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.gradle/jdks/eclipse_adoptium-21-aarch64-os_x.2/jdk-21.0.9+10/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/ExecutorService.java" root0="SKIP_INSPECTION" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3DthuHcaQXIs5H1mNMpjqNPAdIr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -73,9 +73,10 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "task__2__1__2",
+    "git-widget-placeholder": "#52 on task__2__1__2",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -131,6 +132,7 @@
       <option name="presentableId" value="Default" />
       <updated>1779107499130</updated>
       <workItem from="1779107500153" duration="38808000" />
+      <workItem from="1779602035487" duration="372000" />
     </task>
     <task id="LOCAL-00001" summary="chore: добавил начальную настройку проекта с Gradle">
       <option name="closed" value="true" />
@@ -164,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779540394246</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="добавил jacoco кароче">
+      <option name="closed" value="true" />
+      <created>1779602088335</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1779602088335</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +195,8 @@
     <MESSAGE value="chore: добавил начальную настройку проекта с Gradle" />
     <MESSAGE value="refactor: улучшил архитектуру сервера и обработку работников&#10;&#10;Изменения включают переработку класса Server для улучшения обработки подключений работников и распределения задач. Введены новые классы и методы для повышения читаемости и поддержки многопоточности." />
     <MESSAGE value="автокомит перестал работать (((((" />
-    <option name="LAST_COMMIT_MESSAGE" value="автокомит перестал работать (((((" />
+    <MESSAGE value="добавил jacoco кароче" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавил jacoco кароче" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
