@@ -11,43 +11,43 @@ import java.util.Arrays;
 /**
  * Вычислительный узел распределённой системы.
  * <p>
- * Подключается к серверу, получает одну задачу, подтверждает её получение
- * ответом {@code "ack <id>"}, выполняет поиск составного числа в своём куске
- * и возвращает результат: {@code "beep <id>"} если составное найдено,
- * иначе {@code "ok <id>"}.
+ * Подключается к серверу и в цикле принимает задачи: на каждой итерации
+ * получает {@link Task}, подтверждает её ответом {@code "ack <id>"},
+ * выполняет поиск составного числа в своём куске и возвращает результат:
+ * {@code "beep <id>"} если составное найдено, иначе {@code "ok <id>"}.
+ * <p>
+ * Цикл завершается, когда сервер вместо очередной задачи присылает
+ * сериализованный {@code null} — это означает, что задач больше нет
+ * (все обработаны или одна из них уже нашла составное число).
  */
 public class Worker {
     /**
-     * Точка входа воркера. Один запуск обрабатывает одну задачу.
+     * Точка входа воркера. Поддерживает одно постоянное соединение с сервером
+     * и обрабатывает все назначенные задачи в цикле, пока сервер не пришлёт
+     * сигнал завершения.
      */
     public static void main(String[] args) {
         System.out.println("Работник запущен");
-
         try (
             Socket socket = new Socket("localhost", Constants.PORT);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
         ) {
-            Task task = (Task) in.readObject();
-            System.out.println("Получена задача #" +
-                task.id() + ": " + Arrays.toString(task.chunk()));
-
-            out.println("ack " + task.id());
-
-            boolean found = false;
-            for (int el : task.chunk()) {
-                if (isComposite(el)) {
-                    found = true;
+            while (true) {
+                Task task = (Task) in.readObject();
+                if (task == null) {
+                    System.out.println("Сервер сообщил: задач больше нет");
                     break;
                 }
-            }
+                System.out.println("Получена задача #" + task.id() + ": " + Arrays.toString(task.chunk()));
+                out.println("ack " + task.id());
 
-            if (found) {
-                out.println("beep " + task.id());
-                System.out.println("Составное число найдено");
-            } else {
-                out.println("ok " + task.id());
-                System.out.println("Составных чисел не найдено");
+                boolean found = false;
+                for (int el : task.chunk()) {
+                    if (isComposite(el)) { found = true; break; }
+                }
+                out.println((found ? "beep " : "ok ") + task.id());
+                System.out.println(found ? "Составное число найдено" : "Составных чисел не найдено");
             }
         } catch (Exception e) {
             System.out.println("Ошибка: " + e.getMessage());

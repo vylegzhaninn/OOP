@@ -34,7 +34,7 @@ public class Server {
      * и в цикле принимает подключения воркеров, передавая их в пул потоков.
      */
     public static void main(String[] args) {
-        int[] input = arr1;
+        int[] input = arr2;
         BlockingQueue<Task> pending = new LinkedBlockingQueue<>();
         AtomicBoolean compositeFound = new AtomicBoolean(false);
         AtomicInteger remainingTasks = new AtomicInteger(Constants.COUNT_OF_WORKERS);
